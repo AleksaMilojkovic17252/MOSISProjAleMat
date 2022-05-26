@@ -17,6 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_login_email"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
         tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <EditText
@@ -29,6 +31,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guideline_login_password"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.constraintlayout.widget.Guideline

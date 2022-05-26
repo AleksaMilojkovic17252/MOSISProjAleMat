@@ -10,4 +10,5 @@
     <color name="shadowGray">#4C505C</color>
     <color name="Gray">#F4F4F5</color>
     <color name="Green"> #84cc16</color>
+    <color name="Gray500"> #71717a</color>
 </resources>
