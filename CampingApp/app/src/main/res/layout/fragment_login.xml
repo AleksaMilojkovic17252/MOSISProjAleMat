@@ -10,24 +10,26 @@
     <EditText
         android:id="@+id/editTextTextEmailAddress"
         android:layout_width="320dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:background="@drawable/et_style"
         android:ems="10"
         android:inputType="textEmailAddress"
-        app:layout_constraintTop_toTopOf="@id/guideline_login_email"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="@id/guideline_login_email"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
 
     <EditText
         android:id="@+id/editTextTextPassword"
         android:layout_width="320dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_style"
         android:ems="10"
         android:inputType="textPassword"
-        android:background="@drawable/et_style"
-        app:layout_constraintTop_toTopOf="@id/guideline_login_password"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/guideline_login_password"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
@@ -64,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+        app:layout_constraintGuide_percent="0.48" />
 
     <TextView
         android:id="@+id/textView2"
@@ -85,8 +87,9 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_login_password"/>
 
     <Button
+        android:id="@+id/loginButton"
         android:layout_width="320dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:text="Log in"
         android:background="@drawable/et_button_shape_green"
         android:textColor="@color/white"
@@ -95,8 +98,9 @@
         app:layout_constraintTop_toTopOf="@id/guideline_login_loginButton"></Button>
 
     <Button
+        android:id="@+id/registerButton"
         android:layout_width="320dp"
-        android:layout_height="40dp"
+        android:layout_height="48dp"
         android:text="Register"
         android:background="@drawable/et_button_shape_greenstroke"
         android:textColor="@color/Green"
@@ -110,14 +114,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.65" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_login_registerButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.68" />
+        app:layout_constraintGuide_percent="0.75" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="Forgotten password?"
+        android:textSize="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/editTextTextPassword" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
