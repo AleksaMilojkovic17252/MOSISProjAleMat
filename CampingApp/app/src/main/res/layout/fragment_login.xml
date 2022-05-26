@@ -9,28 +9,32 @@
 
     <EditText
         android:id="@+id/editTextTextEmailAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:background="@drawable/et_style"
         android:ems="10"
         android:inputType="textEmailAddress"
-        tools:layout_editor_absoluteX="121dp"
-        tools:layout_editor_absoluteY="382dp" />
+        app:layout_constraintTop_toTopOf="@id/guideline_login_email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="320dp"
+        android:layout_height="40dp"
         android:ems="10"
         android:inputType="textPassword"
-        tools:layout_editor_absoluteX="70dp"
-        tools:layout_editor_absoluteY="292dp" />
+        android:background="@drawable/et_style"
+        app:layout_constraintTop_toTopOf="@id/guideline_login_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.21" />
+        app:layout_constraintGuide_percent="0.15" />
 
     <TextView
         android:id="@+id/textView"
@@ -38,7 +42,82 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textAllCaps="true"
+        android:textSize="65dp"
+        android:textColor="@color/black"
+        android:shadowDx="5"
+        android:shadowDy="0"
+        android:shadowRadius="10"
+        android:shadowColor="@color/shadowGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_login_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@id/editTextTextEmailAddress"
+        app:layout_constraintBottom_toTopOf="@id/guideline_login_email" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintStart_toStartOf="@id/editTextTextPassword"
+        app:layout_constraintBottom_toTopOf="@id/guideline_login_password"/>
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:text="Log in"
+        android:background="@drawable/et_button_shape_green"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_login_loginButton"></Button>
+
+    <Button
+        android:layout_width="320dp"
+        android:layout_height="40dp"
+        android:text="Register"
+        android:background="@drawable/et_button_shape_greenstroke"
+        android:textColor="@color/Green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_login_registerButton"></Button>
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_login_loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_login_registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.68" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
