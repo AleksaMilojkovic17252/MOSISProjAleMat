@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_main"
+    app:startDestination="@id/fragmentHome">
+
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="elfak.mosis.campingapp.FragmentHome"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/frHome_to_frNotification"
+            app:destination="@id/fragmentNotification" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentNotification"
+        android:name="elfak.mosis.campingapp.FragmentNotification"
+        android:label="fragment_notification"
+        tools:layout="@layout/fragment_notification" />
+</navigation>

@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.campingapp.databinding.FragmentLoginBinding
 
@@ -32,6 +34,12 @@ class FragmentLogin : Fragment()
 
         enableLogin()
 
+        binding.loginButton.setOnClickListener {
+            var email = binding.editTextTextEmailAddress.text.toString()
+            var pass = binding.editTextTextPassword.text.toString()
+            login(email, pass)
+        }
+
         binding.editTextTextEmailAddress.addTextChangedListener(object : TextWatcher
         {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -41,7 +49,6 @@ class FragmentLogin : Fragment()
                 emailEntered = android.util.Patterns.EMAIL_ADDRESS.matcher(p0).matches()
                 enableLogin()
             }
-
         })
 
         binding.editTextTextPassword.addTextChangedListener(object : TextWatcher
@@ -53,9 +60,16 @@ class FragmentLogin : Fragment()
                 passEntered = p0?.isNotEmpty() ?: false
                 enableLogin()
             }
-
         })
 
+    }
+
+    private fun login(email:String, pass:String)
+    {
+        Toast.makeText(view?.context, "$email $pass", Toast.LENGTH_SHORT).show()
+        // TODO: Login
+        var i = Intent(context,ActivityMain::class.java)
+        startActivity(i)
     }
 
     private fun enableLogin()
