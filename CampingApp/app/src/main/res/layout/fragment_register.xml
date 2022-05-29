@@ -24,71 +24,55 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_title" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
-
-    <EditText
-        android:id="@+id/editText_Register_Name"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:background="@drawable/et_style"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_name"/>
 
     <EditText
         android:id="@+id/editText_Register_Email"
         android:layout_width="320dp"
         android:layout_height="48dp"
+        android:background="@drawable/et_style"
         android:ems="10"
         android:inputType="textEmailAddress"
-        android:background="@drawable/et_style"
         android:paddingStart="20dp"
         android:paddingEnd="10dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_email"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_register_email" />
 
-    <EditText
-        android:id="@+id/editText_Register_Phone"
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/email_input"
+        app:layout_constraintBottom_toTopOf="@id/guideline_register_email"
+        app:layout_constraintStart_toStartOf="@id/editText_Register_Email" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/name_input"
+        app:layout_constraintBottom_toTopOf="@id/guideline_register_name"
+        app:layout_constraintStart_toStartOf="@id/editText_Register_Name" />
+
+    <Button
+        android:id="@+id/register_registerButton"
         android:layout_width="320dp"
         android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="phone"
-        android:background="@drawable/et_style"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/et_button_shape_green"
+        android:text="@string/register"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_phone"/>
-
-    <EditText
-        android:id="@+id/editText_Register_Password"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:background="@drawable/et_style"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_password"/>
+        app:layout_constraintTop_toTopOf="@id/guideline_register_registerButton" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_register_name"
+        android:id="@+id/guideline_register_registerLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.22" />
+        app:layout_constraintGuide_percent="0.8508892" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_register_email"
@@ -98,78 +82,40 @@
         app:layout_constraintGuide_percent="0.34" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_register_phone"
+        android:id="@+id/guideline_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.46" />
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_register_password"
+        android:id="@+id/guideline_register_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.58" />
+        app:layout_constraintGuide_percent="0.22" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/name_input"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="@id/editText_Register_Name"
-        app:layout_constraintBottom_toTopOf="@id/guideline_register_name" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email_input"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="@id/editText_Register_Email"
-        app:layout_constraintBottom_toTopOf="@id/guideline_register_email" />
+    <EditText
+        android:id="@+id/editText_Register_Phone"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:inputType="phone"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_register_phone" />
 
     <TextView
         android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:text="@string/phone_input"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="@id/editText_Register_Phone"
-        app:layout_constraintBottom_toTopOf="@id/guideline_register_phone" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/password_input"
-        android:layout_marginLeft="20dp"
-        app:layout_constraintStart_toStartOf="@id/editText_Register_Password"
-        app:layout_constraintBottom_toTopOf="@id/guideline_register_password" />
-
-
-    <Button
-        android:id="@+id/register_registerButton"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:text="@string/register"
-        android:background="@drawable/et_button_shape_green"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_registerButton" />
-
-    <Button
-        android:id="@+id/register_registerLogin"
-        android:layout_width="320dp"
-        android:layout_height="48dp"
-        android:text="@string/log_in"
-        android:background="@drawable/et_button_shape_greenstroke"
-        android:textColor="@color/Green"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline_register_registerLogin" />
-
+        app:layout_constraintBottom_toTopOf="@id/guideline_register_phone"
+        app:layout_constraintStart_toStartOf="@id/editText_Register_Phone" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline_register_registerButton"
@@ -179,10 +125,63 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_register_registerLogin"
+        android:id="@+id/guideline_register_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.58" />
+
+    <EditText
+        android:id="@+id/editText_Register_Name"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_register_name" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:text="@string/password_input"
+        app:layout_constraintBottom_toTopOf="@id/guideline_register_password"
+        app:layout_constraintStart_toStartOf="@id/editText_Register_Password" />
+
+    <Button
+        android:id="@+id/register_registerLogin"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_button_shape_greenstroke"
+        android:text="@string/log_in"
+        android:textColor="@color/Green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_register_registerLogin" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_register_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.46" />
+
+    <EditText
+        android:id="@+id/editText_Register_Password"
+        android:layout_width="320dp"
+        android:layout_height="48dp"
+        android:background="@drawable/et_style"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:paddingStart="20dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/guideline_register_password" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

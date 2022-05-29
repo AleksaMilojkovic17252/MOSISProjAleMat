@@ -18,9 +18,5 @@
         android:id="@+id/fragmentRegister"
         android:name="elfak.mosis.campingapp.FragmentRegister"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" >
-        <action
-            android:id="@+id/frReg_to_frLogin"
-            app:destination="@id/fragmentLogin" />
-    </fragment>
+        tools:layout="@layout/fragment_register" />
 </navigation>

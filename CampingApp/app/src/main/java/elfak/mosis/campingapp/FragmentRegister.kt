@@ -21,7 +21,7 @@ class FragmentRegister : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
         binding.registerRegisterLogin.setOnClickListener {
-            findNavController().navigate(R.id.frReg_to_frLogin)
+            findNavController().popBackStack()
         }
     }
 
