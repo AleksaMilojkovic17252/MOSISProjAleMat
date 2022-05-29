@@ -13,10 +13,18 @@
         <action
             android:id="@+id/frLogin_to_frReg"
             app:destination="@id/fragmentRegister" />
+        <action
+            android:id="@+id/frLogin_to_frForgotPassword"
+            app:destination="@id/fragmentForgotPassword" />
     </fragment>
     <fragment
         android:id="@+id/fragmentRegister"
         android:name="elfak.mosis.campingapp.FragmentRegister"
         android:label="fragment_register"
         tools:layout="@layout/fragment_register" />
+    <fragment
+        android:id="@+id/fragmentForgotPassword"
+        android:name="elfak.mosis.campingapp.FragmentForgotPassword"
+        android:label="fragment_forgot_password"
+        tools:layout="@layout/fragment_forgot_password" />
 </navigation>

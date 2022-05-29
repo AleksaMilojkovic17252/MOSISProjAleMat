@@ -9,8 +9,11 @@
     <string name="phone_input">Phone</string>
     <string name="name_input">Name</string>
     <string name="home_fragment_title">Camping trips</string>
+<<<<<<< Updated upstream
     <string name="notification_fragment_title">Notifications</string>
+=======
     <string name="confirm_pass">Confirm Password</string>
     <string name="forgot_password_text">To get change your password, please enter you e-mail address so we can send you a OTP code for confirmation</string>
     <string name="forgot_password">Forgot password</string>
+>>>>>>> Stashed changes
 </resources>

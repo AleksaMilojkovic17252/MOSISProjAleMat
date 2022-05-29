@@ -4,12 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/MOSIS/MOSISLabAleMat/CampingApp/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/button_disabled.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_green.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_greenstroke.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_style.xml" value="0.2985" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password.xml" value="0.33" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_login.xml" value="0.33" />
-        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register.xml" value="0.358695652173913" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_notification.xml" value="0.18802083333333333" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register.xml" value="0.2640449438202247" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_splash.xml" value="0.358695652173913" />
       </map>
     </option>
