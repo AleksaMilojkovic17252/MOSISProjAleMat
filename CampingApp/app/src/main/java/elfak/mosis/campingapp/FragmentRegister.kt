@@ -38,9 +38,8 @@ class FragmentRegister : Fragment()
         binding.registerRegisterButton.setOnClickListener {
             var name = binding.editTextRegisterName.text.toString()
             var email = binding.editTextRegisterEmail.text.toString()
-            var phone = binding.editTextRegisterPhone.text.toString()
             var pass = binding.editTextRegisterPassword.text.toString()
-            register(name, email, phone, pass)
+            register(name, email, pass)
         }
 
         binding.editTextRegisterEmail.addTextChangedListener(object : TextWatcher
@@ -73,14 +72,15 @@ class FragmentRegister : Fragment()
             {
                 passEntered = p0?.isNotEmpty() ?: false
                 enableRegister()
+                // TODO: Izmena zbog confirm password-a 
             }
         })
 
     }
 
-    private fun register(name: String, email: String, phone: String, pass: String)
+    private fun register(name: String, email: String, pass: String)
     {
-        Toast.makeText(view?.context, "$name $email $pass $phone", Toast.LENGTH_SHORT).show()
+        Toast.makeText(view?.context, "$name $email $pass", Toast.LENGTH_SHORT).show()
         // TODO: Registracija
     }
 
