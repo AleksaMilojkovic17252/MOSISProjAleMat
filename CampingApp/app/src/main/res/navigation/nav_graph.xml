@@ -21,10 +21,63 @@
         android:id="@+id/fragmentRegister"
         android:name="elfak.mosis.campingapp.FragmentRegister"
         android:label="fragment_register"
-        tools:layout="@layout/fragment_register" />
+        tools:layout="@layout/fragment_register" >
+        <action
+            android:id="@+id/action_fragmentRegister_to_fragmentRegisterOtp"
+            app:destination="@id/fragmentRegisterOtp" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentForgotPassword"
         android:name="elfak.mosis.campingapp.FragmentForgotPassword"
         android:label="fragment_forgot_password"
-        tools:layout="@layout/fragment_forgot_password" />
+        tools:layout="@layout/fragment_forgot_password" >
+        <action
+            android:id="@+id/action_fragmentForgotPassword_to_fragmentForgotPasswordOtp"
+            app:destination="@id/fragmentForgotPasswordOtp" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentForgotPasswordOtp"
+        android:name="elfak.mosis.campingapp.FragmentForgotPasswordOtp"
+        android:label="fragment_forgot_password_otp"
+        tools:layout="@layout/fragment_forgot_password_otp" >
+        <action
+            android:id="@+id/action_fragmentForgotPasswordOtp_to_fragmentForgotPasswordNewPassword"
+            app:destination="@id/fragmentForgotPasswordNewPassword" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentForgotPasswordNewPassword"
+        android:name="elfak.mosis.campingapp.FragmentForgotPasswordNewPassword"
+        android:label="fragment_forgot_password_new_password"
+        tools:layout="@layout/fragment_forgot_password_new_password" >
+        <action
+            android:id="@+id/action_fragmentForgotPasswordNewPassword_to_fragmentForgotPasswordHurray"
+            app:destination="@id/fragmentForgotPasswordHurray" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentForgotPasswordHurray"
+        android:name="elfak.mosis.campingapp.FragmentForgotPasswordHurray"
+        android:label="fragment_forgot_password_hurray"
+        tools:layout="@layout/fragment_forgot_password_hurray" >
+        <action
+            android:id="@+id/action_fragmentForgotPasswordHurray_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentRegisterOtp"
+        android:name="elfak.mosis.campingapp.FragmentRegisterOtp"
+        android:label="fragment_register_otp"
+        tools:layout="@layout/fragment_register_otp" >
+        <action
+            android:id="@+id/action_fragmentRegisterOtp_to_fragmentRegisterHurray"
+            app:destination="@id/fragmentRegisterHurray" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentRegisterHurray"
+        android:name="elfak.mosis.campingapp.FragmentRegisterHurray"
+        android:label="fragment_register_hurray"
+        tools:layout="@layout/fragment_register_hurray" >
+        <action
+            android:id="@+id/action_fragmentRegisterHurray_to_fragmentLogin"
+            app:destination="@id/fragmentLogin" />
+    </fragment>
 </navigation>

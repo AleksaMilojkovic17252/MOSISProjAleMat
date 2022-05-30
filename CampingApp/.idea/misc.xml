@@ -11,10 +11,15 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password.xml" value="0.33" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password_hurray.xml" value="0.22" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password_new_password.xml" value="0.25" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password_otp.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_login.xml" value="0.33" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_notification.xml" value="0.18802083333333333" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register.xml" value="0.2640449438202247" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register_hurray.xml" value="0.358695652173913" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register_otp.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_splash.xml" value="0.358695652173913" />
       </map>
     </option>
