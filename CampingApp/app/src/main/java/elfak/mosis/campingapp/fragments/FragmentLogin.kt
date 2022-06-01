@@ -1,4 +1,4 @@
-package elfak.mosis.campingapp
+package elfak.mosis.campingapp.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,11 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentLoginBinding
 
 
 class FragmentLogin : Fragment()
 {
+
     private lateinit var binding: FragmentLoginBinding
     private var emailEntered = false
     private var passEntered = false
@@ -31,8 +34,6 @@ class FragmentLogin : Fragment()
         regButton.setOnClickListener {
             findNavController().navigate(R.id.frLogin_to_frReg)
         }
-
-        enableLogin()
 
         binding.loginButton.setOnClickListener {
             var email = binding.editTextTextEmailAddress.text.toString()
@@ -62,13 +63,18 @@ class FragmentLogin : Fragment()
             }
         })
 
+        binding.textViewForgottenPass.setOnClickListener {
+            findNavController().navigate(R.id.frLogin_to_frForgotPassword)
+        }
+
+        enableLogin()
     }
 
     private fun login(email:String, pass:String)
     {
         Toast.makeText(view?.context, "$email $pass", Toast.LENGTH_SHORT).show()
         // TODO: Login
-        var i = Intent(context,ActivityMain::class.java)
+        var i = Intent(context, ActivityMain::class.java)
         startActivity(i)
     }
 

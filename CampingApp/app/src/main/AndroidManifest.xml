@@ -10,11 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
         <activity
-            android:name=".ActivityMain"
+            android:name=".activities.ActivityMain"
             android:exported="true">
         </activity>
         <activity
-            android:name=".ActivityLogin"
+            android:name=".activities.ActivityLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

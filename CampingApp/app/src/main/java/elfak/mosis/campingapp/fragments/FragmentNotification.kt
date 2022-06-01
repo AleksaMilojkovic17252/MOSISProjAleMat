@@ -1,4 +1,4 @@
-package elfak.mosis.campingapp
+package elfak.mosis.campingapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

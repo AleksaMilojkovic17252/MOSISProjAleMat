@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentHome"
-        android:name="elfak.mosis.campingapp.FragmentHome"
+        android:name="elfak.mosis.campingapp.fragments.FragmentHome"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentNotification"
-        android:name="elfak.mosis.campingapp.FragmentNotification"
+        android:name="elfak.mosis.campingapp.fragments.FragmentNotification"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
 </navigation>

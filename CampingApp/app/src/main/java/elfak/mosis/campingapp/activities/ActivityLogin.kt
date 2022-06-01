@@ -1,7 +1,8 @@
-package elfak.mosis.campingapp
+package elfak.mosis.campingapp.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import elfak.mosis.campingapp.R
 
 class ActivityLogin : AppCompatActivity()
 {

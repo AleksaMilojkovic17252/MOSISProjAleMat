@@ -1,4 +1,4 @@
-package elfak.mosis.campingapp
+package elfak.mosis.campingapp.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
-import elfak.mosis.campingapp.databinding.FragmentLoginBinding
 
 class FragmentHome : Fragment()
 {
