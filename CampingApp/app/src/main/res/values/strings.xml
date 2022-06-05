@@ -23,4 +23,6 @@
     <string name="GoBack">Go Back</string>
     <string name="registerOtpText">Please confirm the 4 digit code we’ve sent to you on your e-mail. Which has been sent to your email</string>
     <string name="registerTextHurray">You have registered successfully</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

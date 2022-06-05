@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
@@ -13,6 +14,7 @@ import elfak.mosis.campingapp.databinding.FragmentHomeBinding
 class FragmentHome : Fragment()
 {
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var mDrawer: DrawerLayout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentHomeBinding.inflate(layoutInflater)
@@ -24,14 +26,6 @@ class FragmentHome : Fragment()
         super.onViewCreated(view, savedInstanceState)
         binding.floatingActionButton.setOnClickListener {
             Toast.makeText(context, "Kliknut sam", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.imageViewMenuButton.setOnClickListener {
-
-        }
-
-        binding.imageViewNotificationButton.setOnClickListener {
-            findNavController().navigate(R.id.frHome_to_frNotification)
         }
 
     }

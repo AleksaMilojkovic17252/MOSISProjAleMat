@@ -8,6 +8,12 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_green.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_greenstroke.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_style.xml" value="0.2985" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_add_24.xml" value="0.265" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_arrow_back_ios_24.xml" value="0.265" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_logout_20.xml" value="0.265" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_logout_24.xml" value="0.265" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_menu_24.xml" value="0.265" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_notifications_24.xml" value="0.265" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_forgot_password.xml" value="0.33" />
@@ -21,6 +27,8 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register_hurray.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_register_otp.xml" value="0.358695652173913" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_splash.xml" value="0.358695652173913" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/nav_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/menu/drawer_menu.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>
