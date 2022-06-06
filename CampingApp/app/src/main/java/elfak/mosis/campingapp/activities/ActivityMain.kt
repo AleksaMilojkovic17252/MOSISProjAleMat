@@ -1,11 +1,11 @@
 package elfak.mosis.campingapp.activities
 
+import android.R.id.toggle
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -14,9 +14,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
+import elfak.mosis.campingapp.fragments.FragmentEditProfile
 
 
-class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener
+class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
 {
     private lateinit var mDrawer: DrawerLayout
     private lateinit var binding: ActivityMainBinding //fuck mogao sam ovo da koristim lmaaaooooo
@@ -29,7 +30,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-        val text: TextView = binding.toolbarTitle
+        val text: TextView = findViewById(R.id.toolbar_title)
         text.text = "Camping trips"
 
         mDrawer = findViewById(R.id.drawer_layout)
@@ -41,6 +42,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mDrawer.addDrawerListener(toggle)
 
+
         toggle.syncState()
 
 
@@ -48,7 +50,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val image: ImageView = headerLayout.findViewById(R.id.edit_image)
 
         image.setOnClickListener {
-            Toast.makeText(this,"Edit Player", Toast.LENGTH_SHORT).show()
+            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,FragmentEditProfile()).commit()
+            mDrawer.closeDrawer(GravityCompat.START)
         }
 
 
@@ -99,4 +102,12 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         mDrawer.closeDrawer(GravityCompat.START)
         return true
     }
+
+    override fun setDrawerEnabled(enabled: Boolean) {
+        val lockMode =
+            if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+        mDrawer.setDrawerLockMode(lockMode)
+    }
+
+
 }

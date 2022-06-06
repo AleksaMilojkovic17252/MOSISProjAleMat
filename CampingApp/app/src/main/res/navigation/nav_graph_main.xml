@@ -13,10 +13,22 @@
         <action
             android:id="@+id/frHome_to_frNotification"
             app:destination="@id/fragmentNotification" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNotification"
         android:name="elfak.mosis.campingapp.fragments.FragmentNotification"
         android:label="fragment_notification"
         tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/fragmentEditProfile"
+        android:name="elfak.mosis.campingapp.fragments.FragmentEditProfile"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_fragmentEditProfile_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
 </navigation>

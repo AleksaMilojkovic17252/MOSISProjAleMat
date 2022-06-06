@@ -31,4 +31,8 @@
     <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:width">100dp</item>
     </style>
+    <style name="ImageViewShape" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20%</item>
+    </style>
 </resources>
