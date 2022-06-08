@@ -15,6 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.FragmentEditProfile
+import elfak.mosis.campingapp.fragments.FragmentHome
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
@@ -29,9 +30,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
         getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-        val text: TextView = findViewById(R.id.toolbar_title)
-        text.text = "Camping trips"
 
         mDrawer = findViewById(R.id.drawer_layout)
 
@@ -44,13 +44,17 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         toggle.syncState()
-
+        if(savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, FragmentHome()).commit()
+            navigationView.setCheckedItem(R.id.nav_home)
+        }
 
         val headerLayout: View = navigationView.getHeaderView(0)
         val image: ImageView = headerLayout.findViewById(R.id.edit_image)
 
         image.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,FragmentEditProfile()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentEditProfile()).addToBackStack(null).commit()
             mDrawer.closeDrawer(GravityCompat.START)
         }
 
@@ -74,28 +78,23 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.nav_home -> {
-                val text: TextView = findViewById(R.id.toolbar_title)
-                text.text = "Camping trips"
+
                 //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,MessageFragment()).commit()
             }
             R.id.nav_teammates-> {
-                val text: TextView = findViewById(R.id.toolbar_title)
-                text.text = "Teammates"
+
                 //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,ChatFragment()).commit()
             }
             R.id.nav_notifications -> {
-                val text: TextView = findViewById(R.id.toolbar_title)
-                text.text = "Notifications"
+
                 //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,ProfileFragment()).commit()
             }
             R.id.nav_settings -> {
-                val text: TextView = findViewById(R.id.toolbar_title)
-                text.text = "Settings"
+
                 //Toast.makeText(this,"Share", Toast.LENGTH_SHORT).show()
             }
             R.id.nav_logout -> {
-                val text: TextView = findViewById(R.id.toolbar_title)
-                text.text = "Log out"
+
                 //Toast.makeText(this,"Send", Toast.LENGTH_SHORT).show()
             }
         }

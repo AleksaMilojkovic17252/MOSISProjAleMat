@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
-import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
 
 
@@ -16,7 +15,18 @@ class FragmentEditProfile : Fragment() {
 
     private lateinit var binding: FragmentEditProfileBinding
 
-//Mislim da ima bug ovde, pitanje je dal je zbog OnResume i OnStop ili navGraph
+
+    override fun onResume() {
+        super.onResume()
+        val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
+        val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
+        for (i in 0 until navigation.getMenu().size()) {
+            navigation.getMenu().getItem(i).setChecked(false)
+        }
+        title.text = "Edit Profile"
+    }
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,23 +38,12 @@ class FragmentEditProfile : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.imageviewEditProfileBack.setOnClickListener {
-            findNavController().popBackStack();
-        }
+
+
 
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        (activity as DrawerLocker?)?.setDrawerEnabled(false)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-    }
 
-    override fun onStop() {
-        super.onStop()
-        (activity as DrawerLocker?)?.setDrawerEnabled(true)
-        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
 
-    }
 }

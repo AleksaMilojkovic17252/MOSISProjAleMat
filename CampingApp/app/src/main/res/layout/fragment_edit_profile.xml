@@ -7,28 +7,9 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentEditProfile">
 
-    <ImageView
-        android:id="@+id/imageview_edit_profile_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/outline_arrow_back_ios_black_36"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/edit_profile_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:text="@string/edit_profle_title"
-        android:textColor="@color/black"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/imageview_edit_profile_back"
-        app:layout_constraintStart_toEndOf="@id/imageview_edit_profile_back"
-        app:layout_constraintTop_toTopOf="@id/imageview_edit_profile_back" />
+
+
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_image"
@@ -38,7 +19,7 @@
         app:layout_constraintBottom_toTopOf="@id/guideline6"
         app:layout_constraintStart_toStartOf="parent"
         app:shapeAppearance="@style/ImageViewShape"
-        tools:src="@drawable/outline_person_black_36" />
+        tools:background="@drawable/outline_person_black_36" />
 
     <TextView
         android:id="@+id/textView16"
@@ -124,7 +105,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3" />
+        app:layout_constraintGuide_percent="0.2" />
 
     <EditText
         android:id="@+id/editText_edit_profile_description"
@@ -152,4 +133,6 @@
         android:layout_marginStart="20dp"
         app:layout_constraintBottom_toTopOf="@id/editText_edit_profile_description"
         app:layout_constraintStart_toStartOf="@id/editText_edit_profile_description" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
