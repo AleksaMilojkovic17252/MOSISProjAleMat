@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "307313841589",
+    "project_id": "mosisprojekat-2b28d",
+    "storage_bucket": "mosisprojekat-2b28d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:307313841589:android:a396935eb7ba6b71d1b5fc",
+        "android_client_info": {
+          "package_name": "elfak.mosis.campingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "307313841589-hcougoselcmqmeuctj1d9or70tlmbbva.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1aafDb1rUjZI2980MiUiZXQn7feJRVUg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "307313841589-hcougoselcmqmeuctj1d9or70tlmbbva.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
