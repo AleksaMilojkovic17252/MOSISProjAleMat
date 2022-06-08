@@ -1,5 +1,8 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,6 +43,16 @@ class FragmentHome : Fragment()
         super.onViewCreated(view, savedInstanceState)
         binding.floatingActionButton.setOnClickListener {
             Toast.makeText(context, "Kliknut sam", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.textViewHomeIDNumber.text = "#00001"
+
+        binding.buttonHomeCopyToClipboard.setOnClickListener {
+            var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                ?: null
+            var clip = ClipData.newPlainText("Copied ID", binding.textViewHomeIDNumber.text.toString())
+            clipboard?.setPrimaryClip(clip)
+            Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
         }
 
     }

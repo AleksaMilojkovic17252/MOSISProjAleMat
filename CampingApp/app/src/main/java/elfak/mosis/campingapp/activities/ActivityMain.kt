@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.activities
 
 import android.R.id.toggle
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -82,7 +83,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when(item.itemId){
             R.id.nav_home -> {
 
-                //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,MessageFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentHome()).addToBackStack(null).commit()
             }
             R.id.nav_teammates-> {
 
@@ -90,15 +91,17 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_notifications -> {
 
-                //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,ProfileFragment()).commit()
+                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
             }
             R.id.nav_settings -> {
 
-                //Toast.makeText(this,"Share", Toast.LENGTH_SHORT).show()
+                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
             }
             R.id.nav_logout -> {
 
-                //Toast.makeText(this,"Send", Toast.LENGTH_SHORT).show()
+                //signout
+                var i = Intent(this, ActivityLogin::class.java)
+                startActivity(i)
             }
         }
         mDrawer.closeDrawer(GravityCompat.START)
