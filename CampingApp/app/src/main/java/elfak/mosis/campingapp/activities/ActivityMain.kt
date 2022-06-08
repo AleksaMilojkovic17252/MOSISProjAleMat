@@ -14,8 +14,10 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
+import elfak.mosis.campingapp.fragments.FragmentAddTeammate
 import elfak.mosis.campingapp.fragments.FragmentEditProfile
 import elfak.mosis.campingapp.fragments.FragmentHome
+import elfak.mosis.campingapp.fragments.FragmentTeammates
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
@@ -44,7 +46,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         toggle.syncState()
-        if(savedInstanceState == null) {
+        if(savedInstanceState == null)
+        {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, FragmentHome()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
@@ -83,7 +86,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_teammates-> {
 
-                //supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView2,ChatFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentTeammates()).addToBackStack(null).commit()
             }
             R.id.nav_notifications -> {
 

@@ -30,4 +30,6 @@
     <string name="occupation_input">Occupation</string>
     <string name="description_input">Description</string>
     <string name="camping_trips">Camping Trips</string>
+    <string name="add_teammate_title">Add teammate</string>
+    <string name="ID">ID</string>
 </resources>

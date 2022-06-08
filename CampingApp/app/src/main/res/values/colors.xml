@@ -13,4 +13,5 @@
     <color name="Green700"> #4D7C0F </color>
     <color name="Gray500"> #71717a</color>
     <color name="Gray600"> #52525b</color>
+    <color name="GreenTransparetn">#8884cc16</color>
 </resources>

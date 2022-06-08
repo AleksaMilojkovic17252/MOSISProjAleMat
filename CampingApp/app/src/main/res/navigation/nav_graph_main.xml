@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentEditProfile"
             app:destination="@id/fragmentEditProfile" />
+        <action
+            android:id="@+id/frHome_to_frTeammates"
+            app:destination="@id/fragmentTeammates" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNotification"
@@ -31,4 +34,9 @@
             android:id="@+id/action_fragmentEditProfile_to_fragmentHome"
             app:destination="@id/fragmentHome" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentTeammates"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTeammates"
+        android:label="fragment_teammates"
+        tools:layout="@layout/fragment_teammates" />
 </navigation>
