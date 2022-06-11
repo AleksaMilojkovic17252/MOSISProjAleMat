@@ -32,4 +32,8 @@
     <string name="camping_trips">Camping Trips</string>
     <string name="add_teammate_title">Add teammate</string>
     <string name="ID">ID</string>
+    <string name="add_teammate_button">Add a teammate</string>
+    <string name="no_teammates_message">You don’t have any teammates</string>
+    <string name="add_teammate_instructions">Please type in your friends ID. They will receive a notification of the invite. When they accept they will be in the “Teammates” tab</string>
+    <string name="button_send_invite">Send invite</string>
 </resources>

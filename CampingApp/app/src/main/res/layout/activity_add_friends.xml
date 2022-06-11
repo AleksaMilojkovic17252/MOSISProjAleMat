@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.ActivityAddFriends">
 
     <androidx.appcompat.widget.Toolbar
@@ -11,10 +12,26 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:elevation="4dp"
-        android:popupTheme="@style/MyTheme"
-        android:theme="@style/MyTheme"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="@string/add_teammate_title">
+        android:theme="@style/MyTheme">
+
+        <ImageView
+            android:id="@+id/imageViewBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            app:srcCompat="@drawable/outline_arrow_back_ios_black_36" />
+
+        <TextView
+            android:id="@+id/textViewActivityTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_teammate_title"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:translationX="10dp"
+            tools:layout_editor_absoluteX="52dp"
+            tools:layout_editor_absoluteY="18dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -24,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
-        app:navGraph="@navigation/nav_graph_add_teammates"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        app:navGraph="@navigation/nav_graph_add_teammates" />
+
+
+</LinearLayout>

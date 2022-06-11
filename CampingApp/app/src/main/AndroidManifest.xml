@@ -21,10 +21,10 @@
         android:theme="@style/Theme.CampingApp">
         <activity
             android:name=".activities.ActivityAddFriends"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".activities.ActivityMain"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activities.ActivityLogin"
             android:exported="true">
