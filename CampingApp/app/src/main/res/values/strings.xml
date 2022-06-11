@@ -36,4 +36,8 @@
     <string name="no_teammates_message">You don’t have any teammates</string>
     <string name="add_teammate_instructions">Please type in your friends ID. They will receive a notification of the invite. When they accept they will be in the “Teammates” tab</string>
     <string name="button_send_invite">Send invite</string>
+    <string name="Add_new_trip">Add new trip</string>
+    <string name="trip_name">Trip name</string>
+    <string name="Location">Location</string>
+    <string name="Open_Map">Open map</string>
 </resources>

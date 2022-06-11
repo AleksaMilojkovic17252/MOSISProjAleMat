@@ -34,12 +34,34 @@
                 android:text="Toolbar Title"
                 android:textStyle="bold" />
 
+
+            <ImageView
+                android:id="@+id/notification_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                app:srcCompat="@drawable/ic_baseline_notifications_24" />
+
+            <ImageView
+                android:id="@+id/addFriend_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="15dp"
+                app:srcCompat="@drawable/ic_baseline_person_add_alt_1_24" />
+
         </androidx.appcompat.widget.Toolbar>
+
 
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 

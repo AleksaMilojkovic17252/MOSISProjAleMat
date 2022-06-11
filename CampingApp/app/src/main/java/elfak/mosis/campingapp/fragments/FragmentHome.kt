@@ -30,6 +30,11 @@ class FragmentHome : Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = "Camping Trips"
+        val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
+        val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
+
+        buttonFriend.visibility = View.GONE
+        buttonNotification.visibility = View.VISIBLE
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

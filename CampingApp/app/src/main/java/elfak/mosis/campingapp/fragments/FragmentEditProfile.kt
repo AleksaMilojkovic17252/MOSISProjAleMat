@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -34,6 +35,12 @@ class FragmentEditProfile : Fragment() {
             navigation.getMenu().getItem(i).setChecked(false)
         }
         title.text = "Edit Profile"
+        val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
+        val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
+
+        buttonFriend.visibility = View.GONE
+        buttonNotification.visibility = View.GONE
+
     }
 
 
