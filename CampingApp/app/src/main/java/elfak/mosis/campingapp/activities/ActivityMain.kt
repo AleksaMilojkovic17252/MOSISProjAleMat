@@ -13,6 +13,10 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.internal.IdTokenListener
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.internal.InternalTokenResult
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.FragmentAddTeammate
@@ -62,7 +66,10 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             mDrawer.closeDrawer(GravityCompat.START)
         }
 
-
+        Firebase.auth.addIdTokenListener(IdTokenListener
+        {
+            finish()
+        })
 
     }
 
@@ -97,12 +104,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
             }
-            R.id.nav_logout -> {
-
-                //signout
-                var i = Intent(this, ActivityLogin::class.java)
-                startActivity(i)
-            }
+            R.id.nav_logout -> Firebase.auth.signOut()
         }
         mDrawer.closeDrawer(GravityCompat.START)
         return true

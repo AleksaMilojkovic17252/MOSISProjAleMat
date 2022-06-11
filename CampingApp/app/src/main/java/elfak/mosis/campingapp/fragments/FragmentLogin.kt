@@ -10,6 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentLoginBinding
@@ -21,6 +24,13 @@ class FragmentLogin : Fragment()
     private lateinit var binding: FragmentLoginBinding
     private var emailEntered = false
     private var passEntered = false
+    private lateinit var auth: FirebaseAuth
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        super.onCreate(savedInstanceState)
+        auth = Firebase.auth
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentLoginBinding.inflate(layoutInflater)
@@ -72,10 +82,19 @@ class FragmentLogin : Fragment()
 
     private fun login(email:String, pass:String)
     {
-        Toast.makeText(view?.context, "$email $pass", Toast.LENGTH_SHORT).show()
-        // TODO: Login
-        var i = Intent(context, ActivityMain::class.java)
-        startActivity(i)
+        Firebase.auth.signInWithEmailAndPassword(email,pass).addOnCompleteListener {
+            when(it.isSuccessful)
+            {
+                true ->
+                {
+                    var i = Intent(context, ActivityMain::class.java)
+                    startActivity(i)
+                }
+                else -> Toast.makeText(context, "Greska, pokusajte ponovo!", Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
     }
 
     private fun enableLogin()
