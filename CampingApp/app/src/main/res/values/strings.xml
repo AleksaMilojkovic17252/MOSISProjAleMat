@@ -40,4 +40,7 @@
     <string name="trip_name">Trip name</string>
     <string name="Location">Location</string>
     <string name="Open_Map">Open map</string>
+    <string name="Teammates">Teammates</string>
+    <string name="Add_teammate">Add Teammate</string>
+    <string name="Date">Date</string>
 </resources>
