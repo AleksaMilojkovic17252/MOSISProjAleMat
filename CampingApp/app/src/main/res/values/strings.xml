@@ -22,7 +22,7 @@
     <string name="HurrayTextForgot">You\'ve changed your password successfully</string>
     <string name="GoBack">Go Back</string>
     <string name="registerOtpText">Please confirm the 4 digit code we’ve sent to you on your e-mail. Which has been sent to your email</string>
-    <string name="registerTextHurray">You have registered successfully</string>
+    <string name="registerTextHurray">You have registered successfully!\nPlease check your inbox for verification mail</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="edit_profle_title">Edit profile</string>
@@ -43,4 +43,13 @@
     <string name="Teammates">Teammates</string>
     <string name="Add_teammate">Add Teammate</string>
     <string name="Date">Date</string>
+    <string name="email_sent">Email sent</string>
+    <string name="message_not_verified">Mail is not verified, check your inbox</string>
+    <string name="error">Error, try again</string>
+    <string name="notifications">Notifications</string>
+    <string name="recent_trips_label">Recent trips</string>
+    <string name="recent_trips_desc">Shows you your trip history</string>
+    <string name="delete_trips_label">Delete all trips</string>
+    <string name="delete_trips_desc">It will delete your trip history</string>
+    <string name="settings_label">Settings</string>
 </resources>

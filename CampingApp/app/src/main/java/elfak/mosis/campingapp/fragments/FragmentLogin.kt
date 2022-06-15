@@ -20,7 +20,6 @@ import elfak.mosis.campingapp.databinding.FragmentLoginBinding
 
 class FragmentLogin : Fragment()
 {
-
     private lateinit var binding: FragmentLoginBinding
     private var emailEntered = false
     private var passEntered = false
@@ -30,6 +29,8 @@ class FragmentLogin : Fragment()
     {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
+        if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
+            gotoMainActivity()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -87,14 +88,14 @@ class FragmentLogin : Fragment()
             {
                 true ->
                 {
-                    var i = Intent(context, ActivityMain::class.java)
-                    startActivity(i)
+                    if (Firebase.auth.currentUser?.isEmailVerified == false)
+                        Toast.makeText(context, R.string.message_not_verified, Toast.LENGTH_SHORT).show()
+                    else
+                        gotoMainActivity()
                 }
-                else -> Toast.makeText(context, "Greska, pokusajte ponovo!", Toast.LENGTH_SHORT).show()
-
+                else -> Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun enableLogin()
@@ -109,6 +110,12 @@ class FragmentLogin : Fragment()
             binding.loginButton.setBackgroundResource(R.drawable.button_disabled)
             binding.loginButton.isEnabled = false
         }
+    }
+
+    private fun gotoMainActivity()
+    {
+        var i = Intent(context, ActivityMain::class.java)
+        startActivity(i)
     }
 
 

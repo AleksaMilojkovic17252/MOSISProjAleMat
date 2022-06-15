@@ -52,7 +52,7 @@
         app:layout_constraintTop_toBottomOf="@id/Hurray" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonGoBack"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:text="@string/GoBack"

@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentRegisterBinding
 
@@ -69,9 +71,19 @@ class FragmentRegister : Fragment()
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?)
             {
-                passEntered = p0?.isNotEmpty() ?: false
+                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterConfirmPassword.text.toString() == p0.toString()
                 enableRegister()
-                // TODO: Izmena zbog confirm password-a 
+            }
+        })
+
+        binding.editTextRegisterConfirmPassword.addTextChangedListener(object : TextWatcher
+        {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+            override fun afterTextChanged(p0: Editable?)
+            {
+                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterPassword.text.toString() == p0.toString()
+                enableRegister()
             }
         })
 
@@ -80,8 +92,12 @@ class FragmentRegister : Fragment()
 
     private fun register(name: String, email: String, pass: String)
     {
-        Toast.makeText(view?.context, "$name $email $pass", Toast.LENGTH_SHORT).show()
-        // TODO: Registracija
+        Firebase.auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
+            if(it.isSuccessful)
+                Firebase.auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
+                    findNavController().navigate(R.id.frRegister_to_frRegHurray)
+                }
+        }
     }
 
     private fun enableRegister()

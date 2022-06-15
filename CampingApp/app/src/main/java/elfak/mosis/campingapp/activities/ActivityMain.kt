@@ -19,10 +19,7 @@ import com.google.firebase.internal.InternalTokenResult
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
-import elfak.mosis.campingapp.fragments.FragmentAddTeammate
-import elfak.mosis.campingapp.fragments.FragmentEditProfile
-import elfak.mosis.campingapp.fragments.FragmentHome
-import elfak.mosis.campingapp.fragments.FragmentTeammates
+import elfak.mosis.campingapp.fragments.*
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
@@ -102,7 +99,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_settings -> {
 
-                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentSettings()).addToBackStack(null).commit()
             }
             R.id.nav_logout -> Firebase.auth.signOut()
         }

@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentForgotPasswordBinding
 
@@ -60,9 +62,14 @@ class FragmentForgotPassword : Fragment()
 
     private fun requestPasswordChange(email: String)
     {
-        Toast.makeText(context, email, Toast.LENGTH_SHORT).show()
-        // TODO: Zamena sifre
-        findNavController().navigate(R.id.frForgotPass_to_frForgotPassOTP)
+        Firebase.auth.sendPasswordResetEmail(email).addOnCompleteListener{
+            if(it.isSuccessful)
+            {
+                Toast.makeText(context, R.string.email_sent, Toast.LENGTH_SHORT).show()
+                findNavController().popBackStack()
+            }
+        }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
