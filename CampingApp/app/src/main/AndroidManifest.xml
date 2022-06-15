@@ -23,6 +23,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
         <activity
+            android:name=".activities.ActivityTrip"
+            android:exported="true" />
+        <activity
             android:name=".activities.ActivityAddTrip"
             android:exported="false" />
         <activity
