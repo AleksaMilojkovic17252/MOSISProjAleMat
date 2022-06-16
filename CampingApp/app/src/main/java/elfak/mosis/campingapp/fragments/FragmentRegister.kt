@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentRegisterBinding
@@ -94,9 +95,27 @@ class FragmentRegister : Fragment()
     {
         Firebase.auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
             if(it.isSuccessful)
+            {
+                var korisnik = hashMapOf(
+                    "email" to email,
+                    "name" to name)
+
+                if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
+                    Firebase.firestore
+                        .collection("users")
+                        .document(Firebase.auth.currentUser!!.uid)
+                        .set(korisnik)
+
+                else
+                    Firebase.firestore
+                        .collection("users")
+                        .add(korisnik)
+
+
                 Firebase.auth.currentUser?.sendEmailVerification()?.addOnCompleteListener {
                     findNavController().navigate(R.id.frRegister_to_frRegHurray)
                 }
+            }
         }
     }
 

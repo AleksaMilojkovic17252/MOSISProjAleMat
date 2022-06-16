@@ -12,7 +12,10 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentLoginBinding
@@ -23,12 +26,15 @@ class FragmentLogin : Fragment()
     private lateinit var binding: FragmentLoginBinding
     private var emailEntered = false
     private var passEntered = false
-    private lateinit var auth: FirebaseAuth
+    //private lateinit var auth: FirebaseAuth
+    //private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        auth = Firebase.auth
+        var auth = Firebase.auth
+        var firestore = Firebase.firestore
+        var store = Firebase.storage
         if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
             gotoMainActivity()
     }
