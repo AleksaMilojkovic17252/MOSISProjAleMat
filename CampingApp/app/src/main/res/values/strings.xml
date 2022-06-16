@@ -56,4 +56,10 @@
     <string name="memories">Memories</string>
     <string name="backpack">Backpack</string>
     <string name="teammates">Teammates</string>
+    <string name="set_date">Set date</string>
+    <string-array name="Names">
+        <item>Marko</item>
+        <item>Janko</item>
+        <item>Darko</item>
+    </string-array>
 </resources>

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/nav_graph_add_trips">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_add_trips"
+    app:startDestination="@id/fragmentAddTripForm">
 
+    <fragment
+        android:id="@+id/fragmentAddTripForm"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripForm"
+        android:label="fragment_add_trip_form"
+        tools:layout="@layout/fragment_add_trip_form" />
 </navigation>

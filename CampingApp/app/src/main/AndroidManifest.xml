@@ -24,10 +24,12 @@
         android:theme="@style/Theme.CampingApp">
         <activity
             android:name=".activities.ActivityTrip"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".activities.ActivityAddTrip"
-            android:exported="false" />
+            android:exported="true"
+            android:theme="@style/Pls.work" />
         <activity
             android:name=".activities.ActivityAddFriends"
             android:exported="true" />
