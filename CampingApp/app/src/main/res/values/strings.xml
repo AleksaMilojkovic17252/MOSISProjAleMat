@@ -52,4 +52,8 @@
     <string name="delete_trips_label">Delete all trips</string>
     <string name="delete_trips_desc">It will delete your trip history</string>
     <string name="settings_label">Settings</string>
+    <string name="activities">Activities</string>
+    <string name="memories">Memories</string>
+    <string name="backpack">Backpack</string>
+    <string name="teammates">Teammates</string>
 </resources>

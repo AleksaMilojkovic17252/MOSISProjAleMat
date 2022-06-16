@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_activities"
+        android:icon="@drawable/ic_baseline_description_24"
+        android:title="@string/activities"/>
+    <item
+        android:id="@+id/nav_memories"
+        android:icon="@drawable/ic_baseline_photo_camera_24"
+        android:title="@string/memories"/>
+    <item
+        android:id="@+id/nav_backpack"
+        android:icon="@drawable/ic_baseline_work_24"
+        android:title="@string/backpack"/>
+    <item
+        android:id="@+id/nav_trip_teammates"
+        android:icon="@drawable/ic_baseline_people_alt_24"
+        android:title="@string/teammates"/>
+
+
+</menu>

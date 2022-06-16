@@ -13,6 +13,7 @@
     <color name="Green700"> #4D7C0F </color>
     <color name="Gray500"> #71717a</color>
     <color name="Gray600"> #52525b</color>
+    <color name="Green50">#ECFCCB</color>
     <color name="GreenTransparetn">#8884cc16</color>
     <color name="Red">#EA1601</color>
     <color name="RedLight">#99EA1601</color>
