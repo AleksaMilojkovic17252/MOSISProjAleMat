@@ -9,9 +9,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.util.Pair
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 
@@ -22,8 +24,8 @@ class FragmentAddTripForm : Fragment() {
 
     lateinit var binding: FragmentAddTripFormBinding
     lateinit var recyclerView: RecyclerView
-    lateinit var s1: Array<String>
-    var images: Array<Int> = arrayOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
+    lateinit var s1: ArrayList<String>
+    var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +33,7 @@ class FragmentAddTripForm : Fragment() {
     ): View? {
         binding = FragmentAddTripFormBinding.inflate(layoutInflater)
 
-        recyclerView = binding.TeammateListView
 
-        s1 = resources.getStringArray(R.array.Names)
 
         return binding.root
     }
@@ -52,6 +52,18 @@ class FragmentAddTripForm : Fragment() {
                 dateRangeText.text = datepick.headerText
             }
         }
+
+        recyclerView = binding.TeammateListView
+
+        s1 = resources.getStringArray(R.array.Names).toCollection(ArrayList())
+
+        val teammatesAdapter: AdapterAddTripTeammate? =
+            context?.let { AdapterAddTripTeammate(it,s1,images) }
+
+        recyclerView.adapter = teammatesAdapter
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+
 
     }
 
