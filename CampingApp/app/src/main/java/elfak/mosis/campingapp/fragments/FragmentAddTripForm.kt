@@ -79,7 +79,9 @@ class FragmentAddTripForm : Fragment() {
             findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormTeammates)
         }
 
-
+        binding.OpenMapButton.setOnClickListener {
+            findNavController().navigate(R.id.frAddTripForm_to_frMaps)
+        }
 
     }
 

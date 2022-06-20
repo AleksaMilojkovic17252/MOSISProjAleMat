@@ -57,6 +57,7 @@
     <string name="backpack">Backpack</string>
     <string name="teammates">Teammates</string>
     <string name="set_date">Set date</string>
+    <string name="confirmLocation">Confirm</string>
     <string-array name="Names">
         <item>Marko</item>
         <item>Janko</item>
