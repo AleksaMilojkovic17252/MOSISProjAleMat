@@ -9,5 +9,14 @@
         android:id="@+id/fragmentAddTripForm"
         android:name="elfak.mosis.campingapp.fragments.FragmentAddTripForm"
         android:label="fragment_add_trip_form"
-        tools:layout="@layout/fragment_add_trip_form" />
+        tools:layout="@layout/fragment_add_trip_form" >
+        <action
+            android:id="@+id/action_fragmentAddTripForm_to_fragmentAddTripFormTeammates"
+            app:destination="@id/fragmentAddTripFormTeammates" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAddTripFormTeammates"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormTeammates"
+        android:label="fragment_add_trip_form_teammates"
+        tools:layout="@layout/fragment_add_trip_form_teammates" />
 </navigation>

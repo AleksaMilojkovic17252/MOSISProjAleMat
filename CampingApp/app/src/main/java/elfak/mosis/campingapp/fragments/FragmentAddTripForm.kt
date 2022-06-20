@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.util.Pair
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -16,6 +18,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
 
 class FragmentAddTripForm : Fragment() {
@@ -26,6 +29,7 @@ class FragmentAddTripForm : Fragment() {
     lateinit var recyclerView: RecyclerView
     lateinit var s1: ArrayList<String>
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
+    val sharedViewModel: SharedViewTripForm by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,10 +62,22 @@ class FragmentAddTripForm : Fragment() {
         s1 = resources.getStringArray(R.array.Names).toCollection(ArrayList())
 
         val teammatesAdapter: AdapterAddTripTeammate? =
-            context?.let { AdapterAddTripTeammate(it,s1,images) }
+            context?.let { AdapterAddTripTeammate(it,sharedViewModel.imena.toCollection(ArrayList()),images) } //requireContext
 
         recyclerView.adapter = teammatesAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+
+        sharedViewModel.dataChanger.observe(viewLifecycleOwner){
+            teammatesAdapter?.notifyDataSetChanged()
+        }
+
+        binding.continueButton.setOnClickListener {
+
+        }
+
+        binding.OpenTeammatesButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormTeammates)
+        }
 
 
 

@@ -62,4 +62,9 @@
         <item>Janko</item>
         <item>Darko</item>
     </string-array>
+    <string-array name="Occupations">
+        <item>Molar</item>
+        <item>Stolar</item>
+        <item>Lekar</item>
+    </string-array>
 </resources>

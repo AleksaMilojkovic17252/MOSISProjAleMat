@@ -166,10 +166,10 @@
             android:layout_marginEnd="20dp"/>
 
         <android.widget.Button
-            android:id="@+id/loginButton"
+            android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="@string/log_in"
+            android:text="Continue"
             android:background="@drawable/et_button_shape_green"
             android:textColor="@color/white"
             android:layout_marginStart="20dp"
