@@ -4,6 +4,7 @@ import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -16,14 +17,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
 
@@ -61,16 +65,18 @@ class FragmentEditProfile : Fragment()
 
     private fun fillData()
     {
+        //get ako nema internera ce da pokupi iz kesa podatke
         var id = Firebase.auth.currentUser!!.uid
         Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
             binding.editTextEditProfileName.setText(it["name"].toString())
-        }
-        Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
             binding.editTextEditProfileOccupation.setText(it["occupation"]?.toString())
-        }
-        Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
             binding.editTextEditProfileDescription.setText(it["description"]?.toString())
         }
+        Firebase.storage.getReference("profilePics/$id.jpg").getBytes(1024*1024).addOnSuccessListener{
+            var bitmapDrawable: BitmapDrawable = BitmapDrawable(BitmapFactory.decodeByteArray(it, 0, it.size))
+            binding.profileImage.setImageDrawable(bitmapDrawable)
+            binding.profileImagePlaceholder.isVisible = false
+        }.addOnFailureListener {  }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)

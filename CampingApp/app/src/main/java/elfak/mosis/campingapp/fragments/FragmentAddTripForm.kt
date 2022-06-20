@@ -84,6 +84,9 @@ class FragmentAddTripForm : Fragment() {
         }
 
 
+        binding.OpenMapButton.setOnClickListener {
+            findNavController().navigate(R.id.frAddTripForm_to_frMaps)
+        }
 
     }
 

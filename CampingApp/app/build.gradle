@@ -52,6 +52,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
     implementation 'com.google.firebase:firebase-storage-ktx'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'org.osmdroid:osmdroid-android:6.1.13'
 
 
 

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_fragmentAddTripForm_to_fragmentAddTripFormBackpack"
             app:destination="@id/fragmentAddTripFormBackpack" />
+        <action
+            android:id="@+id/frAddTripForm_to_frMaps"
+            app:destination="@id/fragmentMaps" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAddTripFormTeammates"
@@ -27,4 +30,9 @@
         android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormBackpack"
         android:label="fragment_add_trip_form_backpack"
         tools:layout="@layout/fragment_add_trip_form_backpack" />
+    <fragment
+        android:id="@+id/fragmentMaps"
+        android:name="elfak.mosis.campingapp.fragments.FragmentMaps"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>
