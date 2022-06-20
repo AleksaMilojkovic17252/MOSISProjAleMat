@@ -47,8 +47,6 @@ class AdapterAddTripTeammate (val ct: Context, val Users: ArrayList<User>, val m
             val cancel: LinearLayout = dialog.findViewById(R.id.layoutCancel)
 
             remove.setOnClickListener{
-
-                Toast.makeText(context,"Remove",Toast.LENGTH_SHORT).show()
                 this.Users.removeAt(position)
                 this.model.korisnici.removeAt(position)
                 notifyItemRemoved(position)

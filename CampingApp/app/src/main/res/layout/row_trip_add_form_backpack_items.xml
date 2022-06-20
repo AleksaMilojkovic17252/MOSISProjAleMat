@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/text_backpack_name"
+                android:id="@+id/text_backpack_name_add_trip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -39,9 +39,9 @@
                 android:layout_height="30dp"
                 android:background="@drawable/et_shape_round_button"
                 app:srcCompat="@drawable/ic_baseline_remove_24"
-                app:layout_constraintTop_toTopOf="@id/text_backpack_name"
-                app:layout_constraintBottom_toBottomOf="@id/text_backpack_name"
-                app:layout_constraintStart_toEndOf="@id/text_backpack_name"
+                app:layout_constraintTop_toTopOf="@id/text_backpack_name_add_trip"
+                app:layout_constraintBottom_toBottomOf="@id/text_backpack_name_add_trip"
+                app:layout_constraintStart_toEndOf="@id/text_backpack_name_add_trip"
                 android:layout_marginStart="80dp"
 
                 />
