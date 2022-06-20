@@ -13,10 +13,18 @@
         <action
             android:id="@+id/action_fragmentAddTripForm_to_fragmentAddTripFormTeammates"
             app:destination="@id/fragmentAddTripFormTeammates" />
+        <action
+            android:id="@+id/action_fragmentAddTripForm_to_fragmentAddTripFormBackpack"
+            app:destination="@id/fragmentAddTripFormBackpack" />
     </fragment>
     <fragment
         android:id="@+id/fragmentAddTripFormTeammates"
         android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormTeammates"
         android:label="fragment_add_trip_form_teammates"
         tools:layout="@layout/fragment_add_trip_form_teammates" />
+    <fragment
+        android:id="@+id/fragmentAddTripFormBackpack"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormBackpack"
+        android:label="fragment_add_trip_form_backpack"
+        tools:layout="@layout/fragment_add_trip_form_backpack" />
 </navigation>

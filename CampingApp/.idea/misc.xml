@@ -8,6 +8,7 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/dialog_bg.xml" value="0.1575" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_green.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_button_shape_greenstroke.xml" value="0.2985" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_shape_round_button.xml" value="0.225" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/et_style.xml" value="0.2985" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_add_24.xml" value="0.265" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/drawable/outline_arrow_back_ios_24.xml" value="0.265" />
@@ -24,6 +25,7 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_activities.xml" value="0.25" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_add_teammate.xml" value="0.17831813576494426" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_add_trip_form.xml" value="0.36666666666666664" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_add_trip_form_backpack.xml" value="0.25" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_add_trip_form_teammates.xml" value="0.36666666666666664" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_backpack.xml" value="0.17831813576494426" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_edit_profile.xml" value="0.25" />
@@ -44,6 +46,7 @@
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/fragment_trip_teammates.xml" value="0.17831813576494426" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/nav_header.xml" value="0.1" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/row_trip_add_form_add_teammate.xml" value="0.36666666666666664" />
+        <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/row_trip_add_form_backpack_items.xml" value="0.33" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/layout/teammate_trip_add_form.xml" value="0.33" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/menu/bottom_navigation.xml" value="0.36666666666666664" />
         <entry key="..\:/MOSIS/MOSISProjAleMat/CampingApp/app/src/main/res/menu/drawer_menu.xml" value="0.36666666666666664" />

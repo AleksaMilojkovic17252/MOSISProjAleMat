@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormTeammatesBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
@@ -42,11 +43,23 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
         s1 = resources.getStringArray(R.array.Names).toCollection(ArrayList())
         s2 = resources.getStringArray(R.array.Occupations).toCollection(ArrayList())
 
+        var korisnici: ArrayList<User> = ArrayList()
+
+        for(item in s1.indices)
+        {
+            var korisnik: User = User(s1[item],s2[item],"posao",images[item].toString())
+            korisnici.add(korisnik)
+        }
+
         val teammatesAdapter: AdapterAddTripAllTeammates? =
-            context?.let { AdapterAddTripAllTeammates(it,s1,s2,images,sharedViewModel, this) }
+            context?.let { AdapterAddTripAllTeammates(it,korisnici,sharedViewModel, this) }
 
         recycler.adapter = teammatesAdapter
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+
+        binding.backButtonImage.setOnClickListener{
+            findNavController().popBackStack()
+        }
     }
 
     override fun goBack() {

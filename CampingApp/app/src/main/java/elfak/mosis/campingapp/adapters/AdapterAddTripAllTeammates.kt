@@ -12,15 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import androidx.navigation.fragment.findNavController
+import elfak.mosis.campingapp.classes.User
 
-class AdapterAddTripAllTeammates(val ct: Context,val s1: ArrayList<String>, val s2: ArrayList<String> , val img: ArrayList<Int> , val model: SharedViewTripForm, val nesto: Sotka) :
+class AdapterAddTripAllTeammates(val ct: Context, val Users: ArrayList<User>, val shared: SharedViewTripForm, val nesto: Sotka) :
     RecyclerView.Adapter<AdapterAddTripAllTeammates.TeammateViewHolder>() {
-
-    val context = ct
-    val data1 = s1
-    val data2 = s2
-    val images = img
-    val shared = model
 
 
     interface Sotka{
@@ -36,17 +31,17 @@ class AdapterAddTripAllTeammates(val ct: Context,val s1: ArrayList<String>, val 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeammateViewHolder {
-        val hallo: LayoutInflater = LayoutInflater.from(context)
+        val hallo: LayoutInflater = LayoutInflater.from(ct)
         val view: View = hallo.inflate(R.layout.row_trip_add_form_add_teammate,parent,false )
         return TeammateViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TeammateViewHolder, position: Int) {
-        holder.ime.text = data1.get(position)
-        holder.occupation.text = data2.get(position)
-        holder.slika.setImageResource(images[position])
+        holder.ime.text = Users.get(position).Name
+        holder.occupation.text = Users.get(position).Occupation
+        holder.slika.setImageResource(Users[position].Slika.toInt())
         holder.add.setOnClickListener{
-            shared.imena.add(data1[position])
+            shared.korisnici.add(Users[position])
             shared.dataChanger.value = !shared.dataChanger.value!!
             nesto.goBack()
 
@@ -55,7 +50,7 @@ class AdapterAddTripAllTeammates(val ct: Context,val s1: ArrayList<String>, val 
     }
 
     override fun getItemCount(): Int {
-        return data1.count()
+        return Users.count()
     }
 
 

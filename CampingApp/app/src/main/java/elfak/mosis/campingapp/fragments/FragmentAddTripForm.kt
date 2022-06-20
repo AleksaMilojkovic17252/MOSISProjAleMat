@@ -54,6 +54,8 @@ class FragmentAddTripForm : Fragment() {
             fragmentManager?.let { it1 -> datepick.show(it1,"Picker") }
             datepick.addOnPositiveButtonClickListener {
                 dateRangeText.text = datepick.headerText
+                val startDate: Long = it.first
+                val endDate: Long = it.second
             }
         }
 
@@ -62,7 +64,7 @@ class FragmentAddTripForm : Fragment() {
         s1 = resources.getStringArray(R.array.Names).toCollection(ArrayList())
 
         val teammatesAdapter: AdapterAddTripTeammate? =
-            context?.let { AdapterAddTripTeammate(it,sharedViewModel.imena.toCollection(ArrayList()),images) } //requireContext
+            context?.let { AdapterAddTripTeammate(it,sharedViewModel.korisnici.toCollection(ArrayList()),sharedViewModel) } //requireContext
 
         recyclerView.adapter = teammatesAdapter
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -71,12 +73,14 @@ class FragmentAddTripForm : Fragment() {
             teammatesAdapter?.notifyDataSetChanged()
         }
 
-        binding.continueButton.setOnClickListener {
 
-        }
 
         binding.OpenTeammatesButton.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormTeammates)
+        }
+
+        binding.continueButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormBackpack)
         }
 
 

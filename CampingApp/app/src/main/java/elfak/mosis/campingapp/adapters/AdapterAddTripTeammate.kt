@@ -13,12 +13,12 @@ import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.User
+import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
-class AdapterAddTripTeammate (val ct: Context, val s1: ArrayList<String>, val img: ArrayList<Int>) : RecyclerView.Adapter<AdapterAddTripTeammate.MyViewHolder>(){
+class AdapterAddTripTeammate (val ct: Context, val Users: ArrayList<User>, val model: SharedViewTripForm) : RecyclerView.Adapter<AdapterAddTripTeammate.MyViewHolder>(){
 
     val context = ct
-    val data1 = s1
-    val images = img
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ime: TextView = itemView.findViewById(R.id.Teammate_name)
@@ -36,8 +36,8 @@ class AdapterAddTripTeammate (val ct: Context, val s1: ArrayList<String>, val im
     }
 
     override fun onBindViewHolder(holder: AdapterAddTripTeammate.MyViewHolder, position: Int) {
-        holder.ime.setText(data1[position])
-        holder.slika.setImageResource(images[position])
+        holder.ime.setText(Users[position].Name)
+        holder.slika.setImageResource(Users[position].Slika.toInt())
         holder.mainLayout.setOnClickListener{
             val dialog: Dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -49,10 +49,10 @@ class AdapterAddTripTeammate (val ct: Context, val s1: ArrayList<String>, val im
             remove.setOnClickListener{
 
                 Toast.makeText(context,"Remove",Toast.LENGTH_SHORT).show()
-                this.data1.removeAt(position)
-                this.images.removeAt(position)
+                this.Users.removeAt(position)
+                this.model.korisnici.removeAt(position)
                 notifyItemRemoved(position)
-                notifyItemRangeChanged(position,s1.count())
+                notifyItemRangeChanged(position,Users.count())
                 dialog.dismiss()
             }
 
@@ -70,6 +70,6 @@ class AdapterAddTripTeammate (val ct: Context, val s1: ArrayList<String>, val im
     }
 
     override fun getItemCount(): Int {
-        return s1.count()
+        return Users.count()
     }
 }
