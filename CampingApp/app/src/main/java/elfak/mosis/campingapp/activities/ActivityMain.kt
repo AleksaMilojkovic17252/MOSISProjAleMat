@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.activities
 
 import android.R.id.toggle
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
@@ -71,45 +73,57 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
-    override fun onBackPressed() {
+    override fun onBackPressed()
+    {
         if(mDrawer.isDrawerOpen(GravityCompat.START))
-        {
             mDrawer.closeDrawer(GravityCompat.START)
-        }
         else
-        {
             super.onBackPressed()
-        }
 
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.nav_home -> {
-
+    override fun onNavigationItemSelected(item: MenuItem): Boolean
+    {
+        when(item.itemId)
+        {
+            R.id.nav_home ->
+            {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentHome()).addToBackStack(null).commit()
             }
-            R.id.nav_teammates-> {
-
+            R.id.nav_teammates->
+            {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentTeammates()).addToBackStack(null).commit()
             }
-            R.id.nav_notifications -> {
-
+            R.id.nav_notifications ->
+            {
                 //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
             }
-            R.id.nav_settings -> {
-
+            R.id.nav_settings ->
+            {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentSettings()).addToBackStack(null).commit()
             }
-            R.id.nav_logout -> Firebase.auth.signOut()
+            R.id.nav_logout ->
+            {
+                var youSureDialog = AlertDialog.Builder(this)
+                youSureDialog
+                    .setMessage(R.string.logout_question)
+                    .setPositiveButton("Yes") { p0, p1 ->
+                        if (p1 == DialogInterface.BUTTON_POSITIVE)
+                        {
+                            Firebase.auth.signOut()
+                        }
+                    }
+                    .setNegativeButton("No") {p0, p1 -> }
+                    .show()
+            }
         }
         mDrawer.closeDrawer(GravityCompat.START)
         return true
     }
 
-    override fun setDrawerEnabled(enabled: Boolean) {
-        val lockMode =
-            if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
+    override fun setDrawerEnabled(enabled: Boolean)
+    {
+        val lockMode = if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         mDrawer.setDrawerLockMode(lockMode)
     }
 

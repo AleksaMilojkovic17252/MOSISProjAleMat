@@ -29,6 +29,9 @@ class FragmentSettings: Fragment()
         binding.linearLayout3.setOnClickListener {
             Toast.makeText(context, "DELETE ALL", Toast.LENGTH_SHORT).show()
         }
+        binding.switchNotifications.setOnClickListener {
+            Toast.makeText(requireContext(), "${binding.switchNotifications.isChecked}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onResume()
