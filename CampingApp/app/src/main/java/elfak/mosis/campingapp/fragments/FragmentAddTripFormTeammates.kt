@@ -33,7 +33,8 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
         super.onViewCreated(view, savedInstanceState)
         recycler = binding.recyclerTeammates
 
@@ -45,7 +46,7 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
 
         for(item in s1.indices)
         {
-            var korisnik: User = User(s1[item],s2[item],"posao",images[item].toString())
+            var korisnik: User = User("0",s1[item],s2[item],images[item].toString())
             korisnici.add(korisnik)
         }
 

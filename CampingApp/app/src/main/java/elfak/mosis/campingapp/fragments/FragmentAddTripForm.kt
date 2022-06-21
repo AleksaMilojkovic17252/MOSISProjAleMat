@@ -21,6 +21,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.type.Date
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
@@ -28,6 +29,8 @@ import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentAddTripForm : Fragment()
@@ -75,8 +78,8 @@ class FragmentAddTripForm : Fragment()
             fragmentManager?.let { it1 -> datepick.show(it1,"Picker") }
             datepick.addOnPositiveButtonClickListener {
                 dateRangeText.text = datepick.headerText
-                sharedViewModel.startDate.value = it.first
-                sharedViewModel.endDate.value = it.second
+                sharedViewModel.startDate.value = Date(it.first)
+                sharedViewModel.endDate.value = Date(it.second)
             }
         }
 

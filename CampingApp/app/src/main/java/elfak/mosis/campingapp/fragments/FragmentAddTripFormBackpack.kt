@@ -21,9 +21,12 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripBackpack
 import elfak.mosis.campingapp.classes.BackpackItems
+import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentAddTripFormBackpack : Fragment()
@@ -83,9 +86,26 @@ class FragmentAddTripFormBackpack : Fragment()
             })
 
             dialog.show()
-
-
         }
+
+        binding.continueButton.setOnClickListener{
+            // TODO: OVO NE RADI JOS UVEK 
+            var tripName = sharedViewModel.tripName.value
+            var longitude = sharedViewModel.longitude.value
+            var latitude = sharedViewModel.latitude.value
+            var users = sharedViewModel.korisnici.toCollection(ArrayList())
+            var startDate = sharedViewModel.startDate.value
+            var endDate = sharedViewModel.endDate.value
+            val trip = Trip(tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!)
+            createTrip(trip)
+            
+        }
+    }
+
+    private fun createTrip(trip: Trip)
+    {
+        // TODO: OVO NE RADI JOS UVEK 
+        Firebase.firestore.collection("trips").add(trip)
     }
 
 
