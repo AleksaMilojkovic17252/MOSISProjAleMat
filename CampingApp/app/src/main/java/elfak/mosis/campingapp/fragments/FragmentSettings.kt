@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import elfak.mosis.campingapp.R
@@ -35,5 +36,11 @@ class FragmentSettings: Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = getString(R.string.settings_label)
+
+        val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
+        val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
+
+        buttonFriend.visibility = View.GONE
+        buttonNotification.visibility = View.GONE
     }
 }

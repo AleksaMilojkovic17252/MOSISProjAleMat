@@ -25,13 +25,15 @@
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
         android:text="Name"
+        android:textSize="20dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
         <ImageView
             android:id="@+id/edit_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/outline_edit_24"
-            android:layout_marginStart="5dp">
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center">
 
         </ImageView>
 

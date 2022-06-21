@@ -1,6 +1,9 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +12,19 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.util.Pair
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
@@ -48,12 +57,30 @@ class FragmentAddTripForm : Fragment() {
         val datepick = MaterialDatePicker.Builder.dateRangePicker().setTitleText("Select dates").
                                             setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds())).setTheme(R.style.ThemeOverlay_App_DatePicker).build()
 
+        binding.EditTextTripName.addTextChangedListener{object:TextWatcher
+        {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                TODO("Not yet implemented")
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                sharedViewModel.tripName.value = p0.toString()
+            }
+
+        }
+
+        }
+
         calendar.setOnClickListener{
             fragmentManager?.let { it1 -> datepick.show(it1,"Picker") }
             datepick.addOnPositiveButtonClickListener {
                 dateRangeText.text = datepick.headerText
-                val startDate: Long = it.first
-                val endDate: Long = it.second
+                sharedViewModel.startDate.value = it.first
+                sharedViewModel.endDate.value = it.second
             }
         }
 
@@ -71,7 +98,21 @@ class FragmentAddTripForm : Fragment() {
             teammatesAdapter?.notifyDataSetChanged()
         }
 
+        binding.imageBackButton.setOnClickListener{
+            var id = Firebase.auth.currentUser!!.uid
+            var name: String = ""
+            var occupation: String = ""
+            var description: String = ""
+            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
+                name = (it["name"].toString())
+                occupation = (it["occupation"].toString())
+                description = (it["description"].toString())
+            }
 
+            sharedViewModel.korisnici.add(User(id,name,occupation,description))
+            var i = Intent(context, ActivityMain::class.java)
+            startActivity(i)
+        }
 
         binding.OpenTeammatesButton.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormTeammates)
@@ -79,6 +120,7 @@ class FragmentAddTripForm : Fragment() {
 
         binding.continueButton.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormBackpack)
+
         }
 
 

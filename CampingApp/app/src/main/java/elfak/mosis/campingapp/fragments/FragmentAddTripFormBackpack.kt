@@ -14,10 +14,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripBackpack
 import elfak.mosis.campingapp.classes.BackpackItems
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
@@ -49,6 +53,17 @@ class FragmentAddTripFormBackpack : Fragment() {
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
 
         binding.buttonGoBackBackpack.setOnClickListener{
+            var id = Firebase.auth.currentUser!!.uid
+            var name: String = ""
+            var occupation: String = ""
+            var description: String = ""
+            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
+                name = (it["name"].toString())
+                occupation = (it["occupation"].toString())
+                description = (it["description"].toString())
+            }
+
+            sharedViewModel.korisnici.remove(User(id,name,occupation,description))
             findNavController().popBackStack()
         }
 
