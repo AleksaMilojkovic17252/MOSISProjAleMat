@@ -30,48 +30,44 @@ import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
 
-class FragmentAddTripForm : Fragment() {
-
-
-
+class FragmentAddTripForm : Fragment()
+{
     lateinit var binding: FragmentAddTripFormBinding
     lateinit var recyclerView: RecyclerView
     lateinit var s1: ArrayList<String>
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)// BRISI OVO TEK KADA SE POVLACE DRUGARI
     val sharedViewModel: SharedViewTripForm by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentAddTripFormBinding.inflate(layoutInflater)
-
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
         super.onViewCreated(view, savedInstanceState)
 
         val dateRangeText: TextView = binding.TextDate
         val calendar: ImageView = binding.openCalendar
-        val datepick = MaterialDatePicker.Builder.dateRangePicker().setTitleText("Select dates").
-                                            setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds())).setTheme(R.style.ThemeOverlay_App_DatePicker).build()
+        val datepick = MaterialDatePicker
+            .Builder
+            .dateRangePicker()
+            .setTitleText("Select dates")
+            .setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds()))
+            .setTheme(R.style.ThemeOverlay_App_DatePicker)
+            .build()
 
-        binding.EditTextTripName.addTextChangedListener{object:TextWatcher
-        {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        binding.EditTextTripName.addTextChangedListener{ object : TextWatcher
+            {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+                override fun afterTextChanged(p0: Editable?)
+                {
+                    sharedViewModel.tripName.value = p0.toString()
+                }
 
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-                sharedViewModel.tripName.value = p0.toString()
-            }
-
-        }
 
         }
 

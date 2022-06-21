@@ -32,9 +32,8 @@ class FragmentHome : Fragment()
     private lateinit var mDrawer: DrawerLayout
     val sharedViewModel: SharedViewHome by activityViewModels()
 
-
-
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = "Camping Trips"
@@ -45,6 +44,7 @@ class FragmentHome : Fragment()
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.VISIBLE
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentHomeBinding.inflate(layoutInflater)
@@ -65,7 +65,6 @@ class FragmentHome : Fragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) 
     {
-
         super.onViewCreated(view, savedInstanceState)
         binding.floatingActionButton.setOnClickListener {
             var i = Intent(context, ActivityAddTrip::class.java)
@@ -88,7 +87,6 @@ class FragmentHome : Fragment()
             clipboard?.setPrimaryClip(clip)
             Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
         }
-
     }
 
 

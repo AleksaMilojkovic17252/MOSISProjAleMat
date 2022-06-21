@@ -10,15 +10,12 @@ import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 
 
-class FragmentActivities : Fragment() {
-
+class FragmentActivities : Fragment()
+{
     lateinit var binding: FragmentActivitiesBinding
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentActivitiesBinding.inflate(layoutInflater)
         return binding.root
     }

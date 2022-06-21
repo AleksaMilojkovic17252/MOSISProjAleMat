@@ -26,22 +26,21 @@ import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
 
-class FragmentAddTripFormBackpack : Fragment() {
-
+class FragmentAddTripFormBackpack : Fragment()
+{
     lateinit var binding: FragmentAddTripFormBackpackBinding
     lateinit var recycler: RecyclerView
     val sharedViewModel: SharedViewTripForm by activityViewModels()
     var backpackItems: ArrayList<BackpackItems> = arrayListOf()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentAddTripFormBackpackBinding.inflate(layoutInflater)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
         super.onViewCreated(view, savedInstanceState)
 
         recycler = binding.backpackItems
