@@ -36,8 +36,8 @@ class AdapterAddTripTeammate (val ct: Context, val Users: ArrayList<User>, val m
     }
 
     override fun onBindViewHolder(holder: AdapterAddTripTeammate.MyViewHolder, position: Int) {
-        holder.ime.setText(Users[position].Name)
-        holder.slika.setImageResource(Users[position].Slika.toInt())
+        holder.ime.setText(model.korisnici[position].Name)
+        holder.slika.setImageResource(model.korisnici[position].Slika.toInt())
         holder.mainLayout.setOnClickListener{
             val dialog: Dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

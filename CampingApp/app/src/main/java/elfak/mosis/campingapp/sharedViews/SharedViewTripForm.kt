@@ -7,6 +7,7 @@ import elfak.mosis.campingapp.classes.User
 import java.util.*
 
 class SharedViewTripForm : ViewModel() {
+    var glavniKorisnik: MutableLiveData<User> = MutableLiveData()
     var korisnici: MutableList<User> = mutableListOf()
     var tripName: MutableLiveData<String> = MutableLiveData()
     var longitude: MutableLiveData<Double> = MutableLiveData()

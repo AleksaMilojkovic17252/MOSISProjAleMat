@@ -2,6 +2,7 @@ package elfak.mosis.campingapp.fragments
 
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripBackpack
 import elfak.mosis.campingapp.classes.BackpackItems
@@ -27,6 +29,7 @@ import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class FragmentAddTripFormBackpack : Fragment()
@@ -65,7 +68,7 @@ class FragmentAddTripFormBackpack : Fragment()
                 description = (it["description"].toString())
             }
 
-            sharedViewModel.korisnici.remove(User(id,name,occupation,description))
+            sharedViewModel.korisnici.remove(User(id,name,occupation,description,""))
             findNavController().popBackStack()
         }
 
@@ -96,8 +99,12 @@ class FragmentAddTripFormBackpack : Fragment()
             var users = sharedViewModel.korisnici.toCollection(ArrayList())
             var startDate = sharedViewModel.startDate.value
             var endDate = sharedViewModel.endDate.value
-            val trip = Trip(tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!)
+            var backpackItems = HashMap<String,ArrayList<BackpackItems>>()
+            backpackItems.put(sharedViewModel.glavniKorisnik.value!!.ID,sharedViewModel.backpackItems.toCollection(ArrayList()))
+            val trip = Trip(tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!, backpackItems)
             createTrip(trip)
+            var i = Intent(context, ActivityMain::class.java)
+            startActivity(i)
             
         }
     }

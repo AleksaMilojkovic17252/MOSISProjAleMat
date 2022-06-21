@@ -61,7 +61,7 @@ class FragmentAddTripForm : Fragment()
             .setTheme(R.style.ThemeOverlay_App_DatePicker)
             .build()
 
-        binding.EditTextTripName.addTextChangedListener{ object : TextWatcher
+        binding.EditTextTripName.addTextChangedListener(object : TextWatcher
             {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
@@ -72,7 +72,7 @@ class FragmentAddTripForm : Fragment()
 
             }
 
-        }
+        )
 
         calendar.setOnClickListener{
             fragmentManager?.let { it1 -> datepick.show(it1,"Picker") }
@@ -98,17 +98,7 @@ class FragmentAddTripForm : Fragment()
         }
 
         binding.imageBackButton.setOnClickListener{
-            var id = Firebase.auth.currentUser!!.uid
-            var name: String = ""
-            var occupation: String = ""
-            var description: String = ""
-            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
-                name = (it["name"].toString())
-                occupation = (it["occupation"].toString())
-                description = (it["description"].toString())
-            }
 
-            sharedViewModel.korisnici.add(User(id,name,occupation,description))
             var i = Intent(context, ActivityMain::class.java)
             startActivity(i)
         }
@@ -118,6 +108,19 @@ class FragmentAddTripForm : Fragment()
         }
 
         binding.continueButton.setOnClickListener {
+            var id = Firebase.auth.currentUser!!.uid
+            var name: String = ""
+            var occupation: String = ""
+            var description: String = ""
+            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
+                name = (it["name"].toString())
+                occupation = (it["occupation"].toString())
+                description = (it["description"].toString())
+                sharedViewModel.korisnici.add(User(id,name,occupation,description,""))
+                sharedViewModel.glavniKorisnik.value = User(id,name,occupation,description,"")
+            }
+
+
             findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormBackpack)
 
         }

@@ -58,7 +58,7 @@ class FragmentHome : Fragment()
             description = (it["description"].toString())
         }
 
-        var korisnik:User = User(id,name,occupation,description)
+        var korisnik:User = User(id,name,occupation,description,"")
         sharedViewModel.korisnik.value = korisnik
         return binding.root
     }
