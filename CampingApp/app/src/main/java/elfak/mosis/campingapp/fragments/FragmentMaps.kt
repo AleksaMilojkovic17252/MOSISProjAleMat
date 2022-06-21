@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.campingapp.databinding.FragmentMapsBinding
 import org.osmdroid.views.MapView
 import androidx.preference.PreferenceManager
+import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver
 import org.osmdroid.util.GeoPoint
@@ -19,6 +21,7 @@ class FragmentMaps : Fragment()
 {
     private lateinit var binding: FragmentMapsBinding
     private lateinit var mapa: MapView
+    private val sharedViewModel: SharedViewTripForm by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -63,8 +66,9 @@ class FragmentMaps : Fragment()
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean
             {
                 Toast.makeText(requireContext(), "${p?.longitude.toString()}, ${p?.latitude.toString()}", Toast.LENGTH_SHORT).show()
+                sharedViewModel.latitude.value = p?.latitude
+                sharedViewModel.longitude.value = p?.longitude
                 return true
-                // TODO: Sad treba upamtimo ovu lokaciju u ShareViewModel koji moji dobar drugic Aleksic ce da implementira 
             }
             override fun longPressHelper(p: GeoPoint?): Boolean { return false }
         }

@@ -1,22 +1,29 @@
 package elfak.mosis.campingapp.fragments
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.net.ConnectivityManager
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
@@ -27,8 +34,9 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
+import java.io.*
+import java.util.jar.Manifest
+import kotlin.math.log
 
 
 class FragmentEditProfile : Fragment()
@@ -72,11 +80,45 @@ class FragmentEditProfile : Fragment()
             binding.editTextEditProfileOccupation.setText(it["occupation"]?.toString())
             binding.editTextEditProfileDescription.setText(it["description"]?.toString())
         }
-        Firebase.storage.getReference("profilePics/$id.jpg").getBytes(1024*1024).addOnSuccessListener{
-            var bitmapDrawable: BitmapDrawable = BitmapDrawable(BitmapFactory.decodeByteArray(it, 0, it.size))
-            binding.profileImage.setImageDrawable(bitmapDrawable)
+
+        if (chechInteretConnection())
+        {
+            val fajl = File.createTempFile("profilePic", "jpg")
+            Firebase.storage.getReference("profilePics/$id.jpg").getFile(fajl).addOnSuccessListener {
+                if (it.bytesTransferred == 0L)
+                    loadLocalProfilePicture()
+                else
+                {
+                    binding.profileImage.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(fajl)))
+                    binding.profileImagePlaceholder.isVisible = false
+                }
+            }
+        }
+        else
+            loadLocalProfilePicture()
+    }
+
+    private fun chechInteretConnection() : Boolean
+    {
+        var manager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        return manager.activeNetworkInfo?.isConnectedOrConnecting == true
+    }
+
+    private fun loadLocalProfilePicture()
+    {
+        try
+        {
+            var putanja = Environment.getExternalStorageDirectory().toString()
+            var fajl = File(putanja, "accImage")
+            var inputStream = FileInputStream(fajl)
+            binding.profileImage.setImageBitmap(BitmapFactory.decodeStream(inputStream))
             binding.profileImagePlaceholder.isVisible = false
-        }.addOnFailureListener {  }
+            inputStream.close()
+        }
+        catch (e:Exception)
+        {
+            Log.d("CampingApp", e.message.toString())
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
@@ -208,6 +250,41 @@ class FragmentEditProfile : Fragment()
             enableEdit()
             binding.profileImagePlaceholder.setImageDrawable(null)
             binding.profileImage.setImageBitmap(imageBitmap)
+
+            try
+            {
+                verifyStoragePermissions()
+                //Pamcenje slike za kasnije da mozemo da ucitamo kad nema interneta
+                var putanja = Environment.getExternalStorageDirectory().toString()
+                var fajl = File(putanja, "accImage")
+                Log.d("OvoNeRadi","${putanja}     ${fajl}")
+                var outputStream = FileOutputStream(fajl)
+                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                outputStream.close()
+
+                MediaStore.Images.Media.insertImage(
+                    activity?.contentResolver,
+                    fajl.absolutePath,
+                    fajl.name,
+                    fajl.name
+                )
+            }
+            catch (e:Exception)
+            {
+                Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT).show()
+                Log.d("Mica", e.message!!)
+            }
+        }
+    }
+
+    private fun verifyStoragePermissions()
+    {
+        var permisiije = ActivityCompat.checkSelfPermission(requireContext(),android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if(permisiije != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(requireActivity()
+                , arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                , 1)
         }
     }
 

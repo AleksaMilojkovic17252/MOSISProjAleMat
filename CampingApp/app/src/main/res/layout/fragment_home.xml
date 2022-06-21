@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentHome">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/frameLayout13"
         android:layout_width="match_parent"

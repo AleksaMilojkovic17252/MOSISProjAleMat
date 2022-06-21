@@ -27,10 +27,8 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
     val sharedViewModel: SharedViewTripForm by activityViewModels()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentAddTripFormTeammatesBinding.inflate(layoutInflater)
         return binding.root
     }
