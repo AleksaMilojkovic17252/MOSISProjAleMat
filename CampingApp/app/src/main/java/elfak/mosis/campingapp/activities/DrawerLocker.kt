@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.activities
 
-interface DrawerLocker {
+interface DrawerLocker
+{
     fun setDrawerEnabled(enabled: Boolean)
 }

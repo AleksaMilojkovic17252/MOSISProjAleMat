@@ -11,8 +11,10 @@ import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.fragments.*
 
-class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
-    override fun onCreate(savedInstanceState: Bundle?) {
+class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener
+{
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_trip)
 
@@ -22,26 +24,18 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         supportFragmentManager.beginTransaction().replace(R.id.fragment_trip_container,FragmentActivities()).addToBackStack(null).commit()
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+    override fun onNavigationItemSelected(item: MenuItem): Boolean
+    {
         var selectedFragment: Fragment = FragmentActivities()
-        when(item.itemId){
-            R.id.nav_activities -> {
+        when(item.itemId)
+        {
+            R.id.nav_activities ->  selectedFragment = FragmentActivities()
 
-                selectedFragment = FragmentActivities()
-            }
-            R.id.nav_memories-> {
+            R.id.nav_memories-> selectedFragment = FragmentMemories()
 
-                selectedFragment = FragmentMemories()
-            }
-            R.id.nav_backpack -> {
+            R.id.nav_backpack -> selectedFragment = FragmentBackpack()
 
-                selectedFragment = FragmentBackpack()
-            }
-            R.id.nav_trip_teammates -> {
-
-                selectedFragment = FragmentTripTeammates()
-            }
-
+            R.id.nav_trip_teammates -> selectedFragment = FragmentTripTeammates()
         }
         supportFragmentManager.beginTransaction().replace(R.id.fragment_trip_container,selectedFragment).addToBackStack(null).commit()
         return true
