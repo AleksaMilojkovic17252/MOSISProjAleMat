@@ -1,10 +1,15 @@
 package elfak.mosis.campingapp.fragments
 
+
+import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,8 +28,6 @@ class FragmentAddTripFormBackpack : Fragment() {
     lateinit var recycler: RecyclerView
     val sharedViewModel: SharedViewTripForm by activityViewModels()
     var backpackItems: ArrayList<BackpackItems> = arrayListOf()
-    var ListOfItems: ArrayList<BackpackItems> = arrayListOf(BackpackItems("Lampa"), BackpackItems("Solja"), BackpackItems("PVC"))
-    var counter: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,7 +43,7 @@ class FragmentAddTripFormBackpack : Fragment() {
         recycler = binding.backpackItems
 
         val backpackAdapter: AdapterAddTripBackpack? =
-            context?.let { AdapterAddTripBackpack(it,backpackItems,sharedViewModel) }
+            context?.let { AdapterAddTripBackpack(it,sharedViewModel) }
 
         recycler.adapter = backpackAdapter
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
@@ -50,9 +53,23 @@ class FragmentAddTripFormBackpack : Fragment() {
         }
 
         binding.imageButtonPlus.setOnClickListener{
-            backpackItems.add(ListOfItems[counter%3])
-            counter++
-            backpackAdapter?.notifyItemInserted(backpackItems.count() - 1)
+            val dialog : AlertDialog.Builder = AlertDialog.Builder(requireContext())
+            dialog.setTitle("Item name")
+            var itemInput: EditText = EditText(context)
+            itemInput.inputType = InputType.TYPE_CLASS_TEXT
+            dialog.setView(itemInput)
+            dialog.setPositiveButton("Ok", DialogInterface.OnClickListener { dialogInterface, i ->
+                val myText = itemInput.text.toString()
+                sharedViewModel.backpackItems.add(BackpackItems(myText))
+                backpackAdapter?.notifyItemInserted(sharedViewModel.backpackItems.count() - 1)
+            })
+
+            dialog.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialogInterface, i ->
+                dialogInterface.cancel()
+            })
+
+            dialog.show()
+
 
         }
     }

@@ -14,7 +14,7 @@ import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
-class AdapterAddTripBackpack(val ct: Context, val BackpackItems: ArrayList<BackpackItems>, val shared: SharedViewTripForm) : RecyclerView.Adapter<AdapterAddTripBackpack.BackpackViewHolder>() {
+class AdapterAddTripBackpack(val ct: Context, val shared: SharedViewTripForm) : RecyclerView.Adapter<AdapterAddTripBackpack.BackpackViewHolder>() {
 
     class BackpackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val naziv: TextView = itemView.findViewById(R.id.text_backpack_name_add_trip)
@@ -22,7 +22,6 @@ class AdapterAddTripBackpack(val ct: Context, val BackpackItems: ArrayList<Backp
         val ammount: TextView = itemView.findViewById(R.id.number_of_items)
         val add: ImageView = itemView.findViewById(R.id.imageButtonAdd)
         val delete: ImageView = itemView.findViewById(R.id.imageButtonDelete)
-        val mainLayout: ConstraintLayout = itemView.findViewById(R.id.backpack_items)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BackpackViewHolder {
@@ -32,26 +31,26 @@ class AdapterAddTripBackpack(val ct: Context, val BackpackItems: ArrayList<Backp
     }
 
     override fun onBindViewHolder(holder: BackpackViewHolder, position: Int) {
-        holder.naziv.text = BackpackItems[position].name
-        holder.ammount.text = BackpackItems[position].items.toString()
+        holder.naziv.text = shared.backpackItems[position].name
+        holder.ammount.text = shared.backpackItems[position].items.toString()
 
         holder.remove.setOnClickListener{
-            this.BackpackItems[position].items = this.BackpackItems[position].items - 1
+            shared.backpackItems[position].items = shared.backpackItems[position].items - 1
             notifyItemChanged(position)
         }
         holder.add.setOnClickListener{
-            this.BackpackItems[position].items = this.BackpackItems[position].items + 1
+            shared.backpackItems[position].items = shared.backpackItems[position].items + 1
             notifyItemChanged(position)
         }
 
         holder.delete.setOnClickListener{
-            this.BackpackItems.removeAt(position)
+            shared.backpackItems.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position,BackpackItems.count())
+            notifyItemRangeChanged(position,shared.backpackItems.count())
         }
     }
 
     override fun getItemCount(): Int {
-        return BackpackItems.count()
+        return shared.backpackItems.count()
     }
 }

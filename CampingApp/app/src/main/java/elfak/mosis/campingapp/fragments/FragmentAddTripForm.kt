@@ -28,7 +28,7 @@ class FragmentAddTripForm : Fragment() {
     lateinit var binding: FragmentAddTripFormBinding
     lateinit var recyclerView: RecyclerView
     lateinit var s1: ArrayList<String>
-    var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
+    var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)// BRISI OVO TEK KADA SE POVLACE DRUGARI
     val sharedViewModel: SharedViewTripForm by activityViewModels()
 
     override fun onCreateView(
@@ -36,8 +36,6 @@ class FragmentAddTripForm : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAddTripFormBinding.inflate(layoutInflater)
-
-
 
         return binding.root
     }
