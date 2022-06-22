@@ -74,5 +74,6 @@
 
     <string name="db_coll_users">users</string>
     <string name="db_coll_trips">trips</string>
+    <string name="db_coll_req">requests</string>
 
 </resources>
