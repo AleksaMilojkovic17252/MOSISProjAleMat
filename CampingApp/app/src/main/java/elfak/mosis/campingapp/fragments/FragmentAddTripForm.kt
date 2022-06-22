@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.util.Pair
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -29,6 +30,8 @@ import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -128,6 +131,15 @@ class FragmentAddTripForm : Fragment()
 
         binding.OpenMapButton.setOnClickListener {
             findNavController().navigate(R.id.frAddTripForm_to_frMaps)
+            
+        }
+
+        if (sharedViewModel.latitude.value != null && sharedViewModel.longitude.value != null)
+        {
+            var formater = DecimalFormat("#.##")
+            formater.roundingMode = RoundingMode.DOWN
+            var vrednost = formater.format(sharedViewModel.longitude.value) + " " + formater.format(sharedViewModel.latitude.value)
+            binding.textViewLocation.text =vrednost
         }
 
     }

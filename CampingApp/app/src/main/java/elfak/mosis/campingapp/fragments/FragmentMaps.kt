@@ -38,6 +38,7 @@ class FragmentMaps : Fragment()
 
         var mapa = binding.osmMapView
         binding.buttonConfirmMapPosition.setOnClickListener {
+            //podaci se setuju u onclick eventu
             findNavController().popBackStack()
         }
         mapa.setMultiTouchControls(true)
