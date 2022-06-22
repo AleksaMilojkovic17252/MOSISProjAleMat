@@ -92,7 +92,6 @@ class FragmentAddTripFormBackpack : Fragment()
         }
 
         binding.continueButton.setOnClickListener{
-            // TODO: OVO NE RADI JOS UVEK 
             var tripName = sharedViewModel.tripName.value
             var longitude = sharedViewModel.longitude.value
             var latitude = sharedViewModel.latitude.value
@@ -111,8 +110,23 @@ class FragmentAddTripFormBackpack : Fragment()
 
     private fun createTrip(trip: Trip)
     {
-        // TODO: OVO NE RADI JOS UVEK 
-        Firebase.firestore.collection("trips").add(trip)
+        //Moram da dodam da li lakse nasao stvari
+        var userIDs = ArrayList<String>()
+        for(user in trip.users)
+            userIDs.add(user.ID)
+
+        var zaDodati = hashMapOf(
+            "tripName" to trip.tripName,
+            "startDate" to trip.startDate,
+            "endDate" to trip.endDate,
+            "latitude" to trip.latitude,
+            "longitude" to trip.longitude,
+            "userIDs" to userIDs,
+            "users" to trip.users,
+            "userItems" to trip.UserItems
+        )
+
+        Firebase.firestore.collection("trips").add(zaDodati)
     }
 
 

@@ -59,6 +59,7 @@
     <string name="set_date">Set date</string>
     <string name="confirmLocation">Confirm</string>
     <string name="logout_question">Are you sure you want to logout?</string>
+    <string name="delete_all_trips_question">Are you sure you want to delete all trips?</string>
     <string-array name="Names">
         <item>Marko</item>
         <item>Janko</item>
@@ -69,4 +70,9 @@
         <item>Stolar</item>
         <item>Lekar</item>
     </string-array>
+
+
+    <string name="db_coll_users">users</string>
+    <string name="db_coll_trips">trips</string>
+
 </resources>

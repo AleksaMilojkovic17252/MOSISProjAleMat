@@ -1,6 +1,5 @@
 package elfak.mosis.campingapp.fragments
 
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -9,7 +8,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.os.Environment
@@ -28,15 +26,12 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
 import java.io.*
-import java.util.jar.Manifest
-import kotlin.math.log
 
 
 class FragmentEditProfile : Fragment()
@@ -81,7 +76,7 @@ class FragmentEditProfile : Fragment()
             binding.editTextEditProfileDescription.setText(it["description"]?.toString())
         }
 
-        if (chechInteretConnection())
+        if (checkInternetConnection())
         {
             val fajl = File.createTempFile("profilePic", "jpg")
             Firebase.storage.getReference("profilePics/$id.jpg").getFile(fajl).addOnSuccessListener {
@@ -98,7 +93,7 @@ class FragmentEditProfile : Fragment()
             loadLocalProfilePicture()
     }
 
-    private fun chechInteretConnection() : Boolean
+    private fun checkInternetConnection() : Boolean
     {
         var manager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         return manager.activeNetworkInfo?.isConnectedOrConnecting == true
