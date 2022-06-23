@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -37,6 +38,10 @@ class FragmentHome : Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = "Camping Trips"
+        val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
+        for (i in 0 until navigation.getMenu().size())
+            navigation.getMenu().getItem(i).setChecked(false)
+        navigation.menu.findItem(R.id.nav_home).setChecked(true)
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
 

@@ -111,6 +111,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_home ->
             {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentHome()).addToBackStack(null).commit()
+
             }
             R.id.nav_teammates->
             {
@@ -126,6 +127,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_logout ->
             {
+                val navigation: NavigationView = findViewById(R.id.nav_view)
+                for (i in 0 until navigation.getMenu().size())
+                    navigation.getMenu().getItem(i).setChecked(false)
                 var youSureDialog = AlertDialog.Builder(this)
                 youSureDialog
                     .setMessage(R.string.logout_question)

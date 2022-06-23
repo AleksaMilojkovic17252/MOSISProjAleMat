@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentNotificationBinding
 
@@ -34,6 +35,11 @@ class FragmentNotification : Fragment()
 
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
+
+        val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
+        for (i in 0 until navigation.getMenu().size())
+            navigation.getMenu().getItem(i).setChecked(false)
+        navigation.menu.findItem(R.id.nav_notifications).setChecked(true)
 
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.GONE

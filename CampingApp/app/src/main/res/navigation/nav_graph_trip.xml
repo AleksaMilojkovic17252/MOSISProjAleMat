@@ -1,11 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_trip_graph"
     app:startDestination="@id/fragmentActivities">
 
     <fragment
         android:id="@+id/fragmentActivities"
         android:name="elfak.mosis.campingapp.fragments.FragmentActivities"
-        android:label="FragmentActivities" />
+        android:label="FragmentActivities"
+        tools:layout="@layout/fragment_activities">
+        <action
+            android:id="@+id/action_fragmentActivities_to_fragmentTripTeammates"
+            app:destination="@id/fragmentTripTeammates" />
+        <action
+            android:id="@+id/action_fragmentActivities_to_fragmentMemories"
+            app:destination="@id/fragmentMemories" />
+        <action
+            android:id="@+id/action_fragmentActivities_to_fragmentBackpack"
+            app:destination="@id/fragmentBackpack" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTripTeammates"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammates"
+        android:label="fragment_trip_teammates"
+        tools:layout="@layout/fragment_trip_teammates" >
+        <action
+            android:id="@+id/action_fragmentTripTeammates_to_fragmentMemories"
+            app:destination="@id/fragmentMemories" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates_to_fragmentActivities"
+            app:destination="@id/fragmentActivities" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates_to_fragmentBackpack"
+            app:destination="@id/fragmentBackpack" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMemories"
+        android:name="elfak.mosis.campingapp.fragments.FragmentMemories"
+        android:label="FragmentMemories"
+        tools:layout="@layout/fragment_memories">
+        <action
+            android:id="@+id/action_fragmentMemories_to_fragmentBackpack"
+            app:destination="@id/fragmentBackpack" />
+        <action
+            android:id="@+id/action_fragmentMemories_to_fragmentTripTeammates"
+            app:destination="@id/fragmentTripTeammates" />
+        <action
+            android:id="@+id/action_fragmentMemories_to_fragmentActivities"
+            app:destination="@id/fragmentActivities" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentBackpack"
+        android:name="elfak.mosis.campingapp.fragments.FragmentBackpack"
+        android:label="fragment_backpack"
+        tools:layout="@layout/fragment_backpack" >
+        <action
+            android:id="@+id/action_fragmentBackpack_to_fragmentMemories"
+            app:destination="@id/fragmentMemories" />
+        <action
+            android:id="@+id/action_fragmentBackpack_to_fragmentActivities"
+            app:destination="@id/fragmentActivities" />
+        <action
+            android:id="@+id/action_fragmentBackpack_to_fragmentTripTeammates"
+            app:destination="@id/fragmentTripTeammates" />
+    </fragment>
 </navigation>
