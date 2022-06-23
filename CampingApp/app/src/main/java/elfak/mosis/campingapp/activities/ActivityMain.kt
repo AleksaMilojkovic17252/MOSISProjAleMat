@@ -5,10 +5,12 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +22,11 @@ import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.internal.InternalTokenResult
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
+import elfak.mosis.campingapp.services.ServiceNotifications
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
@@ -81,6 +85,13 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             var intent = Intent(this, ActivityAddFriends::class.java)
             startActivity(intent);
         }
+        
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { 
+            val token = it.result
+            Toast.makeText(this, "$token", Toast.LENGTH_SHORT).show()
+            Log.d("CampingApp", token)
+        }
+
     }
 
 
