@@ -3,6 +3,7 @@ package elfak.mosis.campingapp.activities
 import android.R.id.toggle
 import android.content.DialogInterface
 import android.content.Intent
+import android.media.Image
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -70,6 +71,16 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             finish()
         })
 
+        val notificationButton = findViewById<ImageView>(R.id.notification_toolbar)
+        notificationButton.setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentNotification()).addToBackStack(null).commit()
+        }
+
+        val addTeammateButton = findViewById<ImageView>(R.id.addFriend_toolbar)
+        addTeammateButton.setOnClickListener {
+            var intent = Intent(this, ActivityAddFriends::class.java)
+            startActivity(intent);
+        }
     }
 
 
@@ -96,7 +107,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.nav_notifications ->
             {
-                //supportFragmentManager.beginTransaction().replace(R.id.fragment_container,ProfileFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentNotification()).addToBackStack(null).commit()
             }
             R.id.nav_settings ->
             {

@@ -12,6 +12,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddFriends
 import elfak.mosis.campingapp.databinding.FragmentTeammatesBinding
@@ -45,13 +47,23 @@ class FragmentTeammates : Fragment()
             var intent = Intent(context, ActivityAddFriends::class.java)
             startActivity(intent);
         }
-        binding.textViewIDNumber.text = "#00001"
+
+        if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
+        {
+            var uidLength = Firebase.auth.currentUser!!.uid.length;
+            var stringBuilder = StringBuilder()
+            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(0,3))
+            stringBuilder.append("...")
+            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(uidLength-3, uidLength))
+            binding.textViewIDNumber.text = stringBuilder.toString()
+        }
 
         binding.buttonCopyToClipboard.setOnClickListener {
             var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager ?: null
-            var clip = ClipData.newPlainText("Copied ID", binding.textViewIDNumber.text.toString())
+            var clip = ClipData.newPlainText("Copied ID", Firebase.auth.currentUser!!.uid)
             clipboard?.setPrimaryClip(clip)
             Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
+
         }
     }
 
