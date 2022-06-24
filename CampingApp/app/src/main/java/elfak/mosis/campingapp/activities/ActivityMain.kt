@@ -26,6 +26,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
+import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 import elfak.mosis.campingapp.services.ServiceNotifications
 
 
@@ -89,8 +90,12 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         FirebaseMessaging.getInstance().token.addOnCompleteListener { 
             val token = it.result
             Toast.makeText(this, "$token", Toast.LENGTH_SHORT).show()
-            Log.d("CampingApp", token)
+            //Log.d("CampingApp", token)
         }
+
+
+        val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
+        startService(intent)
 
     }
 
@@ -130,6 +135,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val navigation: NavigationView = findViewById(R.id.nav_view)
                 for (i in 0 until navigation.getMenu().size())
                     navigation.getMenu().getItem(i).setChecked(false)
+
                 var youSureDialog = AlertDialog.Builder(this)
                 youSureDialog
                     .setMessage(R.string.logout_question)

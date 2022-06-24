@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
@@ -27,8 +28,7 @@ class ServiceNotifications : FirebaseMessagingService()
         Firebase.firestore
             .collection("users")
             .document(Firebase.auth.currentUser!!.uid)
-            .update("messToken", token)
-
+            .update("messToken", FieldValue.arrayUnion(token))
     }
 
     override fun onCreate()

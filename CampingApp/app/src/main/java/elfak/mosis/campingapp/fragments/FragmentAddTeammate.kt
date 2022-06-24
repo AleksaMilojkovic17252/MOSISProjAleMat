@@ -44,7 +44,8 @@ class FragmentAddTeammate : Fragment()
                     {
                         var zaDodati = hashMapOf(
                             "from" to Firebase.auth.currentUser!!.uid,
-                            "to" to doc.id
+                            "to" to doc.id,
+                            "processed" to false
                         )
 
                         Firebase.firestore
@@ -61,7 +62,8 @@ class FragmentAddTeammate : Fragment()
         {
             var zaDodati = hashMapOf(
                 "from" to Firebase.auth.currentUser!!.uid,
-                "to" to refFriend
+                "to" to refFriend,
+                "processed" to false
             )
 
             Firebase.firestore
