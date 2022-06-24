@@ -55,6 +55,10 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     R.id.fragmentMemories->{
                         navController.navigate(R.id.action_fragmentMemories_to_fragmentActivities)
                     }
+                    R.id.fragmentTripTeammates2->
+                    {
+                        navController.navigate(R.id.action_fragmentTripTeammates2_to_fragmentActivities)
+                    }
                     else -> {}
                 }
             }
@@ -70,6 +74,10 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     }
                     R.id.fragmentActivities->{
                         navController.navigate(R.id.action_fragmentActivities_to_fragmentMemories)
+                    }
+                    R.id.fragmentTripTeammates2->
+                    {
+                        navController.navigate(R.id.action_fragmentTripTeammates2_to_fragmentMemories)
                     }
                     else -> {}
                 }
@@ -87,6 +95,10 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     R.id.fragmentActivities->{
                         navController.navigate(R.id.action_fragmentActivities_to_fragmentBackpack)
                     }
+                    R.id.fragmentTripTeammates2->
+                    {
+                        navController.navigate(R.id.action_fragmentTripTeammates2_to_fragmentBackpack)
+                    }
                     else -> {}
                 }
             }
@@ -102,6 +114,10 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     }
                     R.id.fragmentActivities->{
                         navController.navigate(R.id.action_fragmentActivities_to_fragmentTripTeammates)
+                    }
+                    R.id.fragmentTripTeammates2->
+                    {
+                        navController.navigate(R.id.action_fragmentTripTeammates2_to_fragmentTripTeammates)
                     }
                     else -> {}
                 }

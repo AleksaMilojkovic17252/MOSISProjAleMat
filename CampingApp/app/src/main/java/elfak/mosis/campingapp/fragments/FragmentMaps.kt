@@ -36,7 +36,7 @@ class FragmentMaps : Fragment()
         Configuration.getInstance().load(context,PreferenceManager.getDefaultSharedPreferences(context!!))
         mapa = binding.osmMapView
 
-        var mapa = binding.osmMapView
+
         binding.buttonConfirmMapPosition.setOnClickListener {
             //podaci se setuju u onclick eventu
             findNavController().popBackStack()

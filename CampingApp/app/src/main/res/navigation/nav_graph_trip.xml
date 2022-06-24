@@ -22,9 +22,9 @@
     </fragment>
     <fragment
         android:id="@+id/fragmentTripTeammates"
-        android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammates"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammatesMap"
         android:label="fragment_trip_teammates"
-        tools:layout="@layout/fragment_trip_teammates" >
+        tools:layout="@layout/fragment_trip_teammates_map" >
         <action
             android:id="@+id/action_fragmentTripTeammates_to_fragmentMemories"
             app:destination="@id/fragmentMemories" />
@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_fragmentTripTeammates_to_fragmentBackpack"
             app:destination="@id/fragmentBackpack" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates_to_fragmentTripTeammates2"
+            app:destination="@id/fragmentTripTeammates2" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMemories"
@@ -63,6 +66,24 @@
             app:destination="@id/fragmentActivities" />
         <action
             android:id="@+id/action_fragmentBackpack_to_fragmentTripTeammates"
+            app:destination="@id/fragmentTripTeammates" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentTripTeammates2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammates"
+        android:label="fragment_trip_teammates"
+        tools:layout="@layout/fragment_trip_teammates" >
+        <action
+            android:id="@+id/action_fragmentTripTeammates2_to_fragmentBackpack"
+            app:destination="@id/fragmentBackpack" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates2_to_fragmentMemories"
+            app:destination="@id/fragmentMemories" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates2_to_fragmentActivities"
+            app:destination="@id/fragmentActivities" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates2_to_fragmentTripTeammates"
             app:destination="@id/fragmentTripTeammates" />
     </fragment>
 </navigation>

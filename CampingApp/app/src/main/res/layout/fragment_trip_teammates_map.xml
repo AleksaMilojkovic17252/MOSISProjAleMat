@@ -2,33 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout15"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.FragmentTripTeammates">
+    tools:context=".fragments.FragmentTripTeammatesMap">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/teammates"
-        android:textColor="@color/black"
         android:textSize="20dp"
+        android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/HomeButtonTrip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
         android:src="@drawable/outline_home_black_36"
+        app:tint="@color/Green700"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/Green700" />
+        android:layout_marginStart="20dp"/>
+
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.07" />
+        app:layout_constraintGuide_percent="0.07"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/relativeLayout"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:text="Map"
             android:textSize="20dp"
-
+            android:textColor="@color/Green"
             android:textStyle="bold"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +67,6 @@
             android:text="@string/Teammates"
             android:textSize="20dp"
             android:textStyle="bold"
-            android:textColor="@color/Green"
             android:layout_alignStart="@+id/teammates_map"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,8 +81,15 @@
             app:layout_constraintGuide_percent="0.50" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <org.osmdroid.views.MapView
+        android:id="@+id/osmMapView"
+        titlesource="Mapnik"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/relativeLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/relativeLayout">
+
+    </org.osmdroid.views.MapView>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
