@@ -119,8 +119,8 @@ class FragmentAddTripForm : Fragment()
                 name = (it["name"].toString())
                 occupation = (it["occupation"].toString())
                 description = (it["description"].toString())
-                sharedViewModel.korisnici.add(User(id,name,occupation,description,""))
-                sharedViewModel.glavniKorisnik.value = User(id,name,occupation,description,"")
+                sharedViewModel.korisnici.add(User(id,name,occupation,description,"",ArrayList()))
+                sharedViewModel.glavniKorisnik.value = User(id,name,occupation,description,"",ArrayList())
             }
 
 

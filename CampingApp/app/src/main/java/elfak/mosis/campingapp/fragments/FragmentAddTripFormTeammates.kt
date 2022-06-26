@@ -46,7 +46,7 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
 
         for(item in s1.indices)
         {
-            var korisnik: User = User("0",s1[item],s2[item],"posao",images[item].toString())
+            var korisnik: User = User("0",s1[item],s2[item],"posao",images[item].toString(),ArrayList())
             korisnici.add(korisnik)
         }
 

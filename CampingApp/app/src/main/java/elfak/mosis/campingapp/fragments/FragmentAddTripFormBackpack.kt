@@ -68,7 +68,7 @@ class FragmentAddTripFormBackpack : Fragment()
                 description = (it["description"].toString())
             }
 
-            sharedViewModel.korisnici.remove(User(id,name,occupation,description,""))
+            sharedViewModel.korisnici.remove(User(id,name,occupation,description,"",ArrayList()))
             findNavController().popBackStack()
         }
 

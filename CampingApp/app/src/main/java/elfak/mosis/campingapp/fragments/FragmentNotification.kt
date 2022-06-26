@@ -11,15 +11,21 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.adapters.AdapterNotifications
+import elfak.mosis.campingapp.classes.Notifications
+import elfak.mosis.campingapp.classes.NotificationsFriend
+import elfak.mosis.campingapp.classes.NotificationsTrip
 import elfak.mosis.campingapp.databinding.FragmentNotificationBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
 class FragmentNotification : Fragment()
 {
     lateinit var binding: FragmentNotificationBinding
+    lateinit var recycler: RecyclerView
     private val shareViewModel : SharedViewHome by activityViewModels()
 
     override fun onCreateView( inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -31,6 +37,15 @@ class FragmentNotification : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
+
+        recycler = binding.recyclerViewNotification
+
+        val notifs: ArrayList<Notifications> = arrayListOf(NotificationsFriend("Pavle","12312321321"), NotificationsTrip("PLANINA SUVA LUDA"), NotificationsFriend("Marko", "12321321213"))
+
+        val NotificationsAdapter: AdapterNotifications = AdapterNotifications(requireContext(),notifs)
+
+        recycler.adapter = NotificationsAdapter
+        recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         var posmatrac = Observer<ArrayList<String>>
         { t ->
             //Log.d("CampingApp", "USO U OBSERVER")
@@ -58,6 +73,7 @@ class FragmentNotification : Fragment()
         navigation.menu.findItem(R.id.nav_notifications).setChecked(true)
 
         buttonFriend.visibility = View.GONE
-        buttonNotification.visibility = View.GONE
+        buttonNotification.visibility = View.VISIBLE
+
     }
 }
