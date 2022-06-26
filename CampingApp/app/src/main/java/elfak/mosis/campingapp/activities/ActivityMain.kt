@@ -1,8 +1,7 @@
 package elfak.mosis.campingapp.activities
 
 import android.R.id.toggle
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.media.Image
 import android.os.Bundle
 import android.util.Log
@@ -11,12 +10,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
@@ -28,12 +29,36 @@ import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 import elfak.mosis.campingapp.services.ServiceNotifications
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
 {
     private lateinit var mDrawer: DrawerLayout
     private lateinit var binding: ActivityMainBinding //fuck mogao sam ovo da koristim lmaaaooooo
+    private val primac: BroadcastReceiver = object : BroadcastReceiver()
+    {
+        override fun onReceive(p0: Context?, p1: Intent?)
+        {
+            p1?.extras?.getString("OdKog")?.let {
+                if(shareViewModel.liveNotifikacije.value == null)
+                {
+                    var tmp = ArrayList<String>()
+                    tmp.add(it)
+                    shareViewModel.liveNotifikacije.value = tmp
+                }
+                else
+                {
+                    shareViewModel.liveNotifikacije.value?.add(it)
+                    shareViewModel.liveNotifikacije.value = shareViewModel.liveNotifikacije.value
+                }
+            }
+            //Log.d("CampingApp", "USO SaM U ONrECEIVE")
+        }
+
+    }
+    private val shareViewModel : SharedViewHome by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -93,10 +118,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //Log.d("CampingApp", token)
         }
 
-
-        val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
-        startService(intent)
-
     }
 
 
@@ -116,7 +137,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_home ->
             {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentHome()).addToBackStack(null).commit()
-
             }
             R.id.nav_teammates->
             {
@@ -158,6 +178,27 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val lockMode = if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         mDrawer.setDrawerLockMode(lockMode)
     }
+
+    override fun onPause()
+    {
+        stopService(Intent(this, ServiceNotificationSpamFirestore::class.java))
+        unregisterReceiver(primac)
+        super.onPause()
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+
+        //Servis za posmatranje notifikacija
+        val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
+        startService(intent)
+
+        //Obrada notifikacija
+        registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));
+    }
+
+
 
 
 }

@@ -9,6 +9,7 @@ import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import elfak.mosis.campingapp.R
 
 class ServiceNotificationSpamFirestore : Service()
 {
@@ -26,11 +27,16 @@ class ServiceNotificationSpamFirestore : Service()
                 while (true)
                 {
                     Firebase.firestore
-                        .collection("requestus")
+                        .collection(getString(R.string.db_coll_req))
                         .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
-                        .whereEqualTo("processed", true)
+                        .whereEqualTo("processed", false)
                         .get().addOnSuccessListener {
-                            Log.d("CampingApp", it.documents.size.toString())
+                            //Log.d("CampingApp", it.documents.size.toString())
+
+                            // TODO: DA SE SALJE PORUKICA LEPA 
+                            var i = Intent(getString(R.string.intent_filter_notif))
+                            //i.putExtra("OdKog", it.documents.size.toString())
+                            sendBroadcast(i)
                         }
                     Thread.sleep(5000)
                 }
@@ -67,7 +73,7 @@ class ServiceNotificationSpamFirestore : Service()
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
         Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
-        Log.d("CampingApp", "AJDEEEE")
+        //Log.d("CampingApp", "AJDEEEE")
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         serviceHandler?.obtainMessage()?.also{ msg ->
