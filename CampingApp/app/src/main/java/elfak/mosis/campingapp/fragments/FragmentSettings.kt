@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.fragments
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -19,6 +20,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentSettingsBinding
+import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 
 class FragmentSettings: Fragment()
 {
@@ -49,9 +51,26 @@ class FragmentSettings: Fragment()
                 .show()
         }
 
+        var korisnickePreference = activity?.getSharedPreferences("CampingApp", 0)
         binding.switchNotifications.setOnClickListener {
-            Toast.makeText(requireContext(), "${binding.switchNotifications.isChecked}", Toast.LENGTH_SHORT).show()
+
+
+            if(binding.switchNotifications.isChecked)
+            {
+                val intent = Intent(requireContext(), ServiceNotificationSpamFirestore::class.java)
+                requireActivity().startService(intent)
+
+                korisnickePreference?.edit()?.putBoolean("notifikacije", true)
+
+            }
+            else
+            {
+                requireActivity().stopService(Intent(requireContext(), ServiceNotificationSpamFirestore::class.java))
+                korisnickePreference?.edit()?.putBoolean("notifikacije", false)
+            }
+            korisnickePreference?.edit()?.commit()
         }
+        binding.switchNotifications.isChecked = korisnickePreference?.getBoolean("notifikacije", false) ?: false
     }
 
     private fun deleteAllTrips()

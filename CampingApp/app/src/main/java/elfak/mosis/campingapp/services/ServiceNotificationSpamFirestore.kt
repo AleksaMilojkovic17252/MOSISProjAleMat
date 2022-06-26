@@ -15,6 +15,7 @@ class ServiceNotificationSpamFirestore : Service()
 {
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
+    private lateinit var nit : Thread
 
     private inner class ServiceHandler(looper: Looper) : Handler(looper)
     {
@@ -24,19 +25,28 @@ class ServiceNotificationSpamFirestore : Service()
             // For our sample, we just sleep for 5 seconds.
             try
             {
+                nit = Thread.currentThread()
                 while (true)
                 {
+
                     Firebase.firestore
                         .collection(getString(R.string.db_coll_req))
                         .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
                         .whereEqualTo("processed", false)
                         .get().addOnSuccessListener {
-                            //Log.d("CampingApp", it.documents.size.toString())
+                            for(doc in it)
+                            {
+                                var i = Intent(getString(R.string.intent_filter_notif))
+                                i.putExtra("OdKog", doc["fromName"] as String)
+                                i.putExtra("OdKogID", doc["from"] as String)
+                                sendBroadcast(i)
 
-                            // TODO: DA SE SALJE PORUKICA LEPA 
-                            var i = Intent(getString(R.string.intent_filter_notif))
-                            //i.putExtra("OdKog", it.documents.size.toString())
-                            sendBroadcast(i)
+                                //Beleska da je obradjena notifikacija
+                                Firebase.firestore
+                                    .collection(getString(R.string.db_coll_req))
+                                    .document(doc.id)
+                                    .update(mapOf("processed" to true))
+                            }
                         }
                     Thread.sleep(5000)
                 }
@@ -44,6 +54,10 @@ class ServiceNotificationSpamFirestore : Service()
             catch (e: InterruptedException)
             {
                 // Restore interrupt status.
+                Thread.currentThread().interrupt()
+            }
+            catch (e: Exception)
+            {
                 Thread.currentThread().interrupt()
             }
 
@@ -94,6 +108,7 @@ class ServiceNotificationSpamFirestore : Service()
     override fun onDestroy()
     {
         Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
+        nit.interrupt()
         super.onDestroy()
     }
 

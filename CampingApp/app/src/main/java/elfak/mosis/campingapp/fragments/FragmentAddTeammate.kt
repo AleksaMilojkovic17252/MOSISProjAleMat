@@ -6,15 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
 class FragmentAddTeammate : Fragment()
 {
     private lateinit var binding: FragmentAddTeammateBinding
+    private val shareViewModel: SharedViewHome by activityViewModels()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentAddTeammateBinding.inflate(layoutInflater)
@@ -45,7 +49,8 @@ class FragmentAddTeammate : Fragment()
                         var zaDodati = hashMapOf(
                             "from" to Firebase.auth.currentUser!!.uid,
                             "to" to doc.id,
-                            "processed" to false
+                            "processed" to false,
+                            "fromName" to shareViewModel.korisnik.value?.Name
                         )
 
                         Firebase.firestore

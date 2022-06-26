@@ -35,6 +35,7 @@ class FragmentLogin : Fragment()
         var auth = Firebase.auth
         var firestore = Firebase.firestore
         var store = Firebase.storage
+        var user = Firebase.auth.currentUser
         if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
             gotoMainActivity()
     }

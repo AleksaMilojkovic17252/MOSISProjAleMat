@@ -21,6 +21,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_weight="1"
+            android:checked="true"
             android:text="@string/notifications"
             android:textSize="20dp" />
 

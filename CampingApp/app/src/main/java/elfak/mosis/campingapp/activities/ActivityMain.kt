@@ -190,9 +190,14 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         super.onResume()
 
-        //Servis za posmatranje notifikacija
-        val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
-        startService(intent)
+        var korisnickePreference = getSharedPreferences("CampingApp", 0)
+
+        if(korisnickePreference?.getBoolean("notifikacije", false) == true)
+        {
+            //Servis za posmatranje notifikacija
+            val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
+            startService(intent)
+        }
 
         //Obrada notifikacija
         registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));
