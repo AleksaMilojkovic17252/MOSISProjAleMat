@@ -40,18 +40,20 @@ class FragmentNotification : Fragment()
 
         recycler = binding.recyclerViewNotification
 
-        val notifs: ArrayList<Notifications> = arrayListOf(NotificationsFriend("Pavle","12312321321"), NotificationsTrip("PLANINA SUVA LUDA"), NotificationsFriend("Marko", "12321321213"))
+        //val notifs: ArrayList<Notifications> = arrayListOf(NotificationsFriend("Pavle","12312321321"), NotificationsTrip("PLANINA SUVA LUDA"), NotificationsFriend("Marko", "12321321213"))
+        val notifs = shareViewModel.liveNotifikacije.value
 
-        val NotificationsAdapter: AdapterNotifications = AdapterNotifications(requireContext(),notifs)
+        val NotificationsAdapter: AdapterNotifications = AdapterNotifications(requireContext(),notifs!!)
 
         recycler.adapter = NotificationsAdapter
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        var posmatrac = Observer<ArrayList<String>>
+        var posmatrac = Observer<ArrayList<Notifications>>
         { t ->
             //Log.d("CampingApp", "USO U OBSERVER")
             //Log.d("CampingApp",t?.reduce{ i, j -> "$i $j" } ?: "Mrk")
             //binding.textView10.text = t?.reduce{ i, j -> "$i $j" }
             // TODO: RECYCLEVIEW JEDAN DA STAVLJA NOTIFIKACIJE
+            NotificationsAdapter.notifyDataSetChanged()
 
         }
         shareViewModel.liveNotifikacije.observe(viewLifecycleOwner,posmatrac)

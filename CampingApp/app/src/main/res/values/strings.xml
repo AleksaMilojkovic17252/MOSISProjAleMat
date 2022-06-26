@@ -75,6 +75,7 @@
     <string name="db_coll_users">users</string>
     <string name="db_coll_trips">trips</string>
     <string name="db_coll_req">requests</string>
+    <string name="db_coll_newTrips">newTrips</string>
 
     <string name="intent_filter_notif">AjdProradi</string>
 

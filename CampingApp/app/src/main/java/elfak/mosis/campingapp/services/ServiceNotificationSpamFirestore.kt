@@ -28,26 +28,10 @@ class ServiceNotificationSpamFirestore : Service()
                 nit = Thread.currentThread()
                 while (true)
                 {
+                    getFriendRequests()
+                    getNewTrips()
 
-                    Firebase.firestore
-                        .collection(getString(R.string.db_coll_req))
-                        .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
-                        .whereEqualTo("processed", false)
-                        .get().addOnSuccessListener {
-                            for(doc in it)
-                            {
-                                var i = Intent(getString(R.string.intent_filter_notif))
-                                i.putExtra("OdKog", doc["fromName"] as String)
-                                i.putExtra("OdKogID", doc["from"] as String)
-                                sendBroadcast(i)
-
-                                //Beleska da je obradjena notifikacija
-                                Firebase.firestore
-                                    .collection(getString(R.string.db_coll_req))
-                                    .document(doc.id)
-                                    .update(mapOf("processed" to true))
-                            }
-                        }
+                    //Malo da pajki
                     Thread.sleep(5000)
                 }
             }
@@ -64,6 +48,52 @@ class ServiceNotificationSpamFirestore : Service()
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
             stopSelf(msg.arg1)
+        }
+
+        private fun getFriendRequests()
+        {
+            Firebase.firestore
+                .collection(getString(R.string.db_coll_req))
+                .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
+                .whereEqualTo("processed", false)
+                .get().addOnSuccessListener {
+                    for(doc in it)
+                    {
+                        var i = Intent(getString(R.string.intent_filter_notif))
+                        i.putExtra("OdKog", doc["fromName"] as String)
+                        i.putExtra("tip", "Request")
+                        i.putExtra("OdKogID", doc["from"] as String)
+                        sendBroadcast(i)
+
+                        //Beleska da je obradjena notifikacija
+                        Firebase.firestore
+                            .collection(getString(R.string.db_coll_req))
+                            .document(doc.id)
+                            .update(mapOf("processed" to true))
+                    }
+                }
+        }
+
+        private fun getNewTrips()
+        {
+            Firebase.firestore
+                .collection(getString(R.string.db_coll_newTrips))
+                .whereEqualTo("userID", Firebase.auth.currentUser!!.uid)
+                .get().addOnSuccessListener {
+                    for (doc in it)
+                    {
+                        Log.d("CampingApp", it.documents.size.toString())
+                        var i = Intent(getString(R.string.intent_filter_notif))
+                        i.putExtra("tip", "Trip")
+                        i.putExtra("trip", doc["tripName"] as String)
+                        sendBroadcast(i)
+
+                        Firebase.firestore
+                            .collection(getString(R.string.db_coll_newTrips))
+                            .document(doc.id)
+                            .delete()
+                    }
+                }
         }
     }
 

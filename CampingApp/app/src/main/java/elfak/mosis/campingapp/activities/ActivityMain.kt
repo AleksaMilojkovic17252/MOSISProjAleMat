@@ -1,8 +1,11 @@
 package elfak.mosis.campingapp.activities
 
 import android.R.id.toggle
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.*
 import android.media.Image
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -15,6 +18,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
@@ -25,39 +30,118 @@ import com.google.firebase.internal.InternalTokenResult
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.Notifications
+import elfak.mosis.campingapp.classes.NotificationsFriend
+import elfak.mosis.campingapp.classes.NotificationsTrip
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 import elfak.mosis.campingapp.services.ServiceNotifications
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
+import kotlin.random.Random
 
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
 {
     private lateinit var mDrawer: DrawerLayout
     private lateinit var binding: ActivityMainBinding //fuck mogao sam ovo da koristim lmaaaooooo
+    private val shareViewModel : SharedViewHome by viewModels()
     private val primac: BroadcastReceiver = object : BroadcastReceiver()
     {
+        private fun dodajUShareViewModel(notif : Notifications)
+        {
+            if(shareViewModel.liveNotifikacije.value == null)
+            {
+                var tmp = ArrayList<Notifications>()
+                tmp.add(notif)
+                shareViewModel.liveNotifikacije.value = tmp
+            }
+            else
+            {
+                shareViewModel.liveNotifikacije.value?.add(notif)
+                shareViewModel.liveNotifikacije.value = shareViewModel.liveNotifikacije.value
+            }
+        }
+
         override fun onReceive(p0: Context?, p1: Intent?)
         {
-            p1?.extras?.getString("OdKog")?.let {
-                if(shareViewModel.liveNotifikacije.value == null)
-                {
-                    var tmp = ArrayList<String>()
-                    tmp.add(it)
-                    shareViewModel.liveNotifikacije.value = tmp
-                }
-                else
-                {
-                    shareViewModel.liveNotifikacije.value?.add(it)
-                    shareViewModel.liveNotifikacije.value = shareViewModel.liveNotifikacije.value
-                }
+            if (p1?.extras?.getString("tip") == "Request")
+            {
+                var koSalje = p1.extras?.getString("OdKog")
+                var koSaljeID = p1.extras?.getString("OdKogID")
+                var notif = NotificationsFriend(koSalje!!, koSaljeID!!)
+                dodajUShareViewModel(notif)
+                pustiPopUp(notif)
+
             }
-            //Log.d("CampingApp", "USO SaM U ONrECEIVE")
+            else if (p1?.extras?.getString("tip") == "Trip")
+            {
+                var kojiTrip = p1.extras?.getString("trip")
+                var notif = NotificationsTrip(kojiTrip!!)
+                dodajUShareViewModel(notif)
+                pustiPopUp(notif)
+            }
         }
 
     }
-    private val shareViewModel : SharedViewHome by viewModels()
+
+    private fun pustiPopUp(notif: Notifications)
+    {
+        var fja =
+        {
+            if (notif is NotificationsTrip)
+                "New Trip"
+            else if(notif is NotificationsFriend)
+                "New teammate request"
+            else
+                "New notification"
+        }
+
+        var fja2 =
+        {
+            if (notif is NotificationsTrip)
+                "You have been invited to a trip " + (notif as NotificationsTrip).data
+            else if (notif is NotificationsFriend)
+                (notif as NotificationsFriend).data + " added you as friend"
+            else
+                "New message"
+        }
+
+        createNotificationChannel()
+
+        var builder = NotificationCompat.Builder(this,"MojeKanalce")
+            .setSmallIcon(R.mipmap.ikonica)
+            .setContentTitle(fja())
+            .setContentText(fja2())
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+
+        with(NotificationManagerCompat.from(this))
+        {
+            // notificationId is a unique int for each notification that you must define
+            notify(Random.nextInt(0, Int.MAX_VALUE), builder.build())
+        }
+    }
+
+    private fun createNotificationChannel()
+    {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val name = "CampingAppChannel"
+            val descriptionText = "NekiOpis"
+            val importance = NotificationManager.IMPORTANCE_DEFAULT
+            val channel = NotificationChannel("MojeKanalce", name, importance).apply {
+                description = descriptionText
+            }
+            // Register the channel with the system
+            val notificationManager: NotificationManager =
+                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?)

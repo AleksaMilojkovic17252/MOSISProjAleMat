@@ -54,21 +54,21 @@ class FragmentSettings: Fragment()
         var korisnickePreference = activity?.getSharedPreferences("CampingApp", 0)
         binding.switchNotifications.setOnClickListener {
 
-
+            var editor = korisnickePreference?.edit()
             if(binding.switchNotifications.isChecked)
             {
                 val intent = Intent(requireContext(), ServiceNotificationSpamFirestore::class.java)
                 requireActivity().startService(intent)
 
-                korisnickePreference?.edit()?.putBoolean("notifikacije", true)
+                editor?.putBoolean("notifikacije", true)
 
             }
             else
             {
                 requireActivity().stopService(Intent(requireContext(), ServiceNotificationSpamFirestore::class.java))
-                korisnickePreference?.edit()?.putBoolean("notifikacije", false)
+                editor?.putBoolean("notifikacije", false)
             }
-            korisnickePreference?.edit()?.commit()
+            editor?.commit()
         }
         binding.switchNotifications.isChecked = korisnickePreference?.getBoolean("notifikacije", false) ?: false
     }
