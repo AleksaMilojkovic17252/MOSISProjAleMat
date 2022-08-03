@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -49,8 +50,7 @@ class FragmentTeammates : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonAddTeammate.setOnClickListener{
-            var intent = Intent(context, ActivityAddFriends::class.java)
-            startActivity(intent);
+            findNavController().navigate(R.id.action_fragmentTeammates_to_fragmentAddTeammate2)
         }
 
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)

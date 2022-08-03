@@ -23,6 +23,8 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
@@ -43,6 +45,8 @@ import kotlin.random.Random
 
 class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, DrawerLocker
 {
+    lateinit var navHostFragment: NavHostFragment
+    lateinit var navController: NavController
     private lateinit var mDrawer: DrawerLayout
     private lateinit var binding: ActivityMainBinding //fuck mogao sam ovo da koristim lmaaaooooo
     private val shareViewModel : SharedViewHome by viewModels()
@@ -156,6 +160,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mDrawer = findViewById(R.id.drawer_layout)
 
+        navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
@@ -167,8 +173,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         if(savedInstanceState == null)
         {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, FragmentHome()).commit()
             navigationView.setCheckedItem(R.id.nav_home)
         }
 
@@ -176,7 +180,21 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val image: ImageView = headerLayout.findViewById(R.id.edit_image)
 
         image.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentEditProfile()).addToBackStack(null).commit()
+            when(navController.currentDestination?.id) {
+                R.id.fragmentSettings->{
+                    navController.navigate(R.id.action_fragmentSettings_to_fragmentEditProfile)
+                }
+                R.id.fragmentHome -> {
+                    navController.navigate(R.id.action_fragmentHome_to_fragmentEditProfile)
+                }
+                R.id.fragmentTeammates -> {
+                    navController.navigate(R.id.action_fragmentTeammates_to_fragmentEditProfile)
+                }
+                R.id.fragmentNotification -> {
+                    navController.navigate(R.id.action_fragmentNotification_to_fragmentEditProfile)
+                }
+
+            }
             mDrawer.closeDrawer(GravityCompat.START)
         }
 
@@ -187,13 +205,26 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val notificationButton = findViewById<ImageView>(R.id.notification_toolbar)
         notificationButton.setOnClickListener {
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentNotification()).addToBackStack(null).commit()
+            when(navController.currentDestination?.id) {
+                R.id.fragmentSettings->{
+                    navController.navigate(R.id.action_fragmentSettings_to_fragmentNotification)
+                }
+                R.id.fragmentHome -> {
+                    navController.navigate(R.id.frHome_to_frNotification)
+                }
+                R.id.fragmentTeammates -> {
+                    navController.navigate(R.id.action_fragmentTeammates_to_fragmentNotification)
+                }
+                R.id.fragmentEditProfile -> {
+                    navController.navigate(R.id.action_fragmentEditProfile_to_fragmentNotification)
+                }
+
+            }
         }
 
         val addTeammateButton = findViewById<ImageView>(R.id.addFriend_toolbar)
         addTeammateButton.setOnClickListener {
-            var intent = Intent(this, ActivityAddFriends::class.java)
-            startActivity(intent);
+            navController.navigate(R.id.action_fragmentTeammates_to_fragmentAddTeammate2)
         }
         
         FirebaseMessaging.getInstance().token.addOnCompleteListener { 
@@ -220,19 +251,87 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         {
             R.id.nav_home ->
             {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentHome()).addToBackStack(null).commit()
+                when(navController.currentDestination?.id)
+                {
+                    R.id.fragmentSettings->{
+                        navController.navigate(R.id.action_fragmentSettings_to_fragmentHome)
+                    }
+                    R.id.fragmentTeammates->
+                    {
+                        navController.navigate(R.id.action_fragmentTeammates_to_fragmentHome)
+                    }
+                    R.id.fragmentNotification->
+                    {
+                        navController.navigate(R.id.action_fragmentNotification_to_fragmentHome)
+                    }
+                    R.id.fragmentEditProfile->
+                    {
+                        navController.navigate(R.id.action_fragmentEditProfile_to_fragmentHome)
+                    }
+                }
             }
             R.id.nav_teammates->
             {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentTeammates()).addToBackStack(null).commit()
+                when(navController.currentDestination?.id)
+                {
+                    R.id.fragmentSettings->{
+                        navController.navigate(R.id.action_fragmentSettings_to_fragmentTeammates)
+                    }
+                    R.id.fragmentHome->
+                    {
+                        navController.navigate(R.id.frHome_to_frTeammates)
+                    }
+                    R.id.fragmentNotification->
+                    {
+                        navController.navigate(R.id.action_fragmentNotification_to_fragmentTeammates)
+                    }
+                    R.id.fragmentEditProfile->
+                    {
+                        navController.navigate(R.id.action_fragmentEditProfile_to_fragmentTeammates)
+                    }
+                }
             }
             R.id.nav_notifications ->
             {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentNotification()).addToBackStack(null).commit()
+                when(navController.currentDestination?.id)
+                {
+                    R.id.fragmentSettings->{
+                        navController.navigate(R.id.action_fragmentSettings_to_fragmentNotification)
+                    }
+                    R.id.fragmentHome->
+                    {
+                        navController.navigate(R.id.frHome_to_frNotification)
+                    }
+                    R.id.fragmentTeammates->
+                    {
+                        navController.navigate(R.id.action_fragmentTeammates_to_fragmentNotification)
+                    }
+                    R.id.fragmentEditProfile->
+                    {
+                        navController.navigate(R.id.action_fragmentEditProfile_to_fragmentNotification)
+                    }
+                }
             }
             R.id.nav_settings ->
             {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,FragmentSettings()).addToBackStack(null).commit()
+                when(navController.currentDestination?.id)
+                {
+                    R.id.fragmentNotification->{
+                        navController.navigate(R.id.action_fragmentNotification_to_fragmentSettings)
+                    }
+                    R.id.fragmentHome->
+                    {
+                        navController.navigate(R.id.action_fragmentHome_to_fragmentSettings)
+                    }
+                    R.id.fragmentTeammates->
+                    {
+                        navController.navigate(R.id.action_fragmentTeammates_to_fragmentSettings)
+                    }
+                    R.id.fragmentEditProfile->
+                    {
+                        navController.navigate(R.id.action_fragmentEditProfile_to_fragmentSettings)
+                    }
+                }
             }
             R.id.nav_logout ->
             {

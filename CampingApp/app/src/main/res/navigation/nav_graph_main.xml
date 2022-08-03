@@ -19,12 +19,28 @@
         <action
             android:id="@+id/frHome_to_frTeammates"
             app:destination="@id/fragmentTeammates" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNotification"
         android:name="elfak.mosis.campingapp.fragments.FragmentNotification"
         android:label="fragment_notification"
-        tools:layout="@layout/fragment_notification" />
+        tools:layout="@layout/fragment_notification" >
+        <action
+            android:id="@+id/action_fragmentNotification_to_fragmentTeammates"
+            app:destination="@id/fragmentTeammates" />
+        <action
+            android:id="@+id/action_fragmentNotification_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentNotification_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
+        <action
+            android:id="@+id/action_fragmentNotification_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentEditProfile"
         android:name="elfak.mosis.campingapp.fragments.FragmentEditProfile"
@@ -33,10 +49,62 @@
         <action
             android:id="@+id/action_fragmentEditProfile_to_fragmentHome"
             app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentEditProfile_to_fragmentNotification"
+            app:destination="@id/fragmentNotification" />
+        <action
+            android:id="@+id/action_fragmentEditProfile_to_fragmentTeammates"
+            app:destination="@id/fragmentTeammates" />
+        <action
+            android:id="@+id/action_fragmentEditProfile_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
     </fragment>
     <fragment
         android:id="@+id/fragmentTeammates"
         android:name="elfak.mosis.campingapp.fragments.FragmentTeammates"
         android:label="fragment_teammates"
-        tools:layout="@layout/fragment_teammates" />
+        tools:layout="@layout/fragment_teammates" >
+        <action
+            android:id="@+id/action_fragmentTeammates_to_fragmentNotification"
+            app:destination="@id/fragmentNotification" />
+        <action
+            android:id="@+id/action_fragmentTeammates_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
+        <action
+            android:id="@+id/action_fragmentTeammates_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentTeammates_to_fragmentSettings"
+            app:destination="@id/fragmentSettings" />
+        <action
+            android:id="@+id/action_fragmentTeammates_to_fragmentAddTeammate2"
+            app:destination="@id/fragmentAddTeammate2" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentSettings"
+        android:name="elfak.mosis.campingapp.fragments.FragmentSettings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentNotification"
+            app:destination="@id/fragmentNotification" />
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentEditProfile"
+            app:destination="@id/fragmentEditProfile" />
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentTeammates"
+            app:destination="@id/fragmentTeammates" />
+        <action
+            android:id="@+id/action_fragmentSettings_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAddTeammate2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTeammate"
+        android:label="fragment_add_teammate"
+        tools:layout="@layout/fragment_add_teammate" >
+        <action
+            android:id="@+id/action_fragmentAddTeammate2_to_fragmentTeammates"
+            app:destination="@id/fragmentTeammates" />
+    </fragment>
 </navigation>

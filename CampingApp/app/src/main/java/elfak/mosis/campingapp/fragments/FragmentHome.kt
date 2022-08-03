@@ -61,10 +61,12 @@ class FragmentHome : Fragment()
             name = (it["name"].toString())
             occupation = (it["occupation"].toString())
             description = (it["description"].toString())
+            var korisnik:User = User(id,name,occupation,description,"",ArrayList())
+            sharedViewModel.korisnik.value = korisnik
         }
 
-        var korisnik:User = User(id,name,occupation,description,"",ArrayList())
-        sharedViewModel.korisnik.value = korisnik
+        //var korisnik:User = User(id,name,occupation,description,"",ArrayList())
+        //sharedViewModel.korisnik.value = korisnik
         return binding.root
     }
 
