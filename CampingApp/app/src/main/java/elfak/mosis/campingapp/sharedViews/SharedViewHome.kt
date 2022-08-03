@@ -10,5 +10,6 @@ class SharedViewHome : ViewModel()
     var korisnik: MutableLiveData<User> = MutableLiveData()
     var notifikacije: MutableList<String> = mutableListOf()
     val liveNotifikacije: MutableLiveData<ArrayList<Notifications>> by lazy { MutableLiveData<ArrayList<Notifications>>(ArrayList()) }
+    val friendDetails: MutableLiveData<User> = MutableLiveData()
 
 }

@@ -30,6 +30,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
 import java.io.*
 
@@ -46,6 +47,7 @@ class FragmentEditProfile : Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
+        (activity as DrawerLocker?)!!.setDrawerEnabled(true)
 
         for (i in 0 until navigation.getMenu().size())
             navigation.getMenu().getItem(i).setChecked(false)

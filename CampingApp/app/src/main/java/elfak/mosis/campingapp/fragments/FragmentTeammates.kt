@@ -12,17 +12,25 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddFriends
+import elfak.mosis.campingapp.activities.DrawerLocker
+import elfak.mosis.campingapp.adapters.AdapterAllTeammates
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentTeammatesBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
-class FragmentTeammates : Fragment()
+class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
 {
     private lateinit var binding: FragmentTeammatesBinding
+    lateinit var recycler: RecyclerView
+    private val shareViewModel: SharedViewHome by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -35,6 +43,7 @@ class FragmentTeammates : Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = "Teammates"
+        (activity as DrawerLocker?)!!.setDrawerEnabled(true)
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
         val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
@@ -49,10 +58,6 @@ class FragmentTeammates : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
-        binding.buttonAddTeammate.setOnClickListener{
-            findNavController().navigate(R.id.action_fragmentTeammates_to_fragmentAddTeammate2)
-        }
-
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
         {
             var uidLength = Firebase.auth.currentUser!!.uid.length;
@@ -63,6 +68,10 @@ class FragmentTeammates : Fragment()
             binding.textViewIDNumber.text = stringBuilder.toString()
         }
 
+        recycler = binding.allTeammatesView
+
+        val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
+
         binding.buttonCopyToClipboard.setOnClickListener {
             var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager ?: null
             var clip = ClipData.newPlainText("Copied ID", Firebase.auth.currentUser!!.uid)
@@ -70,6 +79,11 @@ class FragmentTeammates : Fragment()
             Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
 
         }
+    }
+
+    override fun pomeraj(position: User) {
+        shareViewModel.friendDetails.value = position
+        //findNavController().navigate()
     }
 
 }

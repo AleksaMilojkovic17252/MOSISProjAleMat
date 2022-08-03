@@ -48,6 +48,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var navHostFragment: NavHostFragment
     lateinit var navController: NavController
     private lateinit var mDrawer: DrawerLayout
+    private lateinit var toggle: ActionBarDrawerToggle
     private lateinit var binding: ActivityMainBinding //fuck mogao sam ovo da koristim lmaaaooooo
     private val shareViewModel : SharedViewHome by viewModels()
     private val primac: BroadcastReceiver = object : BroadcastReceiver()
@@ -165,7 +166,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        val toggle: ActionBarDrawerToggle =  ActionBarDrawerToggle(this,mDrawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
+        toggle =  ActionBarDrawerToggle(this,mDrawer,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close)
 
         mDrawer.addDrawerListener(toggle)
 
@@ -360,6 +361,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         val lockMode = if (enabled) DrawerLayout.LOCK_MODE_UNLOCKED else DrawerLayout.LOCK_MODE_LOCKED_CLOSED
         mDrawer.setDrawerLockMode(lockMode)
+        toggle.setDrawerIndicatorEnabled(enabled);
+
+
     }
 
     override fun onPause()

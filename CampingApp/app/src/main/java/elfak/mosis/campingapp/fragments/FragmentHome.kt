@@ -21,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
@@ -38,6 +39,7 @@ class FragmentHome : Fragment()
         super.onResume()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = "Camping Trips"
+        (activity as DrawerLocker?)!!.setDrawerEnabled(true)
         val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
         for (i in 0 until navigation.getMenu().size())
             navigation.getMenu().getItem(i).setChecked(false)

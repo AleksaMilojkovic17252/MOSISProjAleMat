@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.adapters.AdapterNotifications
 import elfak.mosis.campingapp.classes.Notifications
 import elfak.mosis.campingapp.classes.NotificationsFriend
@@ -65,6 +66,7 @@ class FragmentNotification : Fragment()
 
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = getString(R.string.notification_fragment_title)
+        (activity as DrawerLocker?)!!.setDrawerEnabled(true)
 
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
