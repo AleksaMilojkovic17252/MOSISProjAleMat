@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.adapters
 
 import android.content.Context
+import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.Notifications
 import elfak.mosis.campingapp.classes.NotificationsFriend
@@ -31,6 +36,32 @@ class AdapterNotifications (val ct: Context, val notifications: ArrayList<Notifi
                 //TODO:DODAJ PRIJATELJA
                 Toast.makeText(ct,"Friend Accepted",Toast.LENGTH_SHORT)
                 Log.d("Accepted","Kliknuto")
+
+                Firebase.firestore
+                    .collection("users")
+                    .document(Firebase.auth.currentUser!!.uid)
+                    .update("friends", FieldValue.arrayUnion(friend.ID))
+
+                Firebase.firestore
+                    .collection("users")
+                    .document(friend.ID)
+                    .update("friends", FieldValue.arrayUnion(Firebase.auth.currentUser!!.uid))
+
+                Firebase.firestore
+                    .collection("requests")
+                    .whereEqualTo("from", friend.ID)
+                    .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
+                    .whereEqualTo("processed",true)
+                    .get()
+                    .addOnSuccessListener {
+                        for (doc in it)
+                        {
+                            Firebase.firestore
+                                .collection("requests")
+                                .document(doc.id)
+                                .delete()
+                        }
+                    }
             }
             decline.setOnClickListener {
                 //TODO:ODBACI PRIJATELJA

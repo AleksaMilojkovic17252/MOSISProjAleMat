@@ -31,7 +31,7 @@
         android:autoText="false"
         android:background="@drawable/et_style"
         android:ems="10"
-        android:hint="example@mail.com"
+        android:hint="example@email.com"
         android:inputType="textEmailAddress"
         android:paddingStart="20dp"
         android:paddingEnd="10dp"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:text="@string/ID"
+        android:text="@string/email_input"
         app:layout_constraintStart_toStartOf="@id/editTextFriendID"
         app:layout_constraintTop_toTopOf="@id/guideline8" />
 
