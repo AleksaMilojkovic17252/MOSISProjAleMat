@@ -24,6 +24,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -80,16 +81,11 @@ class FragmentEditProfile : Fragment()
 
         if (checkInternetConnection())
         {
-            val fajl = File.createTempFile("profilePic", "jpg")
-            Firebase.storage.getReference("profilePics/$id.jpg").getFile(fajl).addOnSuccessListener {
-                if (it.bytesTransferred == 0L)
-                    loadLocalProfilePicture()
-                else
-                {
-                    binding.profileImage.setImageBitmap(BitmapFactory.decodeStream(FileInputStream(fajl)))
-                    binding.profileImagePlaceholder.isVisible = false
-                }
+            Firebase.storage.getReference("profilePics/$id.jpg").downloadUrl.addOnSuccessListener { uri->
+                Glide.with(requireContext()).load(uri).into(binding.profileImage)
+                binding.profileImagePlaceholder.isVisible = false
             }
+
         }
         else
             loadLocalProfilePicture()

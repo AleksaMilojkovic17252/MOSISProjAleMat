@@ -14,9 +14,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddFriends
@@ -57,6 +62,37 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
+        var drugovi = ArrayList<User>()
+        var listaTaskovaSakupljanjaPodatakaKorsinika = ArrayList<Task<DocumentSnapshot>>()
+        for (drug in shareViewModel.korisnik.value!!.Drugari)
+        {
+            var tmp = Firebase.firestore
+                .collection("users")
+                .document(drug.ID)
+                .get()
+            tmp.addOnSuccessListener {
+                var tmpUser = User(it.id,
+                    it["name"].toString(),
+                    it["occupation"].toString(),
+                    it["description"].toString(),
+                    it.id,
+                    ArrayList<User>())
+                drugovi.add(tmpUser)
+            }
+            listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
+        }
+
+        Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
+            shareViewModel.korisnik.value!!.Drugari = drugovi
+            val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
+            recycler = binding.allTeammatesView
+            recycler.adapter = FriendAdapter
+            recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        }
+
+
+
+
         super.onViewCreated(view, savedInstanceState)
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
         {
@@ -68,9 +104,6 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
             binding.textViewIDNumber.text = stringBuilder.toString()
         }
 
-        recycler = binding.allTeammatesView
-
-        val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
 
         binding.buttonCopyToClipboard.setOnClickListener {
             var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager ?: null

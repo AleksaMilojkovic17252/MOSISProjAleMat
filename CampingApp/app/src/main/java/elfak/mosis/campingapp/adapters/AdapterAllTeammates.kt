@@ -8,6 +8,8 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.User
 
@@ -34,7 +36,12 @@ class AdapterAllTeammates(val ct: Context, val users: ArrayList<User>?, val list
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.ime.text = users?.get(position)?.Name
         holder.posao.text = users?.get(position)?.Occupation
-        Glide.with(ct).load(users?.get(position)?.Slika).into(holder.slika)
+
+        var userID = users?.get(position)?.ID
+
+        Firebase.storage.getReference("profilePics/$userID.jpg").downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(ct).load(uri).into(holder.slika)
+        }
 
         holder.mainLayout.setOnClickListener{
             users?.get(position)?.let { it1 -> listener.pomeraj(it1) }

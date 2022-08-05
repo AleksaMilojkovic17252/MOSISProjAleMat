@@ -98,7 +98,8 @@ class FragmentRegister : Fragment()
             {
                 var korisnik = hashMapOf(
                     "email" to email,
-                    "name" to name)
+                    "name" to name,
+                    "friends" to emptyArray<String>())
 
                 if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
                     Firebase.firestore

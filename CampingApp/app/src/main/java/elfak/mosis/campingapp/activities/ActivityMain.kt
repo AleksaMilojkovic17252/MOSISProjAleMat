@@ -25,16 +25,21 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.bumptech.glide.Glide
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.internal.InternalTokenResult
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.Notifications
 import elfak.mosis.campingapp.classes.NotificationsFriend
 import elfak.mosis.campingapp.classes.NotificationsTrip
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
@@ -147,7 +152,33 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
 
+    fun loadData(id:String)
+    {
+        var name: String = ""
+        var occupation: String = ""
+        var description: String = ""
+        var drugovi:ArrayList<User> = ArrayList()
 
+        var pribavljanjePodataka = Firebase.firestore.collection("users").document(id).get()
+
+        pribavljanjePodataka.addOnSuccessListener {
+            name = (it["name"].toString())
+            occupation = (it["occupation"].toString())
+            description = (it["description"].toString())
+            var prijatelji = it["friends"] as ArrayList<String>
+            for(drug in prijatelji)
+            {
+                drugovi.add(User(drug))
+            }
+        }
+
+        Tasks.whenAll(pribavljanjePodataka).addOnSuccessListener {
+            var korisnik = User(id,name,occupation,description,id,drugovi)
+            shareViewModel.korisnik.value = korisnik
+            var ramZaIme = findViewById<NavigationView>(R.id.nav_view).getHeaderView(0).findViewById<TextView>(R.id.NamePlaceHolder)
+            ramZaIme.text = shareViewModel.korisnik.value?.Name
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -170,6 +201,13 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mDrawer.addDrawerListener(toggle)
 
+        var userID = Firebase.auth.currentUser!!.uid
+        loadData(userID)
+        
+        Firebase.storage.getReference("profilePics/$userID.jpg").downloadUrl.addOnSuccessListener { uri ->
+            var ramZaSliku = findViewById<ImageView>(R.id.slika)
+            Glide.with(this).load(uri).into(ramZaSliku)
+        }
 
         toggle.syncState()
         if(savedInstanceState == null)
@@ -388,6 +426,10 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         //Obrada notifikacija
         registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));
+
+
+
+
     }
 
 

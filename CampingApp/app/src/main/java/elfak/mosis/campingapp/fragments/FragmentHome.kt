@@ -14,10 +14,12 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -55,20 +57,30 @@ class FragmentHome : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-        var id = Firebase.auth.currentUser!!.uid
-        var name: String = ""
-        var occupation: String = ""
-        var description: String = ""
-        Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
-            name = (it["name"].toString())
-            occupation = (it["occupation"].toString())
-            description = (it["description"].toString())
-            var korisnik:User = User(id,name,occupation,description,"",ArrayList())
-            sharedViewModel.korisnik.value = korisnik
-        }
-
-        //var korisnik:User = User(id,name,occupation,description,"",ArrayList())
-        //sharedViewModel.korisnik.value = korisnik
+//        var id = Firebase.auth.currentUser!!.uid
+//        var name: String = ""
+//        var occupation: String = ""
+//        var description: String = ""
+//        var drugovi:ArrayList<User> = ArrayList()
+//
+//
+//        var pribavljanjePodataka = Firebase.firestore.collection("users").document(id).get()
+//
+//        pribavljanjePodataka.addOnSuccessListener {
+//            name = (it["name"].toString())
+//            occupation = (it["occupation"].toString())
+//            description = (it["description"].toString())
+//            var prijatelji = it["friends"] as ArrayList<String>
+//            for(drug in prijatelji)
+//            {
+//                drugovi.add(User(drug))
+//            }
+//        }
+//
+//        Tasks.whenAll(pribavljanjePodataka).addOnSuccessListener {
+//            var korisnik = User(id,name,occupation,description,id,drugovi)
+//            sharedViewModel.korisnik.value = korisnik
+//        }
         return binding.root
     }
 
