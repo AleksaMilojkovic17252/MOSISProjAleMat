@@ -32,42 +32,7 @@ class AdapterNotifications (val ct: Context, val notifications: ArrayList<Notifi
         fun bind(friend: NotificationsFriend)
         {
             ime.text = friend.data
-            accept.setOnClickListener {
-                //TODO:DODAJ PRIJATELJA
-                Toast.makeText(ct,"Friend Accepted",Toast.LENGTH_SHORT)
-                Log.d("Accepted","Kliknuto")
 
-                Firebase.firestore
-                    .collection("users")
-                    .document(Firebase.auth.currentUser!!.uid)
-                    .update("friends", FieldValue.arrayUnion(friend.ID))
-
-                Firebase.firestore
-                    .collection("users")
-                    .document(friend.ID)
-                    .update("friends", FieldValue.arrayUnion(Firebase.auth.currentUser!!.uid))
-
-                Firebase.firestore
-                    .collection("requests")
-                    .whereEqualTo("from", friend.ID)
-                    .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
-                    .whereEqualTo("processed",true)
-                    .get()
-                    .addOnSuccessListener {
-                        for (doc in it)
-                        {
-                            Firebase.firestore
-                                .collection("requests")
-                                .document(doc.id)
-                                .delete()
-                        }
-                    }
-            }
-            decline.setOnClickListener {
-                //TODO:ODBACI PRIJATELJA
-                Toast.makeText(ct,"Friend Declined",Toast.LENGTH_SHORT)
-                Log.d("Decline","Kliknuto")
-            }
         }
 
     }
@@ -115,12 +80,55 @@ class AdapterNotifications (val ct: Context, val notifications: ArrayList<Notifi
         if(holder is FriendViewHolder)
         {
             (holder as FriendViewHolder).bind(notif as NotificationsFriend)
+            holder.accept.setOnClickListener {
+                //TODO:DODAJ PRIJATELJA
+                Toast.makeText(ct,"Friend Accepted",Toast.LENGTH_SHORT)
+                Log.d("Accepted","Kliknuto")
+
+                Firebase.firestore
+                    .collection("users")
+                    .document(Firebase.auth.currentUser!!.uid)
+                    .update("friends", FieldValue.arrayUnion(notif.ID))
+
+                Firebase.firestore
+                    .collection("users")
+                    .document(notif.ID)
+                    .update("friends", FieldValue.arrayUnion(Firebase.auth.currentUser!!.uid))
+
+                Firebase.firestore
+                    .collection("requests")
+                    .whereEqualTo("from", notif.ID)
+                    .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
+                    .whereEqualTo("processed",true)
+                    .get()
+                    .addOnSuccessListener {
+                        for (doc in it)
+                        {
+                            Firebase.firestore
+                                .collection("requests")
+                                .document(doc.id)
+                                .delete()
+                        }
+                        notifications.removeAt(position)
+                        notifyItemRemoved(position)
+                        notifyItemRangeChanged(position,notifications.count())
+                    }
+            }
+            holder.decline.setOnClickListener {
+                //TODO:ODBACI PRIJATELJA
+                Toast.makeText(ct,"Friend Declined",Toast.LENGTH_SHORT)
+                Log.d("Decline","Kliknuto")
+                notifications.removeAt(position)
+                notifyItemRemoved(position)
+                notifyItemRangeChanged(position,notifications.count())
+            }
         }
         else
         {
             (holder as TripViewHolder).bind(notif as NotificationsTrip)
         }
     }
+
 
     override fun getItemCount(): Int {
         return notifications.count()
