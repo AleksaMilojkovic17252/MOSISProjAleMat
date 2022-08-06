@@ -118,9 +118,24 @@ class AdapterNotifications (val ct: Context, val notifications: ArrayList<Notifi
                 //TODO:ODBACI PRIJATELJA
                 Toast.makeText(ct,"Friend Declined",Toast.LENGTH_SHORT)
                 Log.d("Decline","Kliknuto")
-                notifications.removeAt(position)
-                notifyItemRemoved(position)
-                notifyItemRangeChanged(position,notifications.count())
+                Firebase.firestore
+                    .collection("requests")
+                    .whereEqualTo("from", notif.ID)
+                    .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
+                    .whereEqualTo("processed",true)
+                    .get()
+                    .addOnSuccessListener {
+                        for (doc in it)
+                        {
+                            Firebase.firestore
+                                .collection("requests")
+                                .document(doc.id)
+                                .delete()
+                        }
+                        notifications.removeAt(position)
+                        notifyItemRemoved(position)
+                        notifyItemRangeChanged(position,notifications.count())
+                    }
             }
         }
         else

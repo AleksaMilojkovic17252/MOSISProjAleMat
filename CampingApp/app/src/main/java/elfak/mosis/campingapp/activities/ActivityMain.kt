@@ -3,6 +3,7 @@ package elfak.mosis.campingapp.activities
 import android.R.id.toggle
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.Service
 import android.content.*
 import android.media.Image
 import android.os.Build
@@ -44,6 +45,7 @@ import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 import elfak.mosis.campingapp.services.ServiceNotifications
+import elfak.mosis.campingapp.services.ServiceSendLocation
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import kotlin.random.Random
 
@@ -203,11 +205,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         var userID = Firebase.auth.currentUser!!.uid
         loadData(userID)
-        
-        Firebase.storage.getReference("profilePics/$userID.jpg").downloadUrl.addOnSuccessListener { uri ->
-            var ramZaSliku = findViewById<ImageView>(R.id.slika)
-            Glide.with(this).load(uri).into(ramZaSliku)
-        }
+
+
 
         toggle.syncState()
         if(savedInstanceState == null)
@@ -217,6 +216,11 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val headerLayout: View = navigationView.getHeaderView(0)
         val image: ImageView = headerLayout.findViewById(R.id.edit_image)
+
+        Firebase.storage.getReference("profilePics/$userID.jpg").downloadUrl.addOnSuccessListener { uri ->
+            var ramZaSliku = headerLayout.findViewById<ImageView>(R.id.slika)
+            Glide.with(this).load(uri).into(ramZaSliku)
+        }
 
         image.setOnClickListener {
             when(navController.currentDestination?.id) {
@@ -407,6 +411,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onPause()
     {
         stopService(Intent(this, ServiceNotificationSpamFirestore::class.java))
+        stopService(Intent(this, ServiceSendLocation::class.java))
         unregisterReceiver(primac)
         super.onPause()
     }
@@ -423,6 +428,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
             startService(intent)
         }
+
+        var i = Intent(this, ServiceSendLocation::class.java)
+        startService(i)
 
         //Obrada notifikacija
         registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));

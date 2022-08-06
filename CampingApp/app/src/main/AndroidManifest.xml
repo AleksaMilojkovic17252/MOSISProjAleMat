@@ -28,6 +28,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
         <service
+            android:name=".services.ServiceSendLocation"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
             android:name=".services.ServiceNotificationSpamFirestore"
             android:enabled="true"
             android:exported="true" />
