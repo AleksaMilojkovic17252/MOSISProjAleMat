@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.util.Log
 import android.view.LayoutInflater
@@ -113,6 +114,11 @@ class AdapterNotifications (val ct: Context, val notifications: ArrayList<Notifi
                         notifyItemRemoved(position)
                         notifyItemRangeChanged(position,notifications.count())
                     }
+
+                var intent = Intent("AjdProradi")
+                intent.putExtra("prijatelj", notif.ID)
+                intent.putExtra("tip", "NoviPrijatelj")
+                ct.sendBroadcast(intent)
             }
             holder.decline.setOnClickListener {
                 //TODO:ODBACI PRIJATELJA

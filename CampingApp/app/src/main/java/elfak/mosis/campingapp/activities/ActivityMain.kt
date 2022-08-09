@@ -93,8 +93,30 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 dodajUShareViewModel(notif)
                 pustiPopUp(notif)
             }
-        }
+            else if(p1?.extras?.getString("tip") == "NoviPrijatelj")
+            {
+                var prijateljID: String? = p1?.extras?.getString("prijatelj") ?: return
 
+                var tmp = Firebase.firestore
+                    .collection("users")
+                    .document(prijateljID!!)
+                    .get().addOnSuccessListener {
+                        var tmpUser = User(it.id,
+                            it["name"].toString(),
+                            it["occupation"].toString(),
+                            it["description"].toString(),
+                            it.id,
+                            ArrayList<User>())
+
+                        if(shareViewModel.korisnik.value?.Drugari == null)
+                            shareViewModel.korisnik.value?.Drugari = ArrayList()
+
+                        shareViewModel.korisnik.value?.Drugari!!.add(tmpUser)
+
+
+                }
+            }
+        }
     }
 
     private fun pustiPopUp(notif: Notifications)
