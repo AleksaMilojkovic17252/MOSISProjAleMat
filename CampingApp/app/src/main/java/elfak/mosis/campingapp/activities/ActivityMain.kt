@@ -203,6 +203,7 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mDrawer.addDrawerListener(toggle)
 
+        var user = Firebase.auth.currentUser
         var userID = Firebase.auth.currentUser!!.uid
         loadData(userID)
 
@@ -270,11 +271,11 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             navController.navigate(R.id.action_fragmentTeammates_to_fragmentAddTeammate2)
         }
         
-        FirebaseMessaging.getInstance().token.addOnCompleteListener { 
-            val token = it.result
-            Toast.makeText(this, "$token", Toast.LENGTH_SHORT).show()
-            //Log.d("CampingApp", token)
-        }
+//        FirebaseMessaging.getInstance().token.addOnCompleteListener {
+//            val token = it.result
+//            Toast.makeText(this, "$token", Toast.LENGTH_SHORT).show()
+//            //Log.d("CampingApp", token)
+//        }
 
     }
 

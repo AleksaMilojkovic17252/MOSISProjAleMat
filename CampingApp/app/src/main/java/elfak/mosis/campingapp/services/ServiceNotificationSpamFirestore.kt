@@ -17,6 +17,7 @@ class ServiceNotificationSpamFirestore : Service()
     private var serviceHandler: ServiceHandler? = null
     private lateinit var nit : Thread
 
+
     private inner class ServiceHandler(looper: Looper) : Handler(looper)
     {
         override fun handleMessage(msg: Message)
@@ -116,7 +117,7 @@ class ServiceNotificationSpamFirestore : Service()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "ServiceFirebase starting", Toast.LENGTH_SHORT).show()
         //Log.d("CampingApp", "AJDEEEE")
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
@@ -137,7 +138,7 @@ class ServiceNotificationSpamFirestore : Service()
 
     override fun onDestroy()
     {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "ServiceFirebase done", Toast.LENGTH_SHORT).show()
         nit.interrupt()
         super.onDestroy()
     }

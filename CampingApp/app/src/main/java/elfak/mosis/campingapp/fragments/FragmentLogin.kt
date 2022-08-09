@@ -26,18 +26,23 @@ class FragmentLogin : Fragment()
     private lateinit var binding: FragmentLoginBinding
     private var emailEntered = false
     private var passEntered = false
-    //private lateinit var auth: FirebaseAuth
+    private lateinit var auth: FirebaseAuth
     //private lateinit var firestore: FirebaseFirestore
+    private var authStateListener: FirebaseAuth.AuthStateListener =
+        FirebaseAuth.AuthStateListener { p0 ->
+            if (p0.currentUser != null && p0.currentUser!!.isEmailVerified )
+                gotoMainActivity()
+        }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
-        var auth = Firebase.auth
+        auth = Firebase.auth
         var firestore = Firebase.firestore
         var store = Firebase.storage
         var user = Firebase.auth.currentUser
-        if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
-            gotoMainActivity()
+        //if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
+            //gotoMainActivity()
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
@@ -125,5 +130,9 @@ class FragmentLogin : Fragment()
         startActivity(i)
     }
 
-
+    override fun onStart()
+    {
+        super.onStart()
+        auth.addAuthStateListener(authStateListener)
+    }
 }
