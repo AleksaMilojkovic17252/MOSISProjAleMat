@@ -70,7 +70,7 @@ class FragmentTripTeammatesMap : Fragment()
 
     private fun setMyLocationOverlay(){
         mapa.controller.setZoom(15)
-        mapa.controller.setCenter(GeoPoint(44.0333, 20.8))
+        //mapa.controller.setCenter(GeoPoint(44.0333, 20.8))
         myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(activity),mapa)
         myLocationOverlay.enableMyLocation()
         mapa.overlays.add(myLocationOverlay)
@@ -78,6 +78,7 @@ class FragmentTripTeammatesMap : Fragment()
         if(mapController != null)
         {
             myLocationOverlay.enableFollowLocation()
+            mapController.setCenter(myLocationOverlay.myLocation)
         }
 
     }
@@ -86,6 +87,7 @@ class FragmentTripTeammatesMap : Fragment()
         isGranted:Boolean->
         if(isGranted){
             setMyLocationOverlay()
+
 
         }
     }

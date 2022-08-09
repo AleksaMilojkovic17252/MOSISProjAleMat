@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
@@ -52,6 +53,7 @@ class FragmentHome : Fragment()
 
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.VISIBLE
+        (activity as DrawerLocker?)!!.setDrawerEnabled(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -88,8 +90,7 @@ class FragmentHome : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
         binding.floatingActionButton.setOnClickListener {
-            var i = Intent(context, ActivityAddTrip::class.java)
-            startActivity(i)
+            findNavController().navigate(R.id.action_fragmentHome_to_fragmentAddTripForm2)
         }
 
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)

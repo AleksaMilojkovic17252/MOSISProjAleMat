@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
@@ -35,6 +36,13 @@ class FragmentAddTeammate : Fragment()
         val title: TextView = requireActivity().findViewById(R.id.toolbar_title)
         title.text = getString(R.string.add_teammate_title)
         (activity as DrawerLocker?)!!.setDrawerEnabled(false)
+
+        val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
+        val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
+
+
+        buttonFriend.visibility = View.GONE
+        buttonNotification.visibility = View.GONE
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)

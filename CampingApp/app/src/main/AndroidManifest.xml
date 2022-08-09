@@ -56,7 +56,8 @@
             android:exported="true" />
         <activity
             android:name=".activities.ActivityMain"
-            android:exported="true" />
+            android:exported="true"
+            android:theme="@style/Pls.work"/>
         <activity
             android:name=".activities.ActivityLogin"
             android:exported="true">

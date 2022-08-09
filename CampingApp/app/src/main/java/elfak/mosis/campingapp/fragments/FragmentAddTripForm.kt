@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.core.util.Pair
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
@@ -25,6 +26,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.type.Date
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
@@ -44,6 +46,12 @@ class FragmentAddTripForm : Fragment()
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)// BRISI OVO TEK KADA SE POVLACE DRUGARI
     val sharedViewModel: SharedViewTripForm by activityViewModels()
 
+    override fun onResume() {
+        super.onResume()
+        val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
+        toolbar.visibility = View.GONE
+        (activity as DrawerLocker?)!!.setDrawerEnabled(false)
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentAddTripFormBinding.inflate(layoutInflater)
@@ -102,12 +110,11 @@ class FragmentAddTripForm : Fragment()
 
         binding.imageBackButton.setOnClickListener{
 
-            var i = Intent(context, ActivityMain::class.java)
-            startActivity(i)
+            findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentHome)
         }
 
         binding.OpenTeammatesButton.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormTeammates)
+            findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentAddTripFormTeammates2)
         }
 
         binding.continueButton.setOnClickListener {
@@ -124,13 +131,13 @@ class FragmentAddTripForm : Fragment()
             }
 
 
-            findNavController().navigate(R.id.action_fragmentAddTripForm_to_fragmentAddTripFormBackpack)
+            findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentAddTripFormBackpack2)
 
         }
 
 
         binding.OpenMapButton.setOnClickListener {
-            findNavController().navigate(R.id.frAddTripForm_to_frMaps)
+            findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentMaps2)
             
         }
 
@@ -142,6 +149,12 @@ class FragmentAddTripForm : Fragment()
             binding.textViewLocation.text =vrednost
         }
 
+    }
+
+    override fun onPause() {
+        val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
+        toolbar.visibility = View.VISIBLE
+        super.onPause()
     }
 
 }

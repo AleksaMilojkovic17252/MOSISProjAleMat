@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_fragmentHome_to_fragmentSettings"
             app:destination="@id/fragmentSettings" />
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentAddTripForm2"
+            app:destination="@id/fragmentAddTripForm2" />
     </fragment>
     <fragment
         android:id="@+id/fragmentNotification"
@@ -107,4 +110,37 @@
             android:id="@+id/action_fragmentAddTeammate2_to_fragmentTeammates"
             app:destination="@id/fragmentTeammates" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentAddTripForm2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripForm"
+        android:label="fragment_add_trip_form"
+        tools:layout="@layout/fragment_add_trip_form" >
+        <action
+            android:id="@+id/action_fragmentAddTripForm2_to_fragmentMaps2"
+            app:destination="@id/fragmentMaps2" />
+        <action
+            android:id="@+id/action_fragmentAddTripForm2_to_fragmentAddTripFormBackpack2"
+            app:destination="@id/fragmentAddTripFormBackpack2" />
+        <action
+            android:id="@+id/action_fragmentAddTripForm2_to_fragmentAddTripFormTeammates2"
+            app:destination="@id/fragmentAddTripFormTeammates2" />
+        <action
+            android:id="@+id/action_fragmentAddTripForm2_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentMaps2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentMaps"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
+    <fragment
+        android:id="@+id/fragmentAddTripFormBackpack2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormBackpack"
+        android:label="fragment_add_trip_form_backpack"
+        tools:layout="@layout/fragment_add_trip_form_backpack" />
+    <fragment
+        android:id="@+id/fragmentAddTripFormTeammates2"
+        android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormTeammates"
+        android:label="fragment_add_trip_form_teammates"
+        tools:layout="@layout/fragment_add_trip_form_teammates" />
 </navigation>

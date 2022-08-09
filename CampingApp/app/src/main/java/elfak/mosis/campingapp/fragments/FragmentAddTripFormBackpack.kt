@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,6 +44,17 @@ class FragmentAddTripFormBackpack : Fragment()
     {
         binding = FragmentAddTripFormBackpackBinding.inflate(layoutInflater)
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
+        toolbar.visibility = View.GONE
+    }
+    override fun onPause() {
+        val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
+        toolbar.visibility = View.VISIBLE
+        super.onPause()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)

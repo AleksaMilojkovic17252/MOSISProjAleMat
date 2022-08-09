@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".fragments.FragmentAddTeammate">
 
-    <Button
+    <android.widget.Button
         android:id="@+id/buttonSendInvite"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -19,7 +19,7 @@
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/guideline9"></Button>
+        app:layout_constraintTop_toTopOf="@id/guideline9"></android.widget.Button>
 
     <EditText
         android:id="@+id/editTextFriendID"
