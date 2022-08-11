@@ -13,8 +13,9 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import androidx.navigation.fragment.findNavController
 import elfak.mosis.campingapp.classes.User
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
-class AdapterAddTripAllTeammates(val ct: Context, val Users: ArrayList<User>, val shared: SharedViewTripForm, val nesto: Sotka) :
+class AdapterAddTripAllTeammates(val ct: Context, val Users: ArrayList<User>, val shared: SharedViewHome, val nesto: Sotka) :
     RecyclerView.Adapter<AdapterAddTripAllTeammates.TeammateViewHolder>() {
 
 

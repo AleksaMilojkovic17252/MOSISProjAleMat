@@ -15,6 +15,7 @@ import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormTeammatesBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
 
@@ -26,7 +27,7 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
     lateinit var s1: ArrayList<String>
     lateinit var s2: ArrayList<String>
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)
-    val sharedViewModel: SharedViewTripForm by activityViewModels()
+    val sharedViewModel: SharedViewHome by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

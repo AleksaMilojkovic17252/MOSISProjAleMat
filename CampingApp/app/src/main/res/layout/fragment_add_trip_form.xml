@@ -72,7 +72,6 @@
             android:paddingStart="20dp"
             android:paddingTop="10dp"
             android:paddingEnd="20dp"
-            android:text="cao"
             android:textColor="@color/black"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"

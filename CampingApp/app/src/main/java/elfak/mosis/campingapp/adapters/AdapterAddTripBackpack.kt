@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
-class AdapterAddTripBackpack(val ct: Context, val shared: SharedViewTripForm) : RecyclerView.Adapter<AdapterAddTripBackpack.BackpackViewHolder>() {
+class AdapterAddTripBackpack(val ct: Context, val shared: SharedViewHome) : RecyclerView.Adapter<AdapterAddTripBackpack.BackpackViewHolder>() {
 
     class BackpackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val naziv: TextView = itemView.findViewById(R.id.text_backpack_name_add_trip)

@@ -137,7 +137,11 @@
         android:id="@+id/fragmentAddTripFormBackpack2"
         android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormBackpack"
         android:label="fragment_add_trip_form_backpack"
-        tools:layout="@layout/fragment_add_trip_form_backpack" />
+        tools:layout="@layout/fragment_add_trip_form_backpack" >
+        <action
+            android:id="@+id/action_fragmentAddTripFormBackpack2_to_fragmentHome"
+            app:destination="@id/fragmentHome" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentAddTripFormTeammates2"
         android:name="elfak.mosis.campingapp.fragments.FragmentAddTripFormTeammates"

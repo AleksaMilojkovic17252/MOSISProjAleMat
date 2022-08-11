@@ -27,6 +27,7 @@ import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,7 +38,7 @@ class FragmentAddTripFormBackpack : Fragment()
 {
     lateinit var binding: FragmentAddTripFormBackpackBinding
     lateinit var recycler: RecyclerView
-    val sharedViewModel: SharedViewTripForm by activityViewModels()
+    val sharedViewModel: SharedViewHome by activityViewModels()
     var backpackItems: ArrayList<BackpackItems> = arrayListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -70,17 +71,6 @@ class FragmentAddTripFormBackpack : Fragment()
         recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
 
         binding.buttonGoBackBackpack.setOnClickListener{
-            var id = Firebase.auth.currentUser!!.uid
-            var name: String = ""
-            var occupation: String = ""
-            var description: String = ""
-            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
-                name = (it["name"].toString())
-                occupation = (it["occupation"].toString())
-                description = (it["description"].toString())
-            }
-
-            sharedViewModel.korisnici.remove(User(id,name,occupation,description,"",ArrayList()))
             findNavController().popBackStack()
         }
 
@@ -104,6 +94,7 @@ class FragmentAddTripFormBackpack : Fragment()
         }
 
         binding.continueButton.setOnClickListener{
+            sharedViewModel.korisnik.value?.let { it1 -> sharedViewModel.korisnici.add(it1) }
             var tripName = sharedViewModel.tripName.value
             var longitude = sharedViewModel.longitude.value
             var latitude = sharedViewModel.latitude.value
@@ -111,11 +102,10 @@ class FragmentAddTripFormBackpack : Fragment()
             var startDate = sharedViewModel.startDate.value
             var endDate = sharedViewModel.endDate.value
             var backpackItems = HashMap<String,ArrayList<BackpackItems>>()
-            backpackItems.put(sharedViewModel.glavniKorisnik.value!!.ID,sharedViewModel.backpackItems.toCollection(ArrayList()))
+            backpackItems.put(sharedViewModel.korisnik.value!!.ID,sharedViewModel.backpackItems.toCollection(ArrayList()))
             val trip = Trip(tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!, backpackItems)
             createTrip(trip)
-            var i = Intent(context, ActivityMain::class.java)
-            startActivity(i)
+            findNavController().navigate(R.id.action_fragmentAddTripFormBackpack2_to_fragmentHome)
             
         }
     }

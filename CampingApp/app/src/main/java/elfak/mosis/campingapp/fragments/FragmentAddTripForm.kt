@@ -31,6 +31,7 @@ import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -44,7 +45,11 @@ class FragmentAddTripForm : Fragment()
     lateinit var recyclerView: RecyclerView
     lateinit var s1: ArrayList<String>
     var images: ArrayList<Int> = arrayListOf(R.drawable.image3,R.drawable.image4,R.drawable.image5)// BRISI OVO TEK KADA SE POVLACE DRUGARI
-    val sharedViewModel: SharedViewTripForm by activityViewModels()
+    var hasTripName: Boolean = false;
+    var hasLocation: Boolean = false;
+    var hasDate: Boolean = false;
+    var date: String = ""
+    val sharedViewModel: SharedViewHome by activityViewModels()
 
     override fun onResume() {
         super.onResume()
@@ -63,6 +68,7 @@ class FragmentAddTripForm : Fragment()
         super.onViewCreated(view, savedInstanceState)
 
         val dateRangeText: TextView = binding.TextDate
+        dateRangeText.text = date
         val calendar: ImageView = binding.openCalendar
         val datepick = MaterialDatePicker
             .Builder
@@ -79,6 +85,8 @@ class FragmentAddTripForm : Fragment()
                 override fun afterTextChanged(p0: Editable?)
                 {
                     sharedViewModel.tripName.value = p0.toString()
+                    hasTripName = p0?.isNotEmpty() ?: false
+                    enableContinue()
                 }
 
             }
@@ -89,8 +97,11 @@ class FragmentAddTripForm : Fragment()
             fragmentManager?.let { it1 -> datepick.show(it1,"Picker") }
             datepick.addOnPositiveButtonClickListener {
                 dateRangeText.text = datepick.headerText
+                date = datepick.headerText
+                hasDate = dateRangeText.text?.isNotEmpty() ?: false
                 sharedViewModel.startDate.value = Date(it.first)
                 sharedViewModel.endDate.value = Date(it.second)
+                enableContinue()
             }
         }
 
@@ -118,27 +129,13 @@ class FragmentAddTripForm : Fragment()
         }
 
         binding.continueButton.setOnClickListener {
-            var id = Firebase.auth.currentUser!!.uid
-            var name: String = ""
-            var occupation: String = ""
-            var description: String = ""
-            Firebase.firestore.collection("users").document(id).get().addOnSuccessListener {
-                name = (it["name"].toString())
-                occupation = (it["occupation"].toString())
-                description = (it["description"].toString())
-                sharedViewModel.korisnici.add(User(id,name,occupation,description,"",ArrayList()))
-                sharedViewModel.glavniKorisnik.value = User(id,name,occupation,description,"",ArrayList())
-            }
-
 
             findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentAddTripFormBackpack2)
-
         }
 
 
         binding.OpenMapButton.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentAddTripForm2_to_fragmentMaps2)
-            
         }
 
         if (sharedViewModel.latitude.value != null && sharedViewModel.longitude.value != null)
@@ -147,8 +144,24 @@ class FragmentAddTripForm : Fragment()
             formater.roundingMode = RoundingMode.DOWN
             var vrednost = formater.format(sharedViewModel.longitude.value) + " " + formater.format(sharedViewModel.latitude.value)
             binding.textViewLocation.text =vrednost
+            hasLocation = true
+            enableContinue()
         }
+        enableContinue()
+    }
 
+    fun enableContinue()
+    {
+        if(hasLocation && hasTripName && hasDate)
+        {
+            binding.continueButton.setBackgroundResource(R.drawable.et_button_shape_green)
+            binding.continueButton.isEnabled = true
+        }
+        else
+        {
+            binding.continueButton.setBackgroundResource(R.drawable.button_disabled)
+            binding.continueButton.isEnabled = false
+        }
     }
 
     override fun onPause() {

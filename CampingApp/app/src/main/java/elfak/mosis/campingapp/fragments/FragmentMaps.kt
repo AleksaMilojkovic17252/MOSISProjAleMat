@@ -15,6 +15,7 @@ import elfak.mosis.campingapp.databinding.FragmentMapsBinding
 import org.osmdroid.views.MapView
 import androidx.preference.PreferenceManager
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
@@ -32,7 +33,7 @@ class FragmentMaps : Fragment()
     private lateinit var myLocationOverlay: MyLocationNewOverlay
     private lateinit var mapController: IMapController
     private lateinit var startMarker: Marker
-    private val sharedViewModel: SharedViewTripForm by activityViewModels()
+    private val sharedViewModel: SharedViewHome by activityViewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
