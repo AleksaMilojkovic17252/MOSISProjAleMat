@@ -40,7 +40,20 @@ class FragmentSettings: Fragment()
         binding.linearLayoutRecetnTrips.setOnClickListener {
             Toast.makeText(context, "All trips", Toast.LENGTH_SHORT).show()
         }
-        binding.linearLayoutRecetnTrips.setOnClickListener {
+//        binding.linearLayoutRecetnTrips.setOnClickListener {
+//            // TODO: Napisano ali nije provereno da li radi, deluje da radi, ce probamo sa pravim podacima kasnijeee
+//            var youSureDialog = AlertDialog.Builder(requireContext())
+//            youSureDialog
+//                .setMessage(R.string.delete_all_trips_question)
+//                .setPositiveButton("Yes") { p0, p1 ->
+//                    if (p1 == DialogInterface.BUTTON_POSITIVE)
+//                        deleteAllTrips()
+//                }
+//                .setNegativeButton("No") {p0, p1 -> }
+//                .show()
+//        }
+
+        binding.linearLayoutDeleteAllTrips.setOnClickListener {
             // TODO: Napisano ali nije provereno da li radi, deluje da radi, ce probamo sa pravim podacima kasnijeee
             var youSureDialog = AlertDialog.Builder(requireContext())
             youSureDialog

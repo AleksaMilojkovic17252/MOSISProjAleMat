@@ -40,7 +40,7 @@ class AdapterAddTripAllTeammates(val ct: Context, val Users: ArrayList<User>, va
     override fun onBindViewHolder(holder: TeammateViewHolder, position: Int) {
         holder.ime.text = Users.get(position).Name
         holder.occupation.text = Users.get(position).Occupation
-        holder.slika.setImageResource(Users[position].Slika.toInt())
+        holder.slika.setImageResource(Users[position].Slika.toInt())//iskoristi glide
         holder.add.setOnClickListener{
             shared.korisnici.add(Users[position])
             shared.dataChanger.value = !shared.dataChanger.value!!

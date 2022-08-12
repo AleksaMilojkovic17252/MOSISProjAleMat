@@ -66,6 +66,15 @@ class FragmentAddTeammate : Fragment()
                 .addOnSuccessListener {
                     for (doc in it)
                     {
+                        //Proveriti da li ga vec ima za prijatelja
+                        var mozda = shareViewModel.korisnik.value?.Drugari?.find { x -> x.ID == doc.id }
+                        if (mozda != null)
+                        {
+                            doc
+                            Toast.makeText(requireContext(), "You have ${doc["name"] as String} as a teammate", Toast.LENGTH_SHORT).show()
+                            break
+                        }
+
                         var zaDodati = hashMapOf(
                             "from" to Firebase.auth.currentUser!!.uid,
                             "to" to doc.id,
@@ -85,18 +94,7 @@ class FragmentAddTeammate : Fragment()
         }
         else
         {
-            var zaDodati = hashMapOf(
-                "from" to Firebase.auth.currentUser!!.uid,
-                "to" to refFriend,
-                "processed" to false
-            )
-
-            Firebase.firestore
-                .collection(getString(R.string.db_coll_req))
-                .add(zaDodati)
-                .addOnSuccessListener {
-                    Toast.makeText(requireContext(), "Request sent!", Toast.LENGTH_SHORT).show()
-                }
+            Toast.makeText(requireContext(), "Please enter a valid email", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -46,6 +46,7 @@ class ServiceSendLocation : Service()
             // For our sample, we just sleep for 5 seconds.
             nit = Thread.currentThread()
 
+
             if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
             )
@@ -115,6 +116,7 @@ class ServiceSendLocation : Service()
         }
 
 
+
         HandlerThread("ServiceStartArguments", Process.THREAD_PRIORITY_BACKGROUND).apply {
             start()
 
@@ -141,7 +143,6 @@ class ServiceSendLocation : Service()
         { }
 
         fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-
         // If we get killed, after returning from here, restart
         return START_STICKY
     }

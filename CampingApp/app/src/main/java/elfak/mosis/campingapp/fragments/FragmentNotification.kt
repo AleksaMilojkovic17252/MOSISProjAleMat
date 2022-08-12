@@ -1,19 +1,23 @@
 package elfak.mosis.campingapp.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.adapters.AdapterNotifications
@@ -41,23 +45,60 @@ class FragmentNotification : Fragment()
 
         recycler = binding.recyclerViewNotification
 
-        //val notifs: ArrayList<Notifications> = arrayListOf(NotificationsFriend("Pavle","12312321321"), NotificationsTrip("PLANINA SUVA LUDA"), NotificationsFriend("Marko", "12321321213"))
-        val notifs = shareViewModel.liveNotifikacije.value
+        var taskovi = ArrayList<Task<QuerySnapshot>>()
+        var nizNotifikacija = arrayListOf<Notifications>()
 
-        val NotificationsAdapter: AdapterNotifications = AdapterNotifications(requireContext(),notifs!!)
-
-        recycler.adapter = NotificationsAdapter
-        recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        var posmatrac = Observer<ArrayList<Notifications>>
-        { t ->
-            //Log.d("CampingApp", "USO U OBSERVER")
-            //Log.d("CampingApp",t?.reduce{ i, j -> "$i $j" } ?: "Mrk")
-            //binding.textView10.text = t?.reduce{ i, j -> "$i $j" }
-            // TODO: RECYCLEVIEW JEDAN DA STAVLJA NOTIFIKACIJE
-            NotificationsAdapter.notifyDataSetChanged()
-
+        var taskPribavljanjeZahteva = Firebase.firestore
+            .collection(getString(R.string.db_coll_req))
+            .whereEqualTo("to", Firebase.auth.currentUser!!.uid)
+            .whereEqualTo("processed", true)
+            .get()
+        taskPribavljanjeZahteva.addOnSuccessListener {
+            for (doc in it)
+            {
+                var koSalje = doc["fromName"] as String
+                var koSaljeID = doc["from"] as String
+                nizNotifikacija.add(NotificationsFriend(koSalje, koSaljeID))
+            }
         }
-        shareViewModel.liveNotifikacije.observe(viewLifecycleOwner,posmatrac)
+        taskovi.add(taskPribavljanjeZahteva)
+
+        var taskPribavljanjeTripova = Firebase.firestore
+            .collection(getString(R.string.db_coll_newTrips))
+            .whereEqualTo("processed", true)
+            .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)
+            .get()
+        taskPribavljanjeTripova.addOnSuccessListener {
+            for(doc in it)
+            {
+                nizNotifikacija.add(NotificationsTrip(doc["tripName"] as String))
+            }
+        }
+        taskovi.add(taskPribavljanjeTripova)
+
+        Tasks.whenAll(taskovi).addOnSuccessListener {
+            //val notifs: ArrayList<Notifications> = arrayListOf(NotificationsFriend("Pavle","12312321321"), NotificationsTrip("PLANINA SUVA LUDA"), NotificationsFriend("Marko", "12321321213"))
+            shareViewModel.liveNotifikacije.value = nizNotifikacija
+//            val notifs = shareViewModel.liveNotifikacije.value
+            val notifs = nizNotifikacija
+
+            val NotificationsAdapter: AdapterNotifications = AdapterNotifications(requireContext(),notifs!!)
+
+            recycler.adapter = NotificationsAdapter
+            recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            var posmatrac = Observer<ArrayList<Notifications>>
+            { t ->
+                //Log.d("CampingApp", "USO U OBSERVER")
+                //Log.d("CampingApp",t?.reduce{ i, j -> "$i $j" } ?: "Mrk")
+                //binding.textView10.text = t?.reduce{ i, j -> "$i $j" }
+                // TODO: RECYCLEVIEW JEDAN DA STAVLJA NOTIFIKACIJE
+                NotificationsAdapter.notifyDataSetChanged()
+
+            }
+            shareViewModel.liveNotifikacije.observe(viewLifecycleOwner,posmatrac)
+        }
+
+
     }
 
     override fun onResume()

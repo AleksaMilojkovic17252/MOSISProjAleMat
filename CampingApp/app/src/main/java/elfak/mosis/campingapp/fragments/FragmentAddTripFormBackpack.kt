@@ -125,7 +125,8 @@ class FragmentAddTripFormBackpack : Fragment()
             "longitude" to trip.longitude,
             "userIDs" to userIDs,
             "users" to trip.users,
-            "userItems" to trip.UserItems
+            "userItems" to trip.UserItems,
+            "processed" to false
         )
 
         Firebase.firestore.collection("trips").add(zaDodati)

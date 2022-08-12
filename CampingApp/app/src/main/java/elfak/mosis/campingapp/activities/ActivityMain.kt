@@ -45,6 +45,7 @@ import elfak.mosis.campingapp.databinding.ActivityMainBinding
 import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
 import elfak.mosis.campingapp.services.ServiceNotifications
+import elfak.mosis.campingapp.services.ServicePushNotification
 import elfak.mosis.campingapp.services.ServiceSendLocation
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import kotlin.random.Random
@@ -77,23 +78,23 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         override fun onReceive(p0: Context?, p1: Intent?)
         {
-            if (p1?.extras?.getString("tip") == "Request")
-            {
-                var koSalje = p1.extras?.getString("OdKog")
-                var koSaljeID = p1.extras?.getString("OdKogID")
-                var notif = NotificationsFriend(koSalje!!, koSaljeID!!)
-                dodajUShareViewModel(notif)
-                pustiPopUp(notif)
-
-            }
-            else if (p1?.extras?.getString("tip") == "Trip")
-            {
-                var kojiTrip = p1.extras?.getString("trip")
-                var notif = NotificationsTrip(kojiTrip!!)
-                dodajUShareViewModel(notif)
-                pustiPopUp(notif)
-            }
-            else if(p1?.extras?.getString("tip") == "NoviPrijatelj")
+//            if (p1?.extras?.getString("tip") == "Request")
+//            {
+//                var koSalje = p1.extras?.getString("OdKog")
+//                var koSaljeID = p1.extras?.getString("OdKogID")
+//                var notif = NotificationsFriend(koSalje!!, koSaljeID!!)
+//                dodajUShareViewModel(notif)
+//                pustiPopUp(notif)
+//
+//            }
+//            else if (p1?.extras?.getString("tip") == "Trip")
+//            {
+//                var kojiTrip = p1.extras?.getString("trip")
+//                var notif = NotificationsTrip(kojiTrip!!)
+//                dodajUShareViewModel(notif)
+//                pustiPopUp(notif)
+//            }
+            if(p1?.extras?.getString("tip") == "NoviPrijatelj")
             {
                 var prijateljID: String? = p1?.extras?.getString("prijatelj") ?: return
 
@@ -208,6 +209,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -433,8 +436,8 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onPause()
     {
-        stopService(Intent(this, ServiceNotificationSpamFirestore::class.java))
-        stopService(Intent(this, ServiceSendLocation::class.java))
+        //stopService(Intent(this, ServiceNotificationSpamFirestore::class.java))
+        //stopService(Intent(this, ServiceSendLocation::class.java))
         unregisterReceiver(primac)
         super.onPause()
     }
@@ -448,11 +451,17 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(korisnickePreference?.getBoolean("notifikacije", false) == true)
         {
             //Servis za posmatranje notifikacija
-            val intent = Intent(this, elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore::class.java)
+            val intent = Intent(this, ServiceNotificationSpamFirestore::class.java)
+            stopService(intent)
             startService(intent)
+
+            val intent2 = Intent(this, ServicePushNotification::class.java)
+            stopService(intent2)
+            startService(intent2)
         }
 
         var i = Intent(this, ServiceSendLocation::class.java)
+        stopService(i)
         startService(i)
 
         //Obrada notifikacija

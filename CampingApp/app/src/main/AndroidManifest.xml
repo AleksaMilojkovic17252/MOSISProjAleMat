@@ -28,9 +28,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
         <service
-            android:name=".services.ServiceSendLocation"
+            android:name=".services.ServicePushNotification"
             android:enabled="true"
             android:exported="true"></service>
+        <service
+            android:name=".services.ServiceSendLocation"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".services.ServiceNotificationSpamFirestore"
             android:enabled="true"
@@ -57,7 +61,7 @@
         <activity
             android:name=".activities.ActivityMain"
             android:exported="true"
-            android:theme="@style/Pls.work"/>
+            android:theme="@style/Pls.work" />
         <activity
             android:name=".activities.ActivityLogin"
             android:exported="true">

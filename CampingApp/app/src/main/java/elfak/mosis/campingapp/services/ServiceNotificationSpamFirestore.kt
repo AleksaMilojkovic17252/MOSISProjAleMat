@@ -60,7 +60,7 @@ class ServiceNotificationSpamFirestore : Service()
                 .get().addOnSuccessListener {
                     for(doc in it)
                     {
-                        var i = Intent(getString(R.string.intent_filter_notif))
+                        var i = Intent("notifikacije")
                         i.putExtra("OdKog", doc["fromName"] as String)
                         i.putExtra("tip", "Request")
                         i.putExtra("OdKogID", doc["from"] as String)
@@ -84,7 +84,7 @@ class ServiceNotificationSpamFirestore : Service()
                     for (doc in it)
                     {
                         Log.d("CampingApp", it.documents.size.toString())
-                        var i = Intent(getString(R.string.intent_filter_notif))
+                        var i = Intent("notifikacije")
                         i.putExtra("tip", "Trip")
                         i.putExtra("trip", doc["tripName"] as String)
                         sendBroadcast(i)
@@ -92,7 +92,7 @@ class ServiceNotificationSpamFirestore : Service()
                         Firebase.firestore
                             .collection(getString(R.string.db_coll_newTrips))
                             .document(doc.id)
-                            .delete()
+                            .update(mapOf("processed" to true))
                     }
                 }
         }
