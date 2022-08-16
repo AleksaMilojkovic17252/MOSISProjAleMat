@@ -51,8 +51,14 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
     lateinit var recycler: RecyclerView
     val sharedViewModel: SharedViewHome by activityViewModels()
 
+    override fun onPause() {
+        sharedViewModel.tripovi.clear()
+        super.onPause()
+    }
+
     private fun ucitajTripove()
     {
+
         var tmp = Date()
         Firebase.firestore
             .collection(getString(R.string.db_coll_trips))
