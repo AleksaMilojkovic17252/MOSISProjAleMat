@@ -105,14 +105,14 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
         navigation.menu.findItem(R.id.nav_home).setChecked(true)
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
-        sharedViewModel.korisnici = mutableListOf()
-        sharedViewModel.tripName = MutableLiveData()
-        sharedViewModel.longitude = MutableLiveData()
-        sharedViewModel.latitude = MutableLiveData()
-        sharedViewModel.startDate = MutableLiveData()
-        sharedViewModel.endDate = MutableLiveData()
-        sharedViewModel.backpackItems = mutableListOf()
-        sharedViewModel.dataChanger = MutableLiveData(false)
+        sharedViewModel.korisnici.clear()
+        sharedViewModel.tripName.value = null
+        sharedViewModel.longitude.value = null
+        sharedViewModel.latitude.value = null
+        sharedViewModel.startDate.value = null
+        sharedViewModel.endDate.value = null
+        sharedViewModel.backpackItems.clear()
+        sharedViewModel.dataChanger.value = false
 
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.VISIBLE
