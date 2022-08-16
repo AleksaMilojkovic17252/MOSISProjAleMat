@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -44,28 +45,33 @@ class FragmentHome : Fragment()
 
     private fun ucitajTripove()
     {
+        var tmp = Date()
         Firebase.firestore
             .collection(getString(R.string.db_coll_trips))
             .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)
-            //.whereGreaterThan("endDate", Date())
-            .get()
-            .addOnSuccessListener {
+            .get().addOnSuccessListener {
                 for (doc in it)
                 {
                     var drustvo = ArrayList<User>()
-                    //var mapa=HashMap<String, ArrayList<BackpackItems>>()
                     for (id in doc["userIDs"] as ArrayList<String>)
-                    {
                         drustvo.add(User(id))
-                    }
+
 
                     var startDate = doc["startDate"] as Timestamp
                     var endDate = doc["endDate"] as Timestamp
-                    var trip = Trip(doc["tripName"] as String, doc["longitude"] as Double, doc["latitude"] as Double,
-                                    drustvo, startDate.toDate(), endDate.toDate(),
-                        doc["userItems"] as HashMap<String, ArrayList<BackpackItems>>,"")
+                    var trip = Trip(
+                        doc["tripName"] as String,
+                        doc["longitude"] as Double,
+                        doc["latitude"] as Double,
+                        drustvo,
+                        startDate.toDate(),
+                        endDate.toDate(),
+                        doc["userItems"] as HashMap<String, ArrayList<BackpackItems>>,
+                        ""
+                    )
                     sharedViewModel.tripovi.add(trip)
                 }
+                sharedViewModel.tripovi.sortByDescending { x -> x.endDate }
             }
     }
 
