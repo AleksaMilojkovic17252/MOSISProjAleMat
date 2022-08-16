@@ -11,10 +11,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.Timestamp
@@ -26,7 +30,10 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.activities.ActivityTrip
 import elfak.mosis.campingapp.activities.DrawerLocker
+import elfak.mosis.campingapp.adapters.AdapterAllTeammates
+import elfak.mosis.campingapp.adapters.AdapterAllTrips
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
@@ -37,10 +44,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FragmentHome : Fragment()
+class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
 {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mDrawer: DrawerLayout
+    lateinit var recycler: RecyclerView
     val sharedViewModel: SharedViewHome by activityViewModels()
 
     private fun ucitajTripove()
@@ -72,6 +80,10 @@ class FragmentHome : Fragment()
                     sharedViewModel.tripovi.add(trip)
                 }
                 sharedViewModel.tripovi.sortByDescending { x -> x.endDate }
+                val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),sharedViewModel.tripovi.toCollection(ArrayList()),this)
+                recycler = binding.showTrips
+                recycler.adapter = adapter
+                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
             }
     }
 
@@ -87,7 +99,14 @@ class FragmentHome : Fragment()
         navigation.menu.findItem(R.id.nav_home).setChecked(true)
         val buttonNotification: ImageView = requireActivity().findViewById(R.id.notification_toolbar)
         val buttonFriend: ImageView = requireActivity().findViewById(R.id.addFriend_toolbar)
-
+        sharedViewModel.korisnici = mutableListOf()
+        sharedViewModel.tripName = MutableLiveData()
+        sharedViewModel.longitude = MutableLiveData()
+        sharedViewModel.latitude = MutableLiveData()
+        sharedViewModel.startDate = MutableLiveData()
+        sharedViewModel.endDate = MutableLiveData()
+        sharedViewModel.backpackItems = mutableListOf()
+        sharedViewModel.dataChanger = MutableLiveData(false)
 
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.VISIBLE
@@ -125,6 +144,15 @@ class FragmentHome : Fragment()
         }
 
         ucitajTripove()
+
+
+
+
+    }
+
+    override fun pocniTrip(trip: Trip) {
+        var intent = Intent(context, ActivityTrip::class.java) //TODO: LEPO DODAVANJE TRIP-A U INTENTN
+        startActivity(intent)
     }
 
 
