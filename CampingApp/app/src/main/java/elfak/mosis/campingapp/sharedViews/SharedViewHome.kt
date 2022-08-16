@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.Notifications
+import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import java.util.*
 import kotlin.collections.ArrayList
@@ -23,5 +24,6 @@ class SharedViewHome : ViewModel()
     var backpackItems: MutableList<BackpackItems> = mutableListOf()
     var dataChanger: MutableLiveData<Boolean> = MutableLiveData(false)
     var fullUcitavanje: MutableLiveData<Boolean> = MutableLiveData(false) //Da li su ucitani svi podaci o korisnicima
+    var tripovi: MutableList<Trip> = mutableListOf()
 
 }

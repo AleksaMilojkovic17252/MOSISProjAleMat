@@ -17,6 +17,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -25,10 +26,14 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.activities.DrawerLocker
+import elfak.mosis.campingapp.classes.BackpackItems
+import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentHome : Fragment()
@@ -36,6 +41,33 @@ class FragmentHome : Fragment()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mDrawer: DrawerLayout
     val sharedViewModel: SharedViewHome by activityViewModels()
+
+    private fun ucitajTripove()
+    {
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)
+            //.whereGreaterThan("endDate", Date())
+            .get()
+            .addOnSuccessListener {
+                for (doc in it)
+                {
+                    var drustvo = ArrayList<User>()
+                    //var mapa=HashMap<String, ArrayList<BackpackItems>>()
+                    for (id in doc["userIDs"] as ArrayList<String>)
+                    {
+                        drustvo.add(User(id))
+                    }
+
+                    var startDate = doc["startDate"] as Timestamp
+                    var endDate = doc["endDate"] as Timestamp
+                    var trip = Trip(doc["tripName"] as String, doc["longitude"] as Double, doc["latitude"] as Double,
+                                    drustvo, startDate.toDate(), endDate.toDate(),
+                        doc["userItems"] as HashMap<String, ArrayList<BackpackItems>>,"")
+                    sharedViewModel.tripovi.add(trip)
+                }
+            }
+    }
 
     override fun onResume()
     {
@@ -59,30 +91,6 @@ class FragmentHome : Fragment()
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {
         binding = FragmentHomeBinding.inflate(layoutInflater)
-//        var id = Firebase.auth.currentUser!!.uid
-//        var name: String = ""
-//        var occupation: String = ""
-//        var description: String = ""
-//        var drugovi:ArrayList<User> = ArrayList()
-//
-//
-//        var pribavljanjePodataka = Firebase.firestore.collection("users").document(id).get()
-//
-//        pribavljanjePodataka.addOnSuccessListener {
-//            name = (it["name"].toString())
-//            occupation = (it["occupation"].toString())
-//            description = (it["description"].toString())
-//            var prijatelji = it["friends"] as ArrayList<String>
-//            for(drug in prijatelji)
-//            {
-//                drugovi.add(User(drug))
-//            }
-//        }
-//
-//        Tasks.whenAll(pribavljanjePodataka).addOnSuccessListener {
-//            var korisnik = User(id,name,occupation,description,id,drugovi)
-//            sharedViewModel.korisnik.value = korisnik
-//        }
         return binding.root
     }
 
@@ -109,6 +117,8 @@ class FragmentHome : Fragment()
             clipboard?.setPrimaryClip(clip)
             Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
         }
+
+        ucitajTripove()
     }
 
 
