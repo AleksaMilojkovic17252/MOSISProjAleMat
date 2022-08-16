@@ -84,6 +84,7 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
 
         Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
             shareViewModel.korisnik.value!!.Drugari = drugovi
+            shareViewModel.fullUcitavanje.value = true
             val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
             recycler = binding.allTeammatesView
             recycler.adapter = FriendAdapter

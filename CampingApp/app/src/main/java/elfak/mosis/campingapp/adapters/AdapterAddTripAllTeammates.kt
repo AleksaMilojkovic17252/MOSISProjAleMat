@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
@@ -40,7 +43,10 @@ class AdapterAddTripAllTeammates(val ct: Context, val Users: ArrayList<User>, va
     override fun onBindViewHolder(holder: TeammateViewHolder, position: Int) {
         holder.ime.text = Users.get(position).Name
         holder.occupation.text = Users.get(position).Occupation
-        holder.slika.setImageResource(Users[position].Slika.toInt())//iskoristi glide
+        //holder.slika.setImageResource(Users[position].Slika.toInt())//iskoristi glide
+        Firebase.storage.getReference("profilePics/${Users.get(position).Slika}.jpg").downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(ct).load(uri).into(holder.slika)
+        }
         holder.add.setOnClickListener{
             shared.korisnici.add(Users[position])
             shared.dataChanger.value = !shared.dataChanger.value!!

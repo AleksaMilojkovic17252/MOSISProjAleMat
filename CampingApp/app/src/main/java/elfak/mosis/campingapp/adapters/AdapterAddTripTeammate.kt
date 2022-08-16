@@ -12,6 +12,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
@@ -38,7 +41,9 @@ class AdapterAddTripTeammate (val ct: Context, val Users: ArrayList<User>, val m
 
     override fun onBindViewHolder(holder: AdapterAddTripTeammate.MyViewHolder, position: Int) {
         holder.ime.setText(model.korisnici[position].Name)
-        holder.slika.setImageResource(model.korisnici[position].Slika.toInt())
+        Firebase.storage.getReference("profilePics/${model.korisnici[position].Slika}.jpg").downloadUrl.addOnSuccessListener { uri ->
+            Glide.with(ct).load(uri).into(holder.slika)
+        }
         holder.mainLayout.setOnClickListener{
             val dialog: Dialog = Dialog(context)
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

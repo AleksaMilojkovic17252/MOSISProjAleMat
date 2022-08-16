@@ -10,9 +10,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripTeammate
+import elfak.mosis.campingapp.adapters.AdapterAllTeammates
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormTeammatesBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
@@ -35,13 +41,15 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
         return binding.root
     }
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
         toolbar.visibility = View.GONE
     }
 
-    override fun onPause() {
+    override fun onPause()
+    {
         val toolbar: Toolbar = requireActivity().findViewById(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
         super.onPause()
@@ -58,24 +66,65 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
 
         var korisnici: ArrayList<User> = ArrayList()
 
-        for(item in s1.indices)
+//        for(item in s1.indices)
+//        {
+//            var korisnik: User = User("0",s1[item],s2[item],"posao",images[item].toString(),ArrayList())
+//            korisnici.add(korisnik)
+//        }
+        if (sharedViewModel.fullUcitavanje.value == false)
+            ucitajIPostavi()
+        else
         {
-            var korisnik: User = User("0",s1[item],s2[item],"posao",images[item].toString(),ArrayList())
-            korisnici.add(korisnik)
+            for (drug in sharedViewModel.korisnik.value!!.Drugari)
+                korisnici.add(drug)
+            val teammatesAdapter: AdapterAddTripAllTeammates? =
+                context?.let { AdapterAddTripAllTeammates(it, korisnici, sharedViewModel, this) }
+
+            recycler.adapter = teammatesAdapter
+            recycler.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
         }
-
-        val teammatesAdapter: AdapterAddTripAllTeammates? =
-            context?.let { AdapterAddTripAllTeammates(it,korisnici,sharedViewModel, this) }
-
-        recycler.adapter = teammatesAdapter
-        recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-
         binding.backButtonImage.setOnClickListener{
             findNavController().popBackStack()
         }
     }
 
-    override fun goBack() {
+    private fun ucitajIPostavi()
+    {
+        var drugovi = ArrayList<User>()
+        var listaTaskovaSakupljanjaPodatakaKorsinika = ArrayList<Task<DocumentSnapshot>>()
+        for (drug in sharedViewModel.korisnik.value!!.Drugari)
+        {
+            var tmp = Firebase.firestore
+                .collection("users")
+                .document(drug.ID)
+                .get()
+            tmp.addOnSuccessListener {
+                var tmpUser = User(it.id,
+                    it["name"].toString(),
+                    it["occupation"].toString(),
+                    it["description"].toString(),
+                    it.id,
+                    ArrayList<User>())
+                drugovi.add(tmpUser)
+            }
+            listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
+        }
+
+        Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
+            sharedViewModel.korisnik.value!!.Drugari = drugovi
+            sharedViewModel.fullUcitavanje.value = true
+            val teammatesAdapter: AdapterAddTripAllTeammates? =
+                context?.let { AdapterAddTripAllTeammates(it, drugovi, sharedViewModel, this) }
+
+            recycler.adapter = teammatesAdapter
+            recycler.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+        }
+    }
+
+    override fun goBack()
+    {
         findNavController().popBackStack()
     }
 

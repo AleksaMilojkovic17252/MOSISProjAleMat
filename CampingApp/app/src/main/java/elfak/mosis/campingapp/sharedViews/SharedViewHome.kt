@@ -22,5 +22,6 @@ class SharedViewHome : ViewModel()
     var endDate: MutableLiveData<Date> = MutableLiveData()
     var backpackItems: MutableList<BackpackItems> = mutableListOf()
     var dataChanger: MutableLiveData<Boolean> = MutableLiveData(false)
+    var fullUcitavanje: MutableLiveData<Boolean> = MutableLiveData(false) //Da li su ucitani svi podaci o korisnicima
 
 }
