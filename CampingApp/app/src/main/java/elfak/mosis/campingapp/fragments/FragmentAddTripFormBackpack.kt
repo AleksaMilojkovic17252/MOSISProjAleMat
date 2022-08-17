@@ -28,7 +28,6 @@ import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap

@@ -16,7 +16,7 @@ import org.osmdroid.views.MapView
 import androidx.preference.PreferenceManager
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
 import org.osmdroid.events.MapEventsReceiver

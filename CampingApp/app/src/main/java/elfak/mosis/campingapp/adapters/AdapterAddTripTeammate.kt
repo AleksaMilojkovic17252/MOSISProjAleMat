@@ -18,7 +18,6 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 
 class AdapterAddTripTeammate (val ct: Context, val Users: ArrayList<User>, val model: SharedViewHome) : RecyclerView.Adapter<AdapterAddTripTeammate.MyViewHolder>(){
 

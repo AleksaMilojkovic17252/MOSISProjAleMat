@@ -39,7 +39,6 @@ import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -58,8 +57,6 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
 
     private fun ucitajTripove()
     {
-
-        var tmp = Date()
         Firebase.firestore
             .collection(getString(R.string.db_coll_trips))
             .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)

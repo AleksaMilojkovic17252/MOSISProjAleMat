@@ -32,7 +32,7 @@ import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+
 import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*

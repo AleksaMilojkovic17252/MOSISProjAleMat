@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import elfak.mosis.campingapp.R
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.ktx.Firebase

@@ -13,7 +13,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import elfak.mosis.campingapp.sharedViews.SharedViewTripForm
+
 
 class AdapterAddTripBackpack(val ct: Context, val shared: SharedViewHome) : RecyclerView.Adapter<AdapterAddTripBackpack.BackpackViewHolder>() {
 

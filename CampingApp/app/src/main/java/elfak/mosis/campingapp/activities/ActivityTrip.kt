@@ -3,6 +3,7 @@ package elfak.mosis.campingapp.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -11,17 +12,27 @@ import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.BackpackItems
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.fragments.*
+import elfak.mosis.campingapp.sharedViews.SharedViewTrip
+import java.util.HashMap
 
 class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener
 {
 
     lateinit var navHostFragment: NavHostFragment
     lateinit var navController: NavController
+    private val shareViewModel: SharedViewTrip by viewModels()
+    private lateinit var task: Task<DocumentSnapshot>
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
@@ -37,6 +48,11 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_trip_container) as NavHostFragment
         navController = navHostFragment.navController
 
+        var tripID = intent.extras?.getString("tripId")
+        if(tripID != null)
+        {
+            shareViewModel.tripID.value = tripID
+        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean
@@ -127,5 +143,48 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         return true
     }
 
+    override fun onStart()
+    {
+        super.onStart()
+        ucitajTrip()
+    }
 
+    private fun ucitajTrip()
+    {
+        task = Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(shareViewModel.tripID.value!!)
+            .get()
+
+        task.addOnSuccessListener { it ->
+            shareViewModel.tripName.value = it["tripName"] as String
+            shareViewModel.startDate.value = (it["startDate"] as Timestamp).toDate()
+            shareViewModel.endDate.value = (it["endDate"] as Timestamp).toDate()
+            shareViewModel.latitude.value = it["latitude"] as Double
+            shareViewModel.longitude.value = it["longitude"] as Double
+            shareViewModel.backpackItems = it["userItems"] as HashMap<String, ArrayList<BackpackItems>>
+
+            var drustvo = ArrayList<User>()
+            for (id in it["userIDs"] as ArrayList<String>)
+            {
+                Firebase.firestore
+                    .collection(getString(R.string.db_coll_users))
+                    .document(id)
+                    .get()
+                    .addOnSuccessListener { usr ->
+                        var tmpUser = User(
+                            id,
+                            usr["name"] as String,
+                            usr["occupation"] as String,
+                            usr["description"] as String,
+                            id,
+                            ArrayList<User>()
+                        )
+                        drustvo.add(tmpUser)
+                    }
+            }
+            shareViewModel.korisnici = drustvo
+        }
+
+    }
 }
