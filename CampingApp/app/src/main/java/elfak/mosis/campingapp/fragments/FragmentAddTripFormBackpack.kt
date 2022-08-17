@@ -103,7 +103,7 @@ class FragmentAddTripFormBackpack : Fragment()
             var endDate = sharedViewModel.endDate.value
             var backpackItems = HashMap<String,ArrayList<BackpackItems>>()
             backpackItems.put(sharedViewModel.korisnik.value!!.ID,sharedViewModel.backpackItems.toCollection(ArrayList()))
-            val trip = Trip(tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!, backpackItems, "")
+            val trip = Trip("0",tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!, backpackItems, "")
             createTrip(trip)
             findNavController().navigate(R.id.action_fragmentAddTripFormBackpack2_to_fragmentHome)
             

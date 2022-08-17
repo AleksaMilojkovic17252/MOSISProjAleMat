@@ -74,6 +74,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                     var startDate = doc["startDate"] as Timestamp
                     var endDate = doc["endDate"] as Timestamp
                     var trip = Trip(
+                        doc.id,
                         doc["tripName"] as String,
                         doc["longitude"] as Double,
                         doc["latitude"] as Double,
@@ -158,7 +159,9 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
 
     override fun pocniTrip(trip: Trip) {
         var intent = Intent(context, ActivityTrip::class.java) //TODO: LEPO DODAVANJE TRIP-A U INTENTN
+        intent.putExtra("tripId",trip.id)
         startActivity(intent)
+
     }
 
 

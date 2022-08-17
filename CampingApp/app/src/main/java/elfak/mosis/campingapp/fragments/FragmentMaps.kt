@@ -61,7 +61,14 @@ class FragmentMaps : Fragment()
         startMarker = Marker(mapa)
         startMarker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_marker_for_map)
         startMarker.infoWindow = null
-        startMarker.position = GeoPoint(44.0333, 20.8)
+        if(sharedViewModel.longitude.value != null && sharedViewModel.latitude.value != null) {
+            startMarker.position =GeoPoint(sharedViewModel.latitude.value!!,
+                sharedViewModel.longitude.value!!)
+        }
+        else
+        {
+            startMarker.position = GeoPoint(44.0333, 20.8)
+        }
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         mapa.overlays.add(startMarker);
         setOnMapClickOverlay()
