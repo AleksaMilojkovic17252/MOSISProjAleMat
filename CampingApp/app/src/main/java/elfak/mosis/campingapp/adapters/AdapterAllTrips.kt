@@ -51,10 +51,10 @@ class AdapterAllTrips(val ct: Context, val trips: ArrayList<Trip>?, val listener
         return ViewHolder(view)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    //@RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.trip_name.text = trips?.get(position)?.tripName ?: ""
-        var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+        //var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
         holder.numberOfTeammates.text = trips?.get(position)?.users?.count().toString()
         holder.startDate.text = DateFormat.getDateInstance().format(trips?.get(position)?.startDate)
         holder.endDate.text = DateFormat.getDateInstance().format(trips?.get(position)?.endDate)

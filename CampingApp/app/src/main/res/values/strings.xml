@@ -77,6 +77,8 @@
     <string name="db_coll_req">requests</string>
     <string name="db_coll_newTrips">newTrips</string>
 
+    <string name="db_realtime_db">https://mosisprojekat-2b28d-default-rtdb.europe-west1.firebasedatabase.app/</string>
+
     <string name="intent_filter_notif">AjdProradi</string>
 
 </resources>
