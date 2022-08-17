@@ -20,4 +20,6 @@
     <color name="GreenTransparetn">#8884cc16</color>
     <color name="Red">#EA1601</color>
     <color name="RedLight">#99EA1601</color>
+    <color name="Gray700">#D4D4D8</color>
+    <color name="Gray800">#A1A1AA</color>
 </resources>

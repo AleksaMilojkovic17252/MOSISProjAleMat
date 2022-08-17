@@ -70,6 +70,12 @@
         <item>Stolar</item>
         <item>Lekar</item>
     </string-array>
+    <string-array name="types">
+        <item>Type of activity</item>
+        <item>Nice View</item>
+        <item>Shelter</item>
+        <item>Point of Interest</item>
+    </string-array>
 
 
     <string name="db_coll_users">users</string>
