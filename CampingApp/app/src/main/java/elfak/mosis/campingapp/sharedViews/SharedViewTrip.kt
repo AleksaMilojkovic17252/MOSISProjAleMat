@@ -2,6 +2,7 @@ package elfak.mosis.campingapp.sharedViews
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import java.util.*
@@ -23,4 +24,6 @@ class SharedViewTrip : ViewModel()
     var activityLongitude:MutableLiveData<Double> = MutableLiveData()
     var activityLatitude:MutableLiveData<Double> = MutableLiveData()
     var dataSetChanged:MutableLiveData<Boolean> = MutableLiveData(false)
+    var allActivities: MutableList<ActivityTrip> = mutableListOf()
+    var selectedActivity: MutableLiveData<ActivityTrip> = MutableLiveData()
 }

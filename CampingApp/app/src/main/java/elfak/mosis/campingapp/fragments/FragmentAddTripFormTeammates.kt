@@ -73,7 +73,7 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
             for (drug in sharedViewModel.korisnik.value!!.Drugari)
                 korisnici.add(drug)
             val teammatesAdapter: AdapterAddTripAllTeammates? =
-                context?.let { AdapterAddTripAllTeammates(it, korisnici, sharedViewModel, this) }
+                context?.let { AdapterAddTripAllTeammates(it, korisnici.minus(sharedViewModel.korisnici).toCollection(ArrayList()), sharedViewModel, this) }
 
             recycler.adapter = teammatesAdapter
             recycler.layoutManager =
@@ -109,8 +109,9 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
         Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
             sharedViewModel.korisnik.value!!.Drugari = drugovi
             sharedViewModel.fullUcitavanje.value = true
+
             val teammatesAdapter: AdapterAddTripAllTeammates? =
-                context?.let { AdapterAddTripAllTeammates(it, drugovi, sharedViewModel, this) }
+                context?.let { AdapterAddTripAllTeammates(it, drugovi.minus(sharedViewModel.korisnici).toCollection(ArrayList()), sharedViewModel, this) }
 
             recycler.adapter = teammatesAdapter
             recycler.layoutManager =

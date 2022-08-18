@@ -10,7 +10,10 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.databinding.FragmentTeammatesBinding
 import elfak.mosis.campingapp.databinding.FragmentTripMapActivityBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
@@ -43,9 +46,13 @@ class FragmentTripMapActivity : Fragment() {
         var context = activity?.applicationContext;
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
         mapa = binding.osmMapView
+        binding.buttonConfirmMapPosition.visibility = View.GONE
 
         binding.buttonConfirmMapPosition.setOnClickListener {
-
+            shareViewModel.allActivities.add(ActivityTrip("0", Firebase.auth.currentUser!!.uid,
+                shareViewModel.activityTitle.value!!,shareViewModel.activityDescription.value!!,shareViewModel.activityLatitude.value!!,shareViewModel.activityLongitude.value!!,shareViewModel.activityType.value!!
+            ))
+            shareViewModel.dataSetChanged.value = !shareViewModel.dataSetChanged.value!!
             findNavController().navigate(R.id.action_fragmentTripMapActivity_to_fragmentActivities)
         }
         mapa.setMultiTouchControls(true)
@@ -105,12 +112,14 @@ class FragmentTripMapActivity : Fragment() {
         {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean
             {
+                binding.buttonConfirmMapPosition.visibility = View.VISIBLE
                 mapa.overlays.remove(startMarker)
                 startMarker.position = GeoPoint(p!!.latitude, p!!.longitude)
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
                 mapa.overlays.add(startMarker);
                 shareViewModel.activityLatitude.value = p?.latitude
                 shareViewModel.activityLongitude.value = p?.longitude
+
                 return true
             }
             override fun longPressHelper(p: GeoPoint?): Boolean { return false }

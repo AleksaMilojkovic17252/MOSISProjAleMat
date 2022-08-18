@@ -10,19 +10,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.adapters.AdapterAllActivities
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
-import elfak.mosis.campingapp.databinding.FragmentAddTeammateBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 
 
-class FragmentActivities : Fragment()
+class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNesto
 {
     lateinit var binding: FragmentActivitiesBinding
     private val shareViewModel: SharedViewTrip by activityViewModels()
+    lateinit var recycler: RecyclerView
 
     override fun onResume() {
         super.onResume()
@@ -46,6 +52,17 @@ class FragmentActivities : Fragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities.toCollection(ArrayList()),shareViewModel.korisnici.toCollection(ArrayList()),
+            Firebase.auth.currentUser!!.uid,this)
+        recycler = binding.recyclerActivities
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+
+        shareViewModel.dataSetChanged.observe(viewLifecycleOwner){
+            adapter.notifyDataSetChanged()
+        }
+
         binding.buttonAddActivity.setOnClickListener {
             findNavController().navigate(R.id.action_fragmentActivities_to_fragmentTripWriteActivity)
         }
@@ -56,5 +73,11 @@ class FragmentActivities : Fragment()
             var intent = Intent(context, ActivityMain::class.java)
             startActivity(intent)
         }
+    }
+
+
+    override fun Detalji(Activity: ActivityTrip) {
+        shareViewModel.selectedActivity.value = Activity
+        findNavController().navigate(R.id.action_fragmentActivities_to_fragmentDetailActivityView)
     }
 }

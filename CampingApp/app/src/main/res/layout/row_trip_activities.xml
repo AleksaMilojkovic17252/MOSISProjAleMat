@@ -4,8 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/row_activity"
-    android:layout_marginBottom="10dp"
-    android:layout_marginTop="10dp">
+    android:layout_margin="10dp">
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -15,42 +14,56 @@
             android:background="@drawable/et_background_row_activity">
             <TextView
                 android:id="@+id/naslov"
-                android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Naslov"
                 android:textSize="24dp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/from"
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"></TextView>
             <TextView
                 android:id="@+id/from"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
+                android:textSize="14dp"
                 android:text="fromWho"
-                android:textSize="16dp"
                 android:textStyle="bold"
                 android:textColor="@color/Gray800"
-                app:layout_constraintTop_toTopOf="@id/naslov"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="@id/naslov"
-                android:layout_marginEnd="20dp"></TextView>
+                app:layout_constraintTop_toBottomOf="@id/naslov"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"></TextView>
             <TextView
                 android:id="@+id/opis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/naslov"
+                app:layout_constraintTop_toBottomOf="@id/from"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="10dp"
+                android:textSize="16dp"
                 android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."></TextView>
+
+            <android.widget.Button
+                android:id="@+id/button_complete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/et_button_shape_green"
+                android:text="Complete"
+                android:textColor="@color/Gray"
+                app:layout_constraintTop_toBottomOf="@+id/opis"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="20dp"/>
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

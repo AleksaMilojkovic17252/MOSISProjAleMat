@@ -49,6 +49,8 @@ class FragmentMaps : Fragment()
         Configuration.getInstance().load(context,PreferenceManager.getDefaultSharedPreferences(context!!))
         mapa = binding.osmMapView
 
+        binding.buttonConfirmMapPosition.visibility = View.GONE
+
 
         binding.buttonConfirmMapPosition.setOnClickListener {
             //podaci se setuju u onclick eventu
@@ -96,6 +98,7 @@ class FragmentMaps : Fragment()
         {
             override fun singleTapConfirmedHelper(p: GeoPoint?): Boolean
             {
+                binding.buttonConfirmMapPosition.visibility = View.VISIBLE
                 mapa.overlays.remove(startMarker)
                 startMarker.position = GeoPoint(p!!.latitude, p!!.longitude)
                 startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
