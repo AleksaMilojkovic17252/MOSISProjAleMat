@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.databinding.FragmentMemoriesBinding
 
@@ -34,6 +35,14 @@ class FragmentMemories : Fragment()
             dispatchTakePictureIntent()
         }
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.goHome.setOnClickListener {
+            var intent = Intent(context, ActivityMain::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun dispatchTakePictureIntent()

@@ -113,6 +113,8 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
             Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
 
         }
+
+
     }
 
     override fun pomeraj(position: User) {

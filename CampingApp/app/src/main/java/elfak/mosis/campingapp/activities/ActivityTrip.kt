@@ -4,25 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.activity.viewModels
-import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentContainer
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
-import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import java.util.HashMap
 
@@ -162,7 +154,21 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.endDate.value = (it["endDate"] as Timestamp).toDate()
             shareViewModel.latitude.value = it["latitude"] as Double
             shareViewModel.longitude.value = it["longitude"] as Double
-            shareViewModel.backpackItems = it["userItems"] as HashMap<String, ArrayList<BackpackItems>>
+            //shareViewModel.backpackItems = it["userItems"] as HashMap<String, ArrayList<BackpackItems>>
+
+
+            var tmp = it["userItems"]
+            var pomoc: HashMap<String, ArrayList<BackpackItems>> = HashMap()
+            for(id in it["userItems"] as HashMap<String,ArrayList<HashMap<String,Object>>>)
+            {
+              var anotherHelp: ArrayList<BackpackItems> = ArrayList()
+              for(help in id.value)
+               {
+                  anotherHelp.add(BackpackItems(help["name"].toString(),help["items"].toString().toInt()))
+               }
+                pomoc[id.key]=anotherHelp
+            }
+            shareViewModel.backpackItems = pomoc
 
             var drustvo = ArrayList<User>()
             for (id in it["userIDs"] as ArrayList<String>)

@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.preference.PreferenceManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.databinding.FragmentTeammatesBinding
 import elfak.mosis.campingapp.databinding.FragmentTripMapActivityBinding

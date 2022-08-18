@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesBinding
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 
@@ -40,6 +42,11 @@ class FragmentTripTeammates : Fragment() {
 
         binding.teammatesMap.setOnClickListener{
             findNavController().popBackStack()
+        }
+
+        binding.HomeButtonTrip.setOnClickListener {
+            var intent = Intent(context, ActivityMain::class.java)
+            startActivity(intent)
         }
     }
 

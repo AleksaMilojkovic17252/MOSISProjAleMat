@@ -2,7 +2,6 @@ package elfak.mosis.campingapp.fragments
 
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -16,19 +15,14 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
-import elfak.mosis.campingapp.activities.ActivityMain
-import elfak.mosis.campingapp.adapters.AdapterAddTripAllTeammates
 import elfak.mosis.campingapp.adapters.AdapterAddTripBackpack
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.Trip
-import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 

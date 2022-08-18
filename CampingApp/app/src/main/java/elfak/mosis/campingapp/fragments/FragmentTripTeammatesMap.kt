@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import org.osmdroid.api.IMapController
@@ -121,6 +123,10 @@ class FragmentTripTeammatesMap : Fragment()
         mapa.setMultiTouchControls(true)
         binding.teammatesTeammates.setOnClickListener{
             findNavController().navigate(R.id.action_fragmentTripTeammates_to_fragmentTripTeammates2)
+        }
+        binding.HomeButtonTrip.setOnClickListener {
+            var intent = Intent(context, ActivityMain::class.java)
+            startActivity(intent)
         }
     }
 
