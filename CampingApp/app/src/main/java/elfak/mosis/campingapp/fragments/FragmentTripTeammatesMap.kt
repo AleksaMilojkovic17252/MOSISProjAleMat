@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -21,7 +23,10 @@ import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import org.osmdroid.api.IMapController
 import org.osmdroid.config.Configuration
+import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 
@@ -35,6 +40,7 @@ class FragmentTripTeammatesMap : Fragment()
     val PERMISSION_ACCESS_FINE_LOCATION = 1
     private val sharedViewModel: SharedViewTrip by activityViewModels()
     private val listaReferenci = ArrayList<DatabaseReference>()
+    private val mapaKoordinata = HashMap<String,GeoPoint>()
 
     override fun onResume()
     {
@@ -48,41 +54,33 @@ class FragmentTripTeammatesMap : Fragment()
 
         for(u in sharedViewModel.korisnici)
         {
+            if(u.ID == Firebase.auth.currentUser!!.uid)
+                continue
+
             var tmp = Firebase.database(getString(R.string.db_realtime_db)).getReference("locations/${u.ID}")
             tmp.addValueEventListener(object : ValueEventListener
             {
                 override fun onDataChange(snapshot: DataSnapshot)
                 {
-                    snapshot.children.forEach {
-                        Toast.makeText(requireContext(), "${it.value}", Toast.LENGTH_SHORT).show()
-                    }
+                    mapaKoordinata["${u.ID}"] = GeoPoint(snapshot.child("lat").value as Double,
+                                                            snapshot.child("long").value as Double)
+                    crtajMapu()
                 }
 
-                override fun onCancelled(error: DatabaseError)
-                {
-                    TODO("Not yet implemented")
-                }
+                override fun onCancelled(error: DatabaseError) { return }
 
             })
             listaReferenci.add(tmp)
         }
 
-
+        crtajMapu()
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    private fun crtajMapu()
     {
-        binding = FragmentTripTeammatesMapBinding.inflate(layoutInflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        var context = activity?.applicationContext;
-        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
-        mapa = binding.osmMapView
-
+        mapa.overlays.clear()
+        mapa.controller.setCenter(GeoPoint(sharedViewModel.latitude.value!!, sharedViewModel.longitude.value!!))
 
         if(ActivityCompat.checkSelfPermission(requireActivity(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
             ActivityCompat.checkSelfPermission(requireActivity(),android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
@@ -93,15 +91,41 @@ class FragmentTripTeammatesMap : Fragment()
         {
             setMyLocationOverlay()
         }
+        for(par in mapaKoordinata)
+        {
+            var idK = par.key
+            var lokacija = par.value
+
+            var marker = Marker(mapa)
+            marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_marker_for_map)
+            //marker.infoWindow = InfoWindow()
+            marker.position = lokacija
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            mapa.overlays.add(marker);
+        }
+
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
+        binding = FragmentTripTeammatesMapBinding.inflate(layoutInflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        super.onViewCreated(view, savedInstanceState)
+        var context = activity?.applicationContext;
+        Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
+        mapa = binding.osmMapView
         mapa.setMultiTouchControls(true)
-
-
         binding.teammatesTeammates.setOnClickListener{
             findNavController().navigate(R.id.action_fragmentTripTeammates_to_fragmentTripTeammates2)
         }
     }
 
-    private fun setMyLocationOverlay(){
+    private fun setMyLocationOverlay()
+    {
         mapa.controller.setZoom(15)
         //mapa.controller.setCenter(GeoPoint(44.0333, 20.8))
         myLocationOverlay = MyLocationNewOverlay(GpsMyLocationProvider(activity),mapa)
@@ -115,20 +139,22 @@ class FragmentTripTeammatesMap : Fragment()
         }
 
     }
-    private val requestPermissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()){
-        isGranted:Boolean->
-        if(isGranted){
-            setMyLocationOverlay()
 
 
-        }
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
+    {
+        isGranted:Boolean ->
+            if(isGranted)
+            {
+                setMyLocationOverlay()
+            }
     }
 
     override fun onPause()
     {
         super.onPause()
         mapa.onPause()
+        listaReferenci.clear()
     }
 
 }
