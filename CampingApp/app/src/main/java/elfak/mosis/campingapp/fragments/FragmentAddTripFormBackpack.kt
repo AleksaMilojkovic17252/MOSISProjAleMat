@@ -95,6 +95,10 @@ class FragmentAddTripFormBackpack : Fragment()
             var startDate = sharedViewModel.startDate.value
             var endDate = sharedViewModel.endDate.value
             var backpackItems = HashMap<String,ArrayList<BackpackItems>>()
+            for(user in users)
+            {
+                backpackItems.put(user.ID, ArrayList())
+            }
             backpackItems.put(sharedViewModel.korisnik.value!!.ID,sharedViewModel.backpackItems.toCollection(ArrayList()))
             val trip = Trip("0",tripName!!,longitude!!,latitude!!,users,startDate!!,endDate!!, backpackItems, "")
             createTrip(trip)
@@ -119,7 +123,8 @@ class FragmentAddTripFormBackpack : Fragment()
             "userIDs" to userIDs,
             "users" to trip.users,
             "userItems" to trip.UserItems,
-            "processed" to false
+            "processed" to false,
+            "memories" to arrayOf<String>()
         )
 
         Firebase.firestore.collection("trips").add(zaDodati)

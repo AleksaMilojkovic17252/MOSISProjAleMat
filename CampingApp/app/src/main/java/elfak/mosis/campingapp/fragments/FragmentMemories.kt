@@ -64,7 +64,7 @@ class FragmentMemories : Fragment()
             startActivity(intent)
         }
 
-        
+
     }
 
     private fun dispatchTakePictureIntent()
