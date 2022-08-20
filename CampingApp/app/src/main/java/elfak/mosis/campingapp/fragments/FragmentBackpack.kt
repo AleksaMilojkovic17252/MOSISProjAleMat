@@ -9,12 +9,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -74,7 +76,13 @@ class FragmentBackpack : Fragment()
         }
 
         binding.floatingActionButton.setOnClickListener{
-            //snimi sve podatke
+            Firebase.firestore
+                .collection(getString(R.string.db_coll_trips))
+                .document(sharedViewModel.tripID.value!!)
+                .update("userItems", sharedViewModel.backpackItems)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Successful update", Toast.LENGTH_SHORT).show()
+                }
         }
 
 
