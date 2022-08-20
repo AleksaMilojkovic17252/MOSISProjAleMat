@@ -2,6 +2,7 @@ package elfak.mosis.campingapp.fragments
 
 import android.app.Activity
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -12,8 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FieldValue
@@ -22,6 +27,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.adapters.AdapterMemories
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.databinding.FragmentMemoriesBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
@@ -36,6 +42,7 @@ class FragmentMemories : Fragment()
 {
     private val REQUEST_IMAGE_CAPTURE = 1
     lateinit var binding: FragmentMemoriesBinding
+    lateinit var recycler: RecyclerView
     private val shareViewModel: SharedViewTrip by activityViewModels()
 
     override fun onResume()
@@ -53,6 +60,9 @@ class FragmentMemories : Fragment()
         binding.buttonAddActivity.setOnClickListener {
             dispatchTakePictureIntent()
         }
+        binding.newPicture.setOnClickListener {
+            dispatchTakePictureIntent()
+        }
         return binding.root
     }
 
@@ -64,7 +74,40 @@ class FragmentMemories : Fragment()
             startActivity(intent)
         }
 
+        recycler = binding.allMemoriesPictures
+        val adapter: AdapterMemories = AdapterMemories(requireContext(),shareViewModel.memories,shareViewModel.tripID.value!!)
+        recycler.adapter = adapter
+        recycler.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
 
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(shareViewModel.tripID.value!!)
+            .get()
+            .addOnSuccessListener {
+                var tmp = it["memories"] as ArrayList<String>
+                shareViewModel.memories.clear()
+                shareViewModel.memories.addAll(tmp)
+                recycler!!.adapter!!.notifyDataSetChanged()
+            }
+
+
+
+    }
+
+    fun refreshFragment(context: Context?)
+    {
+        context?.let{
+            val fragmentManager = (context as? AppCompatActivity)?.supportFragmentManager
+            fragmentManager?.let {
+                val currentFragment = fragmentManager.findFragmentById(R.id.fragment_trip_container)
+                currentFragment?.let{
+                    val fragmentTransaction = fragmentManager.beginTransaction()
+                    fragmentTransaction.detach(it)
+                    fragmentTransaction.attach(it)
+                    fragmentTransaction.commit()
+                }
+            }
+        }
     }
 
     private fun dispatchTakePictureIntent()
@@ -137,6 +180,7 @@ class FragmentMemories : Fragment()
                         .update("memories", FieldValue.arrayUnion(nazivSlike))
                         .addOnSuccessListener {
                             Toast.makeText(requireContext(), "Successful uploaded picutre", Toast.LENGTH_SHORT).show()
+                            recycler!!.adapter!!.notifyDataSetChanged()
                         }
                 }
 
