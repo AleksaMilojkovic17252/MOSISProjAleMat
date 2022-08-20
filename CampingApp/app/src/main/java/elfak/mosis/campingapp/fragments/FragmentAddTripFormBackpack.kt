@@ -1,6 +1,7 @@
 package elfak.mosis.campingapp.fragments
 
 
+import android.app.Activity
 import android.content.DialogInterface
 import android.os.Bundle
 import android.text.InputType
@@ -19,6 +20,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.adapters.AdapterAddTripBackpack
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.databinding.FragmentAddTripFormBackpackBinding
@@ -124,7 +126,8 @@ class FragmentAddTripFormBackpack : Fragment()
             "users" to trip.users,
             "userItems" to trip.UserItems,
             "processed" to false,
-            "memories" to arrayOf<String>()
+            "memories" to arrayOf<String>(),
+            "activities" to arrayOf<ActivityTrip>()
         )
 
         Firebase.firestore.collection("trips").add(zaDodati)

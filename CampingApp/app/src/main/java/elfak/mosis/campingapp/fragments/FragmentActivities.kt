@@ -53,7 +53,7 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities.toCollection(ArrayList()),shareViewModel.korisnici.toCollection(ArrayList()),
+        val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.korisnici.toCollection(ArrayList()),
             Firebase.auth.currentUser!!.uid,this)
         recycler = binding.recyclerActivities
         recycler.adapter = adapter

@@ -2,6 +2,7 @@ package elfak.mosis.campingapp.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -14,10 +15,12 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
-import java.util.HashMap
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener
 {
@@ -193,6 +196,22 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.korisnici = drustvo
 
             shareViewModel.memories.addAll(it["memories"] as ArrayList<String>)
+
+            var tmpx = it["activities"] as ArrayList<Map<String, Object>>
+            for (i in tmpx)
+            {
+                var novi = ActivityTrip(i["id"].toString(),
+                                        i["koJeNapravio"].toString(),
+                                        i["title"].toString(),
+                                        i["description"].toString(),
+                                        i["latitude"].toString().toDouble(),
+                                        i["longitude"].toString().toDouble(),
+                                        i["type"].toString().toInt())
+                shareViewModel.allActivities.add(novi)
+            }
+            shareViewModel.dataSetChanged.value = !shareViewModel.dataSetChanged.value!!
+
+
             Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
         }
 

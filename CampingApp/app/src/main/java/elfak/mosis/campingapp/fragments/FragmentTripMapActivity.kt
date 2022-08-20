@@ -12,6 +12,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -26,6 +28,7 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.MapEventsOverlay
 import org.osmdroid.views.overlay.Marker
+import java.util.*
 
 
 class FragmentTripMapActivity : Fragment() {
@@ -51,9 +54,11 @@ class FragmentTripMapActivity : Fragment() {
         binding.buttonConfirmMapPosition.visibility = View.GONE
 
         binding.buttonConfirmMapPosition.setOnClickListener {
-            shareViewModel.allActivities.add(ActivityTrip("0", Firebase.auth.currentUser!!.uid,
+            var novi = ActivityTrip(UUID.randomUUID().toString(), Firebase.auth.currentUser!!.uid,
                 shareViewModel.activityTitle.value!!,shareViewModel.activityDescription.value!!,shareViewModel.activityLatitude.value!!,shareViewModel.activityLongitude.value!!,shareViewModel.activityType.value!!
-            ))
+            )
+            shareViewModel.allActivities.add(novi)
+            saveOnFirebase(novi)
             shareViewModel.dataSetChanged.value = !shareViewModel.dataSetChanged.value!!
             findNavController().navigate(R.id.action_fragmentTripMapActivity_to_fragmentActivities)
         }
@@ -96,6 +101,14 @@ class FragmentTripMapActivity : Fragment() {
         mapa.overlays.add(startMarker);
         setOnMapClickOverlay()
 
+    }
+
+    private fun saveOnFirebase(novi: ActivityTrip)
+    {
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(shareViewModel.tripID.value!!)
+            .update("activities", FieldValue.arrayUnion(novi))
     }
 
     override fun onResume()

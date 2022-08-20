@@ -16,7 +16,7 @@ import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 
-class AdapterAllActivities(val ct: Context, val activities: ArrayList<ActivityTrip>?, val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
+class AdapterAllActivities(val ct: Context, val activities: MutableList<ActivityTrip>?, val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val ceoView:ConstraintLayout = itemView.findViewById(R.id.row_activity)
         val naslov:TextView = itemView.findViewById(R.id.naslov)
