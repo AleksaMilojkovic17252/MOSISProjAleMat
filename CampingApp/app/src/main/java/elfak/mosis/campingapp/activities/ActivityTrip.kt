@@ -3,6 +3,7 @@ package elfak.mosis.campingapp.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -190,6 +191,9 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     }
             }
             shareViewModel.korisnici = drustvo
+
+            shareViewModel.memories.addAll(it["memories"] as ArrayList<String>)
+            Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
         }
 
     }
