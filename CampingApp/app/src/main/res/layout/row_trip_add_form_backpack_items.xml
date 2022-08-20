@@ -21,12 +21,13 @@
 
             <TextView
                 android:id="@+id/text_backpack_name_add_trip"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="TextView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/imageButtonMinus"
                 android:textStyle="bold"
                 android:textColor="@color/black"
                 android:textSize="16dp"

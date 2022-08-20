@@ -91,6 +91,9 @@
         <action
             android:id="@+id/action_fragmentTripTeammates2_to_fragmentTripTeammates"
             app:destination="@id/fragmentTripTeammates" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates2_to_fragmentTripTeammateBackpack"
+            app:destination="@id/fragmentTripTeammateBackpack" />
     </fragment>
     <fragment
         android:id="@+id/fragmentTripWriteActivity"
@@ -119,4 +122,9 @@
             android:id="@+id/action_fragmentDetailActivityView_to_fragmentActivities"
             app:destination="@id/fragmentActivities" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentTripTeammateBackpack"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammateBackpack"
+        android:label="fragment_trip_teammate_backpack"
+        tools:layout="@layout/fragment_trip_teammate_backpack" />
 </navigation>

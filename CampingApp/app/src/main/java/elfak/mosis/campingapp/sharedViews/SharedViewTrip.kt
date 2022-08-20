@@ -27,4 +27,5 @@ class SharedViewTrip : ViewModel()
     var allActivities: MutableList<ActivityTrip> = mutableListOf()
     var selectedActivity: MutableLiveData<ActivityTrip> = MutableLiveData()
     var memories: MutableList<String> = mutableListOf()
+    var selectedUser: MutableLiveData<User> = MutableLiveData()
 }

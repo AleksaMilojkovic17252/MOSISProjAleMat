@@ -87,7 +87,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                 val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),sharedViewModel.tripovi.toCollection(ArrayList()),this)
                 recycler = binding.showTrips
                 recycler.adapter = adapter
-                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
             }
     }
 

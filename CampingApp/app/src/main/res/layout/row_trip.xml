@@ -93,32 +93,6 @@
             android:text="to"
             android:layout_marginLeft="5dp"></TextView>
 
-
-
-        <android.widget.Button
-            android:id="@+id/button_like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/et_button_shape_greenstroke"
-            android:textColor="@color/Green700"
-            android:text="0"
-            android:textSize="20dp"
-            android:paddingLeft="10dp"
-            android:textAlignment="textStart"
-            app:layout_constraintTop_toBottomOf="@id/imageHolder"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"/>
-        <ImageView
-            android:id="@+id/change_heart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_favorite_border_24"
-            app:layout_constraintTop_toTopOf="@id/button_like"
-            app:layout_constraintBottom_toBottomOf="@id/button_like"
-            app:layout_constraintEnd_toEndOf="@id/button_like"
-            android:layout_marginRight="5dp"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

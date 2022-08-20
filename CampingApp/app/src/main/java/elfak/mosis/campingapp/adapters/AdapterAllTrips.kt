@@ -40,9 +40,6 @@ class AdapterAllTrips(val ct: Context, val trips: ArrayList<Trip>?, val listener
         val startDate: TextView = itemView.findViewById(R.id.date_start)
         val endDate: TextView = itemView.findViewById(R.id.date_end)
         val trip: ConstraintLayout = itemView.findViewById(R.id.row_trip)
-        val dugme: Button = itemView.findViewById(R.id.button_like)
-        val change:ImageView = itemView.findViewById(R.id.change_heart)
-        var liked: Boolean = false
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -60,18 +57,6 @@ class AdapterAllTrips(val ct: Context, val trips: ArrayList<Trip>?, val listener
         holder.endDate.text = DateFormat.getDateInstance().format(trips?.get(position)?.endDate)
         //srediSliku
 
-        holder.dugme.setOnClickListener {
-            if(!holder.liked) {
-                holder.change.setImageResource(R.drawable.ic_baseline_favorite_24)
-                holder.dugme.text = (Integer.parseInt(holder.dugme.text as String)+1).toString()
-            }
-            else
-            {
-                holder.change.setImageResource(R.drawable.ic_baseline_favorite_border_24)
-                holder.dugme.text = (Integer.parseInt(holder.dugme.text as String)-1).toString()
-            }
-            holder.liked = !holder.liked
-        }
         holder.trip.setOnClickListener{
             trips?.let { it1 -> listener.pocniTrip(it1.get(position)) }
         }

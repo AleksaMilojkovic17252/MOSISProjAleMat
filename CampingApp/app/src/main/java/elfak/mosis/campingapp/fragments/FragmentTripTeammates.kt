@@ -6,18 +6,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.adapters.AdapterTripTeammates
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesBinding
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
+import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 
 
-class FragmentTripTeammates : Fragment() {
+class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
 
 
     lateinit var binding: FragmentTripTeammatesBinding
+    private val sharedViewModel: SharedViewTrip by activityViewModels()
+    lateinit var recycler: RecyclerView
 
     override fun onResume() {
         super.onResume()
@@ -25,6 +35,7 @@ class FragmentTripTeammates : Fragment() {
         for (i in 0 until navigation.getMenu().size())
             navigation.getMenu().getItem(i).setChecked(false)
         navigation.menu.findItem(R.id.nav_trip_teammates).setChecked(true)
+        navigation.visibility = View.VISIBLE
     }
 
     override fun onCreateView(
@@ -41,13 +52,26 @@ class FragmentTripTeammates : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.teammatesMap.setOnClickListener{
-            findNavController().popBackStack()
+            findNavController().navigate(R.id.action_fragmentTripTeammates2_to_fragmentTripTeammates)
         }
 
         binding.HomeButtonTrip.setOnClickListener {
             var intent = Intent(context, ActivityMain::class.java)
             startActivity(intent)
         }
+
+        recycler = binding.allFriends
+        val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
+            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,this)
+        recycler.adapter = adapter
+        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+
+
+    }
+
+    override fun Move(SelectedUser: User) {
+        sharedViewModel.selectedUser.value = SelectedUser
+        findNavController().navigate(R.id.action_fragmentTripTeammates2_to_fragmentTripTeammateBackpack)
     }
 
 
