@@ -3,6 +3,7 @@ package elfak.mosis.campingapp.fragments
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,13 +15,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import org.osmdroid.api.IMapController
@@ -96,12 +100,21 @@ class FragmentTripTeammatesMap : Fragment()
         for(par in mapaKoordinata)
         {
             var idK = par.key
+            var korisnik: User = sharedViewModel.korisnici.find { user -> user.ID == idK }!!
             var lokacija = par.value
 
             var marker = Marker(mapa)
-            marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_marker_for_map)
+            marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_pin_circle_24)
             //marker.infoWindow = InfoWindow()
+            marker.title = korisnik.Name
+            marker.subDescription = "Points: 0"
+            marker.image = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_24)
             marker.position = lokacija
+            marker.setOnMarkerClickListener { marker, _ ->
+                marker.showInfoWindow()
+                Log.d("hallo","worky")
+                true//ovako cemo prikazivati detalje o activity-u
+            }
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             mapa.overlays.add(marker);
         }
@@ -141,7 +154,7 @@ class FragmentTripTeammatesMap : Fragment()
         if(mapController != null)
         {
             myLocationOverlay.enableFollowLocation()
-            mapController.setCenter(myLocationOverlay.myLocation)
+
         }
 
     }

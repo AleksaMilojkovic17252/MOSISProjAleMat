@@ -194,7 +194,7 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     }
             }
             shareViewModel.korisnici = drustvo
-            
+
             shareViewModel.memories.clear()
             shareViewModel.memories.addAll(it["memories"] as ArrayList<String>)
 
