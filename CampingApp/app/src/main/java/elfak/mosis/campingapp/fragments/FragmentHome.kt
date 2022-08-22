@@ -85,7 +85,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                     )
                     sharedViewModel.tripovi.add(trip)
                 }
-                sharedViewModel.tripovi.sortByDescending { x -> x.endDate }
+                sharedViewModel.tripovi.sortByDescending { x -> x.startDate }
                 val validTrips = sharedViewModel.tripovi.filter { trip-> trip.endDate > Date() }.toCollection(ArrayList())
                 val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),validTrips,this)
                 recycler = binding.showTrips

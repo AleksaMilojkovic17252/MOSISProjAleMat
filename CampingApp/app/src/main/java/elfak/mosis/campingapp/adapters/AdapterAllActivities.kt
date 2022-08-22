@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
@@ -18,13 +20,14 @@ import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 
-class AdapterAllActivities(val ct: Context, val activities: MutableList<ActivityTrip>?, val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
+class AdapterAllActivities(val ct: Context, val activities: MutableList<ActivityTrip>?,val completed: MutableMap<String,ArrayList<String>> ,val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val ceoView:ConstraintLayout = itemView.findViewById(R.id.row_activity)
         val naslov:TextView = itemView.findViewById(R.id.naslov)
         val fromWho:TextView = itemView.findViewById(R.id.from)
         val desc:TextView = itemView.findViewById(R.id.opis)
         val button: Button = itemView.findViewById(R.id.button_complete)
+        val check: ImageView = itemView.findViewById(R.id.completed)
     }
 
     interface IdiNaDetaljeIJosNesto{
@@ -44,7 +47,16 @@ class AdapterAllActivities(val ct: Context, val activities: MutableList<Activity
         holder.fromWho.text = "From " + friends.find { x-> x.ID == activities?.get(position)?.koJeNapravio }?.Name
         holder.desc.text = activities?.get(position)?.description
 
-        //Ako si zavrsio activity skloni complete dugmeshareVie
+        if(completed[current]?.contains(activities?.get(position)?.ID!!) == true)
+        {
+            holder.check.visibility = View.VISIBLE
+            holder.button.visibility = View.GONE
+        }
+        else
+        {
+            holder.check.visibility = View.GONE
+            holder.button.visibility = View.VISIBLE
+        }
 
         holder.ceoView.setOnClickListener{
             activities?.let { it1 -> pomoc.Detalji(it1.get(position)) }

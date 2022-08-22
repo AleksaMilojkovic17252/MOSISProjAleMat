@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.google.android.gms.tasks.Task
+import com.google.android.gms.tasks.Tasks
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
@@ -147,6 +148,7 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private fun ucitajTrip()
     {
+        shareViewModel.ucitaniSviKorisnici.value = false
         task = Firebase.firestore
             .collection(getString(R.string.db_coll_trips))
             .document(shareViewModel.tripID.value!!)
@@ -175,25 +177,30 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.backpackItems = pomoc
 
             var drustvo = ArrayList<User>()
+            var listaMalihTaskova = ArrayList<Task<DocumentSnapshot>>()
             for (id in it["userIDs"] as ArrayList<String>)
             {
-                Firebase.firestore
+                var maliTask = Firebase.firestore
                     .collection(getString(R.string.db_coll_users))
                     .document(id)
                     .get()
-                    .addOnSuccessListener { usr ->
-                        var tmpUser = User(
-                            id,
-                            usr["name"] as String,
-                            usr["occupation"] as String,
-                            usr["description"] as String,
-                            id,
-                            ArrayList<User>()
-                        )
-                        drustvo.add(tmpUser)
-                    }
+                maliTask.addOnSuccessListener { usr ->
+                    var tmpUser = User(
+                        id,
+                        usr["name"] as String,
+                        usr["occupation"] as String,
+                        usr["description"] as String,
+                        id,
+                        ArrayList<User>()
+                    )
+                    drustvo.add(tmpUser)
+                }
+                listaMalihTaskova.add(maliTask)
             }
             shareViewModel.korisnici = drustvo
+            Tasks.whenAll(listaMalihTaskova).addOnSuccessListener {
+                shareViewModel.ucitaniSviKorisnici.value = true
+            }
 
             shareViewModel.memories.clear()
             shareViewModel.memories.addAll(it["memories"] as ArrayList<String>)

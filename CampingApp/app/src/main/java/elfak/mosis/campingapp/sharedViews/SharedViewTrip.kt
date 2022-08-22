@@ -30,4 +30,5 @@ class SharedViewTrip : ViewModel()
     var memories: MutableList<String> = mutableListOf()
     var selectedUser: MutableLiveData<User> = MutableLiveData()
     var dataPictureChanged: MutableLiveData<Boolean> = MutableLiveData(false)
+    var ucitaniSviKorisnici: MutableLiveData<Boolean> = MutableLiveData(false)
 }

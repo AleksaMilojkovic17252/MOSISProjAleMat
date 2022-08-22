@@ -57,14 +57,27 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.korisnici.toCollection(ArrayList()),
+        shareViewModel.ucitaniSviKorisnici.observe(viewLifecycleOwner)
+        {
+            if (it == true)
+            {
+                val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.zavrseneAktivnosti,shareViewModel.korisnici.toCollection(ArrayList()),
+                    Firebase.auth.currentUser!!.uid,this)
+                recycler = binding.recyclerActivities
+                recycler.adapter = adapter
+                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+            }
+        }
+
+        val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.zavrseneAktivnosti,shareViewModel.korisnici.toCollection(ArrayList()),
             Firebase.auth.currentUser!!.uid,this)
         recycler = binding.recyclerActivities
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
 
+
         shareViewModel.dataSetChanged.observe(viewLifecycleOwner){
-            adapter.notifyDataSetChanged()
+            recycler.adapter?.notifyDataSetChanged()
         }
 
         binding.buttonAddActivity.setOnClickListener {
