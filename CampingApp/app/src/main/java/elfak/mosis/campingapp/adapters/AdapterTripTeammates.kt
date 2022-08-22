@@ -15,7 +15,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
 
-class AdapterTripTeammates(val ct: Context, val Users: ArrayList<User>?,val pomoc:MoveAgain) :
+class AdapterTripTeammates(val ct: Context, val Users: ArrayList<User>?, val Izvrsio: HashMap<String,ArrayList<String>>,val pomoc:MoveAgain) :
     RecyclerView.Adapter<AdapterTripTeammates.ViewHolder>() {
 
     interface MoveAgain{
@@ -39,7 +39,7 @@ class AdapterTripTeammates(val ct: Context, val Users: ArrayList<User>?,val pomo
         Firebase.storage.getReference("profilePics/${Users?.get(position)?.Slika}.jpg").downloadUrl.addOnSuccessListener { uri ->
             Glide.with(ct).load(uri).into(holder.slika)
         }
-        holder.point.text = "Points: 0"//make points work lmao
+        holder.point.text = "Points: " + Izvrsio[Users?.get(position)?.ID]?.count()
         holder.mainLayout.setOnClickListener {
             pomoc.Move(Users!!.get(position))
         }

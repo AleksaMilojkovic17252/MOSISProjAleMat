@@ -62,7 +62,7 @@ class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
 
         recycler = binding.allFriends
         val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
-            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,this)
+            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,HashMap<String,ArrayList<String>>(),this)
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
 

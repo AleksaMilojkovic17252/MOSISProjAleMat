@@ -22,6 +22,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
+import java.lang.Exception
 import java.util.concurrent.TimeUnit
 
 class ServiceSendLocation : Service()
@@ -34,6 +35,7 @@ class ServiceSendLocation : Service()
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private var currentLocation: Location? = null
+
 
 
     // Handler that receives messages from the thread
@@ -128,23 +130,42 @@ class ServiceSendLocation : Service()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
-        Toast.makeText(this, "ServiceSendLoc start", Toast.LENGTH_SHORT).show()
+        try {
+            Toast.makeText(this, "ServiceSendLoc start", Toast.LENGTH_SHORT).show()
 
-        // For each start request, send a message to start a job and deliver the
-        // start ID so we know which request we're stopping when we finish the job
-        serviceHandler?.obtainMessage()?.also { msg ->
-            msg.arg1 = startId
-            serviceHandler?.sendMessage(msg)
+            // For each start request, send a message to start a job and deliver the
+            // start ID so we know which request we're stopping when we finish the job
+            serviceHandler?.obtainMessage()?.also { msg ->
+                msg.arg1 = startId
+                serviceHandler?.sendMessage(msg)
+            }
+
+            if (ActivityCompat.checkSelfPermission(
+                    this@ServiceSendLocation,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    this@ServiceSendLocation,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+            }
+
+            fusedLocationClient.requestLocationUpdates(
+                locationRequest,
+                locationCallback,
+                Looper.getMainLooper()
+            )
+            // If we get killed, after returning from here, restart
+
+        }
+        catch (Exception:Exception){
+            Log.d("SERVICE START","PUKO")
+        }
+        finally {
+            return START_STICKY
         }
 
-        if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-        )
-        { }
-
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-        // If we get killed, after returning from here, restart
-        return START_STICKY
     }
 
     override fun onBind(intent: Intent): IBinder?

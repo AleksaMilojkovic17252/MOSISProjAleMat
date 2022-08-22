@@ -27,6 +27,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.google.type.DateTime
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -39,6 +40,7 @@ import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentHomeBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
+import java.time.LocalDateTime
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -84,7 +86,8 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                     sharedViewModel.tripovi.add(trip)
                 }
                 sharedViewModel.tripovi.sortByDescending { x -> x.endDate }
-                val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),sharedViewModel.tripovi.toCollection(ArrayList()),this)
+                val validTrips = sharedViewModel.tripovi.filter { trip-> trip.endDate > Date() }.toCollection(ArrayList())
+                val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),validTrips,this)
                 recycler = binding.showTrips
                 recycler.adapter = adapter
                 recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
