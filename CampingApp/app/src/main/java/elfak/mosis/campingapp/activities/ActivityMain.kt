@@ -415,6 +415,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         if (p1 == DialogInterface.BUTTON_POSITIVE)
                         {
                             Firebase.auth.signOut()
+                            pogasiSVE()
+                            var i = Intent(this, ActivityLogin::class.java)
+                            startActivity(i)
                         }
                     }
                     .setNegativeButton("No") {p0, p1 -> }
@@ -423,6 +426,17 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         mDrawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun pogasiSVE()
+    {
+        val intent = Intent(this, ServiceNotificationSpamFirestore::class.java)
+        stopService(intent)
+        val intent2 = Intent(this, ServicePushNotification::class.java)
+        stopService(intent2)
+        var i = Intent(this, ServiceSendLocation::class.java)
+        stopService(i)
+
     }
 
     override fun setDrawerEnabled(enabled: Boolean)
