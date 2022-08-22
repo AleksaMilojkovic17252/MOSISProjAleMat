@@ -116,6 +116,12 @@ class FragmentAddTripFormBackpack : Fragment()
         for(user in trip.users)
             userIDs.add(user.ID)
 
+        var tmp = HashMap<String, ArrayList<String>>()
+        for(id in userIDs)
+        {
+            tmp[id] = ArrayList()
+        }
+
         var zaDodati = hashMapOf(
             "tripName" to trip.tripName,
             "startDate" to trip.startDate,
@@ -127,7 +133,8 @@ class FragmentAddTripFormBackpack : Fragment()
             "userItems" to trip.UserItems,
             "processed" to false,
             "memories" to arrayOf<String>(),
-            "activities" to arrayOf<ActivityTrip>()
+            "activities" to arrayOf<ActivityTrip>(),
+            "completedActivities" to tmp
         )
 
         Firebase.firestore.collection("trips").add(zaDodati)

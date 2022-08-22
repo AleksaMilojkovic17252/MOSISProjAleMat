@@ -6,19 +6,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
 import elfak.mosis.campingapp.adapters.AdapterTripTeammates
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesBinding
-import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 
 
@@ -38,17 +39,36 @@ class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
         navigation.visibility = View.VISIBLE
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
+    {
         binding = FragmentTripTeammatesBinding.inflate(layoutInflater)
         return binding.root
-
-
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
+    {
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(sharedViewModel.tripID.value!!)
+            .get()
+            .addOnSuccessListener {
+                var tmp = it["completedActivities"] as HashMap<*, *>
+                var zavrseneAktivnosti = HashMap<String, ArrayList<String>>()
+                for (i in tmp)
+                {
+                    var key = i.key.toString()
+                    var value = i.value //
+                    if (value == null)
+                        value = ArrayList<String>()
+                    zavrseneAktivnosti[key] = value as ArrayList<String>
+                }
+                recycler = binding.allFriends
+                val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
+                    sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,zavrseneAktivnosti,this)
+                recycler.adapter = adapter
+                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+            }
+
         super.onViewCreated(view, savedInstanceState)
 
         binding.teammatesMap.setOnClickListener{
@@ -60,11 +80,7 @@ class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
             startActivity(intent)
         }
 
-        recycler = binding.allFriends
-        val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
-            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,HashMap<String,ArrayList<String>>(),this)
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+
 
 
     }

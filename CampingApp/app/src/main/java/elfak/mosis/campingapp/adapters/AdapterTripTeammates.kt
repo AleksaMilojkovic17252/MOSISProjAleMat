@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -34,12 +35,13 @@ class AdapterTripTeammates(val ct: Context, val Users: ArrayList<User>?, val Izv
         return ViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.ime.text = Users?.get(position)?.Name
         Firebase.storage.getReference("profilePics/${Users?.get(position)?.Slika}.jpg").downloadUrl.addOnSuccessListener { uri ->
             Glide.with(ct).load(uri).into(holder.slika)
         }
-        holder.point.text = "Points: " + Izvrsio[Users?.get(position)?.ID]?.count()
+        holder.point.text = "Points: " + (Izvrsio[Users?.get(position)?.ID]?.count() ?: -1)
         holder.mainLayout.setOnClickListener {
             pomoc.Move(Users!!.get(position))
         }
