@@ -130,6 +130,9 @@ class FragmentTripTeammatesMap : Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
+        binding.filterButton.setOnClickListener {
+            findNavController().navigate(R.id.action_fragmentTripTeammates_to_fragmentTripFilterMap)
+        }
         var context = activity?.applicationContext;
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
         mapa = binding.osmMapView

@@ -1,16 +1,22 @@
 package elfak.mosis.campingapp.fragments
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.preference.PreferenceManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.databinding.FragmentDetailActivityViewBinding
@@ -52,6 +58,27 @@ class FragmentDetailActivityView : Fragment() {
         binding.opis.text = shareViewModel.selectedActivity.value?.description!!
         binding.naslov.text = shareViewModel.selectedActivity.value?.title!!
         binding.from.text = "From " + shareViewModel.korisnici.find{x->x.ID == shareViewModel.selectedActivity.value?.koJeNapravio!!}?.Name
+        if(shareViewModel.selectedActivity.value!!.ID in shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser?.uid]!!)
+        {
+            binding.buttonComplete.visibility = View.GONE
+            binding.completed.visibility = View.VISIBLE
+        }
+        else
+        {
+            binding.buttonComplete.visibility = View.VISIBLE
+            binding.completed.visibility = View.GONE
+        }
+        binding.buttonComplete.setOnClickListener {
+            Firebase.firestore
+                .collection(getString(R.string.db_coll_trips))
+                .document(shareViewModel.tripID.value!!)
+                .update("completedActivities.${Firebase.auth.currentUser!!.uid}", FieldValue.arrayUnion(
+                    shareViewModel.selectedActivity.value!!.ID))
+                .addOnSuccessListener {
+                    shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.add(shareViewModel.selectedActivity.value!!.ID)
+                    Toast.makeText(requireContext(), "You did it!", Toast.LENGTH_SHORT).show()
+                }
+        }
         var context = activity?.applicationContext;
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
         mapa = binding.osmMapView

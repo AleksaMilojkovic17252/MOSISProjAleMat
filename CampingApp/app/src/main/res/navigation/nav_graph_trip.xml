@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_fragmentTripTeammates_to_fragmentTripTeammates2"
             app:destination="@id/fragmentTripTeammates2" />
+        <action
+            android:id="@+id/action_fragmentTripTeammates_to_fragmentTripFilterMap"
+            app:destination="@id/fragmentTripFilterMap" />
     </fragment>
     <fragment
         android:id="@+id/fragmentMemories"
@@ -127,4 +130,9 @@
         android:name="elfak.mosis.campingapp.fragments.FragmentTripTeammateBackpack"
         android:label="fragment_trip_teammate_backpack"
         tools:layout="@layout/fragment_trip_teammate_backpack" />
+    <fragment
+        android:id="@+id/fragmentTripFilterMap"
+        android:name="elfak.mosis.campingapp.fragments.FragmentTripFilterMap"
+        android:label="fragment_trip_filter_map"
+        tools:layout="@layout/fragment_trip_filter_map" />
 </navigation>

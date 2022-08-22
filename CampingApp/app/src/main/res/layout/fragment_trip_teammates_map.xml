@@ -13,8 +13,8 @@
         android:textSize="20dp"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/HomeButtonTrip"
+        app:layout_constraintEnd_toStartOf="@+id/filterButton"
         app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -28,6 +28,17 @@
         app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="20dp"/>
+
+    <ImageView
+        android:id="@+id/filterButton"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ic_baseline_filter_list_24"
+        app:tint="@color/Green700"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/guideline_trip_teammates"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="20dp"/>
 
 
 
