@@ -10,6 +10,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.Trip
@@ -27,6 +29,7 @@ class AdapterAllActivities(val ct: Context, val activities: MutableList<Activity
 
     interface IdiNaDetaljeIJosNesto{
         fun Detalji(Activity:ActivityTrip)
+        fun updateCompletedActivities(Activity: ActivityTrip)
     }
 
 
@@ -48,7 +51,7 @@ class AdapterAllActivities(val ct: Context, val activities: MutableList<Activity
         }
 
         holder.button.setOnClickListener {
-            //dodaj u completed
+            pomoc.updateCompletedActivities(activities?.get(position)!!)
         }
 
 

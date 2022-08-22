@@ -10,6 +10,7 @@ import kotlin.collections.ArrayList
 
 class SharedViewTrip : ViewModel()
 {
+    var zavrseneAktivnosti: MutableMap<String, ArrayList<String>> = mutableMapOf()
     var korisnici: MutableList<User> = mutableListOf()
     var tripName: MutableLiveData<String> = MutableLiveData()
     var longitude: MutableLiveData<Double> = MutableLiveData()

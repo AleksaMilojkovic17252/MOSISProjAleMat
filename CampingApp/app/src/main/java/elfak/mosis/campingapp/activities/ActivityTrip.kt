@@ -213,6 +213,18 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.dataSetChanged.value = !shareViewModel.dataSetChanged.value!!
 
 
+            var tmp2 = it["completedActivities"] as HashMap<*, *>
+            var zavrseneAktivnosti = HashMap<String, ArrayList<String>>()
+            for (i in tmp2) {
+                var key = i.key.toString()
+                var value = i.value
+                if (value == null)
+                    value = ArrayList<String>()
+                zavrseneAktivnosti[key] = value as ArrayList<String>
+            }
+            shareViewModel.zavrseneAktivnosti = zavrseneAktivnosti
+
+
             Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
         }
 

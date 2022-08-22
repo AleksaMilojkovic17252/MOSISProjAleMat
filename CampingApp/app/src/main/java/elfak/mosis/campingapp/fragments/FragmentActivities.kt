@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -22,6 +25,7 @@ import elfak.mosis.campingapp.adapters.AdapterAllActivities
 import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
+import java.lang.reflect.Field
 
 
 class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNesto
@@ -79,5 +83,18 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
     override fun Detalji(Activity: ActivityTrip) {
         shareViewModel.selectedActivity.value = Activity
         findNavController().navigate(R.id.action_fragmentActivities_to_fragmentDetailActivityView)
+    }
+
+    override fun updateCompletedActivities(Activity: ActivityTrip)
+    {
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(shareViewModel.tripID.value!!)
+            .update("completedActivities.${Firebase.auth.currentUser!!.uid}", FieldValue.arrayUnion(Activity.ID))
+            .addOnSuccessListener {
+                shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.add(Activity.ID)
+                Toast.makeText(requireContext(), "You did it!", Toast.LENGTH_SHORT).show()
+                recycler.adapter?.notifyDataSetChanged()
+            }
     }
 }
