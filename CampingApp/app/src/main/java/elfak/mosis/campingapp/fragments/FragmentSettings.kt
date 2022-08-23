@@ -23,6 +23,7 @@ import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentSettingsBinding
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
+import elfak.mosis.campingapp.services.ServiceSendLocation
 
 class FragmentSettings: Fragment()
 {
@@ -37,22 +38,6 @@ class FragmentSettings: Fragment()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) 
     {
         super.onViewCreated(view, savedInstanceState)
-        binding.linearLayoutRecetnTrips.setOnClickListener {
-            Toast.makeText(context, "All trips", Toast.LENGTH_SHORT).show()
-        }
-
-        binding.linearLayoutDeleteAllTrips.setOnClickListener {
-            // TODO: Napisano ali nije provereno da li radi, deluje da radi, ce probamo sa pravim podacima kasnijeee
-            var youSureDialog = AlertDialog.Builder(requireContext())
-            youSureDialog
-                .setMessage(R.string.delete_all_trips_question)
-                .setPositiveButton("Yes") { p0, p1 ->
-                    if (p1 == DialogInterface.BUTTON_POSITIVE)
-                        deleteAllTrips()
-                }
-                .setNegativeButton("No") {p0, p1 -> }
-                .show()
-        }
 
         var korisnickePreference = activity?.getSharedPreferences("CampingApp", 0)
         binding.switchNotifications.setOnClickListener {
@@ -74,45 +59,28 @@ class FragmentSettings: Fragment()
             editor?.commit()
         }
         binding.switchNotifications.isChecked = korisnickePreference?.getBoolean("notifikacije", false) ?: false
-    }
 
-    private fun deleteAllTrips()
-    {
-        Firebase.firestore
-            .collection(getString(R.string.db_coll_trips))
-            .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)
-            .get()
-            .addOnSuccessListener {
-                for(doc in it)
-                {
-                    var nizID = doc["userIDs"] as java.util.ArrayList<String>
-                    nizID.remove(Firebase.auth.currentUser!!.uid)
+        binding.switchLocation.setOnClickListener {
+            var editor = korisnickePreference?.edit()
+            if(binding.switchLocation.isChecked)
+            {
+                val intent = Intent(requireContext(), ServiceSendLocation::class.java)
+                requireActivity().startService(intent)
 
-                    var nizUser = doc["users"] as java.util.ArrayList<HashMap<String, String>>
-                    Log.d("CampingApp", nizUser[0]::class.java.name)
-                    var noviNizUser = nizUser.filter { u -> u["id"] != Firebase.auth.currentUser!!.uid}
+                editor?.putBoolean("lokacija", true)
 
-                    var nizStvari = doc["userItems"] as HashMap<String, ArrayList<BackpackItems>>
-
-                    var noviNizStvari = nizStvari.filter { par -> par.key != Firebase.auth.currentUser!!.uid }
-                    Log.d("CampingApp", nizStvari.size.toString())
-                    var zaAzuriranje = mapOf(
-                        "userIDs" to nizID,
-                        "users" to noviNizUser,
-                        "userItems" to noviNizStvari
-                    )
-
-
-                    Firebase.firestore
-                        .collection(getString(R.string.db_coll_trips))
-                        .document(doc.id)
-                        .update(zaAzuriranje)
-
-
-                }
             }
+            else
+            {
+                requireActivity().stopService(Intent(requireContext(), ServiceSendLocation::class.java))
+                editor?.putBoolean("lokacija", false)
+            }
+            editor?.commit()
 
+        }
+        binding.switchLocation.isChecked = korisnickePreference?.getBoolean("lokacija", false) ?: false
     }
+
 
     override fun onResume()
     {

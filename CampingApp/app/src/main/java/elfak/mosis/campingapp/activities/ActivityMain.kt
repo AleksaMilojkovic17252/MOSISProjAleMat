@@ -295,12 +295,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         addTeammateButton.setOnClickListener {
             navController.navigate(R.id.action_fragmentTeammates_to_fragmentAddTeammate2)
         }
-        
-//        FirebaseMessaging.getInstance().token.addOnCompleteListener {
-//            val token = it.result
-//            Toast.makeText(this, "$token", Toast.LENGTH_SHORT).show()
-//            //Log.d("CampingApp", token)
-//        }
 
     }
 
@@ -450,8 +444,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onPause()
     {
-        //stopService(Intent(this, ServiceNotificationSpamFirestore::class.java))
-        //stopService(Intent(this, ServiceSendLocation::class.java))
         unregisterReceiver(primac)
         super.onPause()
     }
@@ -473,10 +465,12 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             stopService(intent2)
             startService(intent2)
         }
-
-        var i = Intent(this, ServiceSendLocation::class.java)
-        stopService(i)
-        startService(i)
+        if(korisnickePreference?.getBoolean("lokacija", false) == true)
+        {
+            var i = Intent(this, ServiceSendLocation::class.java)
+            stopService(i)
+            startService(i)
+        }
 
         //Obrada notifikacija
         registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));

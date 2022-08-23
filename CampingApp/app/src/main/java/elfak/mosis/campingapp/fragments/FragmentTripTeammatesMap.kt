@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.FragmentTripTeammatesMapBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
@@ -119,6 +120,28 @@ class FragmentTripTeammatesMap : Fragment()
             }
             marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
             mapa.overlays.add(marker);
+        }
+
+        for(aktivnost in sharedViewModel.allActivities)
+        {
+            var marker = Marker(mapa)
+            when(aktivnost.type)
+            {
+                ActivityTrip.NICE_VIEW -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_nice_view_48)
+                ActivityTrip.POINT_OF_INTEREST -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
+                ActivityTrip.SHELTER -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_shelter_48)
+            }
+            if(sharedViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.contains(aktivnost.ID) == true)
+                marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_completed_48)
+            marker.title = aktivnost.title
+            marker.position = GeoPoint(aktivnost.latitude, aktivnost.longitude)
+            marker.setOnMarkerClickListener { marker, mapView ->
+                marker.showInfoWindow()
+                true
+            }
+            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+            mapa.overlays.add(marker);
+
         }
 
     }

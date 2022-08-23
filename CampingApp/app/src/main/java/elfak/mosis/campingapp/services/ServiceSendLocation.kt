@@ -48,37 +48,6 @@ class ServiceSendLocation : Service()
             // For our sample, we just sleep for 5 seconds.
             nit = Thread.currentThread()
 
-
-            if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            )
-            { }
-            while (true)
-            {
-////                try
-////                {
-////                    fusedLocationClient.getCurrentLocation(Priority.PRIORITY_HIGH_ACCURACY, null).addOnSuccessListener { loc ->
-////                        var lat = loc.latitude
-////                        var long = loc.longitude
-////                        var id = Firebase.auth.currentUser!!.uid
-////                        Firebase.database("https://mosisprojekat-2b28d-default-rtdb.europe-west1.firebasedatabase.app/")
-////                            .getReference("locations/$id").setValue(mapOf("lat" to lat, "long" to long)).addOnSuccessListener {
-////
-////                            }
-////                    }
-////                    fusedLocationClient.lastLocation.addOnSuccessListener { loc ->
-////
-////                    }
-//                }
-//                catch (e: InterruptedException)
-//                {
-//                    // Restore interrupt status.
-//                    Thread.currentThread().interrupt()
-//                }
-//                Thread.sleep(5000)
-            }
-
-
             // Stop the service using the startId, so that we don't stop
             // the service in the middle of handling another job
             stopSelf(msg.arg1)
