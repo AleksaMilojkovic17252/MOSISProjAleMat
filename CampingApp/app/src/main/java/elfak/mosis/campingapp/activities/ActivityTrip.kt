@@ -249,10 +249,12 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
             var intent = Intent(this, ServiceNearActivities::class.java)
-            intent.putExtra("tripID", shareViewModel.tripID.value)
+            //intent.putExtra("tripID", shareViewModel.tripID.value)
+            intent.putExtra("tripN", shareViewModel.tripName.value)
             intent.putExtra("brojA", shareViewModel.allActivities.count())
             intent.putExtra("aID", shareViewModel.allActivities.map { a -> a.ID }.toTypedArray())
             intent.putExtra("aName", shareViewModel.allActivities.map { a -> a.title }.toTypedArray())
+            intent.putExtra("aTypes", shareViewModel.allActivities.map { a -> a.type }.toTypedArray() as Array<Int>)
             var tmp = DoubleArray(shareViewModel.allActivities.count()*2)
             var i = 0
             for(a in shareViewModel.allActivities)

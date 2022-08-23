@@ -18,6 +18,7 @@ import android.os.Process
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.Notifications
 import elfak.mosis.campingapp.classes.NotificationsFriend
 import elfak.mosis.campingapp.classes.NotificationsTrip
@@ -27,16 +28,26 @@ class ServiceNearActivities : Service() {
 
     private var serviceLooper: Looper? = null
     private var serviceHandler: ServiceHandler? = null
+    private var aktivnosti = ArrayList<ActivityTrip>()
+    private lateinit var tripName: String
 
     // Handler that receives messages from the thread
-    private inner class ServiceHandler(looper: Looper) : Handler(looper) {
+    private inner class ServiceHandler(looper: Looper) : Handler(looper)
+    {
 
-        override fun handleMessage(msg: Message) {
+        override fun handleMessage(msg: Message)
+        {
             // Normally we would do some work here, like download a file.
             // For our sample, we just sleep for 5 seconds.
-            try {
-                Thread.sleep(5000)
-            } catch (e: InterruptedException) {
+            try
+            {
+                while (true)
+                {
+                    Thread.sleep(5000)
+                }
+            }
+            catch (e: InterruptedException)
+            {
                 // Restore interrupt status.
                 Thread.currentThread().interrupt()
             }
@@ -47,7 +58,8 @@ class ServiceNearActivities : Service() {
         }
     }
 
-    override fun onCreate() {
+    override fun onCreate()
+    {
         // Start up the thread running the service.  Note that we create a
         // separate thread because the service normally runs in the process's
         // main thread, which we don't want to block.  We also make it
@@ -63,9 +75,20 @@ class ServiceNearActivities : Service() {
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
-        Toast.makeText(this, "service starting", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "ServiceNearActivities starting", Toast.LENGTH_SHORT).show()
 
-        Toast.makeText(this, "${intent.extras?.getInt("brojA")}", Toast.LENGTH_SHORT).show()
+        tripName = intent.extras!!.getString("tripN")!!
+        var aIDs = intent.extras!!.getStringArray("aID")
+        var aNames = intent.extras!!.getStringArray("aName")
+        var aCoors = intent.extras!!.getDoubleArray("aCoor")
+        var aTypes = intent.extras!!.get("aTypes") as Array<Int>
+        var j = 0
+
+        for ((i, v) in aIDs!!.withIndex())
+        {
+            aktivnosti.add(ActivityTrip(v, "", aNames!![i], "", aCoors!![j++], aCoors!![j++], aTypes!![i]))
+        }
+
         // For each start request, send a message to start a job and deliver the
         // start ID so we know which request we're stopping when we finish the job
         serviceHandler?.obtainMessage()?.also { msg ->
@@ -77,12 +100,14 @@ class ServiceNearActivities : Service() {
         return START_STICKY
     }
 
-    override fun onBind(intent: Intent): IBinder? {
+    override fun onBind(intent: Intent): IBinder?
+    {
         // We don't provide binding, so return null
         return null
     }
 
-    override fun onDestroy() {
-        Toast.makeText(this, "service done", Toast.LENGTH_SHORT).show()
+    override fun onDestroy()
+    {
+        Toast.makeText(this, "ServiceNearActivities done", Toast.LENGTH_SHORT).show()
     }
 }
