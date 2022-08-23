@@ -56,7 +56,9 @@ class FragmentTripTeammatesMap : Fragment()
             navigation.getMenu().getItem(i).setChecked(false)
 
         navigation.menu.findItem(R.id.nav_trip_teammates).setChecked(true)
+        navigation.visibility = View.VISIBLE
         mapa.onResume()
+
 
         for(u in sharedViewModel.korisnici)
         {

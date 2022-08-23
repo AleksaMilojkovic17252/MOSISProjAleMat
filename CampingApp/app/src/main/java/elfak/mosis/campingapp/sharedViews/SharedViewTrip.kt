@@ -31,4 +31,7 @@ class SharedViewTrip : ViewModel()
     var selectedUser: MutableLiveData<User> = MutableLiveData()
     var dataPictureChanged: MutableLiveData<Boolean> = MutableLiveData(false)
     var ucitaniSviKorisnici: MutableLiveData<Boolean> = MutableLiveData(false)
+    var filterTypeActivities: MutableList<Int> = mutableListOf(1,2,3)
+    var filterCompletedActivities: MutableLiveData<Boolean> = MutableLiveData(true)
+    var distance: MutableLiveData<Double> = MutableLiveData(0.0)
 }

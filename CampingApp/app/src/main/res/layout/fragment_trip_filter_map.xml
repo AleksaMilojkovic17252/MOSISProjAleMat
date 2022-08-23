@@ -7,43 +7,80 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".fragments.FragmentTripFilterMap">
+    <TextView
+        android:id="@+id/mapFilterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:text="Filter map"
+        android:textColor="@color/black"
+        android:textSize="24dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/buttonGoBackMap"
+        app:layout_constraintStart_toEndOf="@id/buttonGoBackMap"
+        app:layout_constraintTop_toTopOf="@id/buttonGoBackMap" />
+
+    <ImageButton
+        android:id="@+id/buttonGoBackMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/outline_arrow_back_ios_black_36"
+        app:layout_constraintBottom_toTopOf="@id/guidelineForMapFilter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guidelineForMapFilter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.13" />
     <LinearLayout
+        android:id="@+id/filterOptions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-
+        app:layout_constraintTop_toTopOf="@+id/guidelineForMapFilter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/ContinueFilter"
+        android:layout_marginTop="20dp"
         android:orientation="vertical">
     <CheckBox
-        android:id="@+id/checkBox"
+        android:id="@+id/checkBoxCompleted"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show completed activities"
         android:checked="true"
+
         ></CheckBox>
 
     <View
         android:id="@+id/view"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
     <CheckBox
-        android:id="@+id/checkBox2"
+        android:id="@+id/checkBoxShelter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Shelters"
         android:checked="true"></CheckBox>
 
     <CheckBox
-        android:id="@+id/checkBox3"
+        android:id="@+id/checkBoxNiceView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Nice views"
         android:checked="true"></CheckBox>
 
     <CheckBox
-        android:id="@+id/checkBox4"
+        android:id="@+id/checkBoxPointOfInterest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Show Point of interests"
@@ -53,16 +90,35 @@
         android:id="@+id/view2"
         android:layout_width="wrap_content"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"/>
 
     <EditText
-        android:id="@+id/editTextNumber"
+        android:id="@+id/editTextDistance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
+        android:layout_marginTop="10dp"
+        android:ems="20"
+        android:textSize="20dp"
         android:hint="Distance"
         android:inputType="number" />
 
     </LinearLayout>
+
+    <android.widget.Button
+        android:id="@+id/ContinueFilter"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/et_button_shape_green"
+        android:text="Confirm"
+        android:textColor="@color/white"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp">
+
+    </android.widget.Button>
 </androidx.constraintlayout.widget.ConstraintLayout>
