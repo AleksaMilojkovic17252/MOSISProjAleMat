@@ -28,9 +28,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
         <service
-            android:name=".services.ServicePushNotification"
+            android:name=".services.ServiceNearActivities"
             android:enabled="true"
             android:exported="true"></service>
+        <service
+            android:name=".services.ServicePushNotification"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".services.ServiceSendLocation"
             android:enabled="true"
@@ -79,9 +83,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

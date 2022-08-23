@@ -1,5 +1,6 @@
 package elfak.mosis.campingapp.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.BackpackItems
 import elfak.mosis.campingapp.classes.User
+import elfak.mosis.campingapp.services.ServiceNearActivities
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import java.util.*
 import kotlin.collections.ArrayList
@@ -235,5 +237,31 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
         }
 
+    }
+
+    override fun onResume()
+    {
+        super.onResume()
+        Tasks.whenAll(task).addOnSuccessListener {
+
+            var itn = Intent(this, ServiceNearActivities::class.java)
+            stopService(itn)
+
+
+            var intent = Intent(this, ServiceNearActivities::class.java)
+            intent.putExtra("tripID", shareViewModel.tripID.value)
+            intent.putExtra("brojA", shareViewModel.allActivities.count())
+            intent.putExtra("aID", shareViewModel.allActivities.map { a -> a.ID }.toTypedArray())
+            intent.putExtra("aName", shareViewModel.allActivities.map { a -> a.title }.toTypedArray())
+            var tmp = DoubleArray(shareViewModel.allActivities.count()*2)
+            var i = 0
+            for(a in shareViewModel.allActivities)
+            {
+                tmp[i++] = a.latitude
+                tmp[i++] = a.longitude
+            }
+            intent.putExtra("aCoor", tmp)
+            startService(intent)
+        }
     }
 }
