@@ -1,7 +1,10 @@
 package elfak.mosis.campingapp.fragments
 
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -107,7 +110,7 @@ class FragmentTripTeammatesMap : Fragment()
             var lokacija = par.value
 
             var marker = Marker(mapa)
-            marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_pin_circle_24)
+            marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_pin_circle_48)
             //marker.infoWindow = InfoWindow()
             marker.title = korisnik.Name
             marker.subDescription = "Points: 0"
@@ -122,25 +125,54 @@ class FragmentTripTeammatesMap : Fragment()
             mapa.overlays.add(marker);
         }
 
-        for(aktivnost in sharedViewModel.allActivities)
-        {
-            var marker = Marker(mapa)
-            when(aktivnost.type)
+
+            for (aktivnost in sharedViewModel.allActivities)
             {
-                ActivityTrip.NICE_VIEW -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_nice_view_48)
-                ActivityTrip.POINT_OF_INTEREST -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
-                ActivityTrip.SHELTER -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_shelter_48)
-            }
-            if(sharedViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.contains(aktivnost.ID) == true)
-                marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_completed_48)
-            marker.title = aktivnost.title
-            marker.position = GeoPoint(aktivnost.latitude, aktivnost.longitude)
-            marker.setOnMarkerClickListener { marker, mapView ->
-                marker.showInfoWindow()
-                true
-            }
-            marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
-            mapa.overlays.add(marker);
+                if (aktivnost.type !in sharedViewModel.filterTypeActivities)
+                    continue
+                if (sharedViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.contains(aktivnost.ID) == true
+                    && sharedViewModel.filterCompletedActivities.value == false)
+                    continue
+
+                var tmp = FloatArray(3)
+
+                var lm = requireContext().applicationContext.getSystemService(LOCATION_SERVICE) as LocationManager
+                var providers = lm.getProviders(true)
+                var bl : Location? = null
+                var l: Location? = null
+                for(provider in providers)
+                {
+                    l = lm.getLastKnownLocation(provider)
+                    if(l == null)
+                        continue
+                    if(bl== null || l.accuracy < bl.accuracy)
+                        bl = l
+                }
+
+
+                Location.distanceBetween(l?.latitude ?: 0 as Double, l?.longitude ?: 0 as Double, aktivnost.latitude, aktivnost.longitude, tmp)
+                if (sharedViewModel.distance.value!! > 0 && tmp[0] / 1000 > sharedViewModel.distance.value!!)
+                    continue
+
+                var marker = Marker(mapa)
+                when (aktivnost.type)
+                {
+                    ActivityTrip.NICE_VIEW -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_nice_view_48)
+                    ActivityTrip.POINT_OF_INTEREST -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
+                    ActivityTrip.SHELTER -> marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_shelter_48)
+                }
+                if (sharedViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.contains(aktivnost.ID) == true)
+                    marker.icon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_completed_48)
+
+                marker.title = aktivnost.title
+                marker.position = GeoPoint(aktivnost.latitude, aktivnost.longitude)
+                marker.setOnMarkerClickListener { marker, mapView ->
+                    marker.showInfoWindow()
+                    true
+                }
+                marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
+                mapa.overlays.add(marker);
+
 
         }
 
