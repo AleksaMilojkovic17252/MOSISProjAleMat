@@ -244,6 +244,10 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onResume()
         Tasks.whenAll(task).addOnSuccessListener {
 
+            var korisnickePreference = getSharedPreferences("CampingApp", 0)
+            if(korisnickePreference?.getBoolean("lokacija", false) == false)
+                return@addOnSuccessListener
+
             var itn = Intent(this, ServiceNearActivities::class.java)
             stopService(itn)
 

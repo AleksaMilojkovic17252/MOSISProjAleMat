@@ -110,7 +110,8 @@ class ServiceSendLocation : Service()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
-        try {
+        try
+        {
             Toast.makeText(this, "ServiceSendLoc start", Toast.LENGTH_SHORT).show()
 
             // For each start request, send a message to start a job and deliver the
@@ -120,29 +121,22 @@ class ServiceSendLocation : Service()
                 serviceHandler?.sendMessage(msg)
             }
 
-            if (ActivityCompat.checkSelfPermission(
-                    this@ServiceSendLocation,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(
-                    this@ServiceSendLocation,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+            if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+            {
+
             }
 
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback,
-                Looper.getMainLooper()
-            )
+            fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
             // If we get killed, after returning from here, restart
 
         }
-        catch (Exception:Exception){
+        catch (Exception:Exception)
+        {
             Log.d("SERVICE START","PUKO")
         }
-        finally {
+        finally
+        {
             return START_STICKY
         }
 

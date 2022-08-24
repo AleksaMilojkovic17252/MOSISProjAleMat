@@ -150,8 +150,8 @@ class FragmentTripTeammatesMap : Fragment()
                 }
 
 
-                Location.distanceBetween(l?.latitude ?: 0 as Double, l?.longitude ?: 0 as Double, aktivnost.latitude, aktivnost.longitude, tmp)
-                if (sharedViewModel.distance.value!! > 0 && tmp[0] / 1000 > sharedViewModel.distance.value!!)
+                Location.distanceBetween(l?.latitude ?: 0.toDouble(), l?.longitude ?: 0.toDouble(), aktivnost.latitude, aktivnost.longitude, tmp)
+                if (sharedViewModel.distance.value!! > 0.toDouble() && tmp[0].toDouble() / 1000 > sharedViewModel.distance.value!!)
                     continue
 
                 var marker = Marker(mapa)

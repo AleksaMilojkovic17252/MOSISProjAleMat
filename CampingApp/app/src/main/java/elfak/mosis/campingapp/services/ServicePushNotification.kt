@@ -9,18 +9,14 @@ import android.content.Intent
 import android.content.IntentFilter
 
 import android.os.IBinder
-import android.os.Looper
 import android.widget.Toast
 
 
 import android.os.*
-import android.os.Process
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import elfak.mosis.campingapp.R
-import elfak.mosis.campingapp.classes.Notifications
-import elfak.mosis.campingapp.classes.NotificationsFriend
-import elfak.mosis.campingapp.classes.NotificationsTrip
+import elfak.mosis.campingapp.classes.*
 import kotlin.random.Random
 
 
@@ -49,6 +45,15 @@ class ServicePushNotification : Service()
 
                 pustiPopUp(notif)
             }
+            else if(p1?.extras?.getString("tip") == "Blizina")
+            {
+                var ime = p1.extras?.getString("aIme")
+                var razdaljina = p1.extras?.getFloat("razdaljina")
+                var tip = p1.extras?.getInt("aTip")
+
+                var notif = NotificationsNearActivity(ime!!, razdaljina!!.toDouble(), tip!!)
+                pustiPopUp(notif)
+            }
         }
 
     }
@@ -60,6 +65,17 @@ class ServicePushNotification : Service()
                     "New Trip"
                 else if (notif is NotificationsFriend)
                     "New teammate request"
+                else if(notif is NotificationsNearActivity)
+                {
+                    var tip = when(notif.tip)
+                    {
+                        ActivityTrip.NICE_VIEW -> "Nice view"
+                        ActivityTrip.POINT_OF_INTEREST -> "Point of interest"
+                        ActivityTrip.SHELTER -> "Shelter"
+                        else -> "Activity"
+                    }
+                    "$tip is near"
+                }
                 else
                     "New notification"
             }
@@ -67,9 +83,16 @@ class ServicePushNotification : Service()
         var fja2 =
             {
                 if (notif is NotificationsTrip)
-                    "You have been invited to a trip " + (notif as NotificationsTrip).data
+                    "You have been invited to a trip " + notif.data
                 else if (notif is NotificationsFriend)
-                    (notif as NotificationsFriend).data + " added you as friend"
+                    notif.data + " added you as friend"
+                else if (notif is NotificationsNearActivity)
+                {
+                    var ime = notif.data
+                    var raz = String.format("%.2f",notif.razdaljina)
+                    
+                    "$ime is $raz meters from you"
+                }
                 else
                     "New message"
             }
