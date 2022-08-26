@@ -141,7 +141,7 @@ class ServiceNotificationSpamFirestore : Service()
     override fun onDestroy()
     {
         Toast.makeText(this, "ServiceFirebase done", Toast.LENGTH_SHORT).show()
-        nit.interrupt()
+        nit?.interrupt()
         super.onDestroy()
     }
 

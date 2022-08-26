@@ -22,6 +22,7 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityTrip
 import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
+import java.lang.Exception
 import java.text.DateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -56,10 +57,22 @@ class AdapterAllTrips(val ct: Context, val trips: MutableList<Trip>?, val listen
         holder.startDate.text = DateFormat.getDateInstance().format(trips?.get(position)?.startDate)
         holder.endDate.text = DateFormat.getDateInstance().format(trips?.get(position)?.endDate)
         //srediSliku
+            if (trips?.get(position)?.slika != "")
+            {
+                Firebase.storage
+                    .getReference("trips/${trips?.get(position)?.id}/${trips?.get(position)?.slika}")
+                    .downloadUrl
+                    .addOnSuccessListener {
+                        Glide.with(ct).load(it).into(holder.slika)
+                    }
+            }
+
 
         holder.trip.setOnClickListener{
             trips?.let { it1 -> listener.pocniTrip(it1.get(position)) }
         }
+
+
     }
 
     override fun getItemCount(): Int {

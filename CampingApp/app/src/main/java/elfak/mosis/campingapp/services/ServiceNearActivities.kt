@@ -43,6 +43,7 @@ class ServiceNearActivities : Service() {
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
     private var currentLocation: Location? = null
+    private lateinit var nit: Thread
 
     // Handler that receives messages from the thread
     private inner class ServiceHandler(looper: Looper) : Handler(looper)
@@ -54,6 +55,7 @@ class ServiceNearActivities : Service() {
             // For our sample, we just sleep for 5 seconds.
             try
             {
+                nit = Thread.currentThread()
                 while (true)
                 {
                     Thread.sleep(5000)
@@ -171,6 +173,7 @@ class ServiceNearActivities : Service() {
     {
         Toast.makeText(this, "ServiceNearActivities done", Toast.LENGTH_SHORT).show()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+        nit?.interrupt()
         super.onDestroy()
     }
 }

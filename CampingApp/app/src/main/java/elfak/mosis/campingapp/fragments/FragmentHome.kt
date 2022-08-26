@@ -80,7 +80,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                         startDate.toDate(),
                         endDate.toDate(),
                         doc["userItems"] as HashMap<String, ArrayList<BackpackItems>>,
-                        ""
+                        (doc["memories"] as ArrayList<String>?)?.elementAtOrElse(0) { _ -> "" } ?: ""
                     )
                     sharedViewModel.tripovi.add(trip)
                 }
@@ -117,6 +117,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.VISIBLE
         (activity as DrawerLocker?)!!.setDrawerEnabled(true)
+        ucitajTripove()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -149,7 +150,7 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
             Toast.makeText(context, "Email copied to clipboard!", Toast.LENGTH_SHORT).show()
         }
 
-        ucitajTripove()
+        //ucitajTripove()
 
 
 
