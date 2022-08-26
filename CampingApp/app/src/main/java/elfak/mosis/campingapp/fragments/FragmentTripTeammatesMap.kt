@@ -113,7 +113,7 @@ class FragmentTripTeammatesMap : Fragment()
             marker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_pin_circle_48)
             //marker.infoWindow = InfoWindow()
             marker.title = korisnik.Name
-            marker.subDescription = "Points: 0"
+            marker.subDescription = "Points: " + (sharedViewModel.zavrseneAktivnosti[korisnik.ID]?.count() ?: -1)
             marker.image = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_person_24)
             marker.position = lokacija
             marker.setOnMarkerClickListener { marker, _ ->
@@ -167,7 +167,8 @@ class FragmentTripTeammatesMap : Fragment()
                 marker.title = aktivnost.title
                 marker.position = GeoPoint(aktivnost.latitude, aktivnost.longitude)
                 marker.setOnMarkerClickListener { marker, mapView ->
-                    marker.showInfoWindow()
+                    sharedViewModel.selectedActivity.value = aktivnost
+                    findNavController().navigate(R.id.action_fragmentTripTeammates_to_fragmentDetailActivityView)
                     true
                 }
                 marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)

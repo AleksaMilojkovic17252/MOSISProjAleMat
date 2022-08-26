@@ -14,8 +14,12 @@ import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.BackpackItems
 
-class AdapterMemories(val ct: Context, val allMemories: MutableList<String>?, val tripID: String) : RecyclerView.Adapter<AdapterMemories.ViewHolder>() {
+class AdapterMemories(val ct: Context, val allMemories: MutableList<String>?, val tripID: String, val help:helper) : RecyclerView.Adapter<AdapterMemories.ViewHolder>() {
 
+    interface helper
+    {
+        fun sendImage(image:String)
+    }
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val slika: ImageView = itemView.findViewById(R.id.memory_image)
     }
@@ -29,6 +33,9 @@ class AdapterMemories(val ct: Context, val allMemories: MutableList<String>?, va
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         Firebase.storage.getReference("trips/${tripID}/${allMemories?.get(position)}").downloadUrl.addOnSuccessListener { uri ->
             Glide.with(ct).load(uri).into(holder.slika)
+        }
+        holder.slika.setOnClickListener {
+            allMemories?.let { it1 -> help.sendImage(it1.get(position)) }
         }
     }
 

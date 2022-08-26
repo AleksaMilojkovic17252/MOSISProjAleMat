@@ -34,7 +34,8 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
     private val shareViewModel: SharedViewTrip by activityViewModels()
     lateinit var recycler: RecyclerView
 
-    override fun onResume() {
+    override fun onResume()
+    {
         super.onResume()
         val navigation: BottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation)
         for (i in 0 until navigation.getMenu().size())
@@ -46,6 +47,27 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
         shareViewModel.activityType.value = null
         shareViewModel.activityLatitude.value = null
         shareViewModel.activityLongitude.value = null
+
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(shareViewModel.tripID.value!!)
+            .get()
+            .addOnSuccessListener {
+                shareViewModel.allActivities.clear()
+                var tmpx = it["activities"] as ArrayList<Map<String, Object>>
+                for (i in tmpx)
+                {
+                    var novi = ActivityTrip(i["id"].toString(),
+                        i["koJeNapravio"].toString(),
+                        i["title"].toString(),
+                        i["description"].toString(),
+                        i["latitude"].toString().toDouble(),
+                        i["longitude"].toString().toDouble(),
+                        i["type"].toString().toInt())
+                    shareViewModel.allActivities.add(novi)
+                }
+                shareViewModel.dataSetChanged.value = !shareViewModel.dataSetChanged.value!!
+            }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -110,4 +132,6 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
                 recycler.adapter?.notifyDataSetChanged()
             }
     }
+
+
 }

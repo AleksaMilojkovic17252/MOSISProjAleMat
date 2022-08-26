@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -38,7 +39,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class FragmentMemories : Fragment()
+class FragmentMemories : Fragment(), AdapterMemories.helper
 {
     private val REQUEST_IMAGE_CAPTURE = 1
     lateinit var binding: FragmentMemoriesBinding
@@ -52,6 +53,7 @@ class FragmentMemories : Fragment()
         for (i in 0 until navigation.getMenu().size())
             navigation.getMenu().getItem(i).setChecked(false)
         navigation.menu.findItem(R.id.nav_memories).setChecked(true)
+        navigation.visibility = View.VISIBLE
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
@@ -75,7 +77,7 @@ class FragmentMemories : Fragment()
         }
 
         recycler = binding.allMemoriesPictures
-        val adapter: AdapterMemories = AdapterMemories(requireContext(),shareViewModel.memories,shareViewModel.tripID.value!!)
+        val adapter: AdapterMemories = AdapterMemories(requireContext(),shareViewModel.memories,shareViewModel.tripID.value!!,this)
         recycler.adapter = adapter
         recycler.layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
 
@@ -168,6 +170,7 @@ class FragmentMemories : Fragment()
         {
             var file = File(currentPhotoPath)
             var nazivSlike = currentPhotoPath.substring(currentPhotoPath.indexOf("JPEG_"))
+            Toast.makeText(requireContext(), "Uploading image... image will show when uploaded", Toast.LENGTH_SHORT).show()
             Firebase.storage
                 .getReference("trips/${shareViewModel.tripID.value}/${nazivSlike}")
                 .putFile(Uri.fromFile(file))
@@ -179,12 +182,17 @@ class FragmentMemories : Fragment()
                         .document(shareViewModel.tripID.value!!)
                         .update("memories", FieldValue.arrayUnion(nazivSlike))
                         .addOnSuccessListener {
-                            Toast.makeText(requireContext(), "Successful uploaded picutre", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Successful uploaded image", Toast.LENGTH_SHORT).show()
                             recycler!!.adapter!!.notifyDataSetChanged()
                         }
                 }
 
         }
+    }
+
+    override fun sendImage(image: String) {
+        shareViewModel.selectedImage.value = image
+        findNavController().navigate(R.id.action_fragmentMemories_to_fragmentMemoryView)
     }
 
 

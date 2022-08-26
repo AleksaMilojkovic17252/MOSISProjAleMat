@@ -84,26 +84,26 @@ class FragmentDetailActivityView : Fragment() {
         mapa = binding.osmMapView
         mapa.setMultiTouchControls(true)
         mapController = mapa.controller
-        mapa.controller.setZoom(8.5)
+        mapa.controller.setZoom(15.0)
         mapa.controller.setCenter(GeoPoint(shareViewModel.selectedActivity.value?.latitude!!, shareViewModel.selectedActivity.value?.longitude!!))
         startMarker = Marker(mapa)
         when(shareViewModel.selectedActivity.value?.type) {
             1 ->
                 startMarker.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_add_location_24_nice_view)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_nice_view_48)
             2->
                 startMarker.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_add_location_24_shelter)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_shelter_48)
             3->
                 startMarker.icon =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_add_location_24_point_of_interest)
+                    ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
         }
         startMarker.position = GeoPoint(shareViewModel.selectedActivity.value?.latitude!!, shareViewModel.selectedActivity.value?.longitude!!)
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         mapa.overlays.add(startMarker);
         binding.backButtonImage.setOnClickListener {
 
-            findNavController().navigate(R.id.action_fragmentDetailActivityView_to_fragmentActivities)
+            findNavController().popBackStack()
         }
     }
 

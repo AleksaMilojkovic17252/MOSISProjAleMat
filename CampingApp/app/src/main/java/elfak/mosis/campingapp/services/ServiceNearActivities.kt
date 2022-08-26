@@ -99,7 +99,7 @@ class ServiceNearActivities : Service() {
                 {
                     var tmp = FloatArray(3)
                     Location.distanceBetween(a.latitude, a.longitude, currentLocation!!.latitude, currentLocation!!.longitude, tmp)
-                    if (tmp[0] < 500)
+                    if (tmp[0] < 100)
                     {
                         val i = Intent("notifikacije")
                         i.putExtra("tip", "Blizina")

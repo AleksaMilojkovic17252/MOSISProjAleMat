@@ -162,10 +162,8 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.endDate.value = (it["endDate"] as Timestamp).toDate()
             shareViewModel.latitude.value = it["latitude"] as Double
             shareViewModel.longitude.value = it["longitude"] as Double
-            //shareViewModel.backpackItems = it["userItems"] as HashMap<String, ArrayList<BackpackItems>>
 
 
-            var tmp = it["userItems"]
             var pomoc: HashMap<String, ArrayList<BackpackItems>> = HashMap()
             for(id in it["userItems"] as HashMap<String,ArrayList<HashMap<String,Object>>>)
             {
@@ -234,7 +232,7 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             shareViewModel.zavrseneAktivnosti = zavrseneAktivnosti
 
 
-            Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "${shareViewModel.memories.count()}", Toast.LENGTH_SHORT).show()
         }
 
     }
