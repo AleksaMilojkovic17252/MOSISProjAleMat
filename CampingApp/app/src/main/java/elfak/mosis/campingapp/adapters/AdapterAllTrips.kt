@@ -26,7 +26,7 @@ import java.text.DateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class AdapterAllTrips(val ct: Context, val trips: ArrayList<Trip>?, val listener: Koriscenje) : RecyclerView.Adapter<AdapterAllTrips.ViewHolder>() {
+class AdapterAllTrips(val ct: Context, val trips: MutableList<Trip>?, val listener: Koriscenje) : RecyclerView.Adapter<AdapterAllTrips.ViewHolder>() {
 
     interface Koriscenje
     {

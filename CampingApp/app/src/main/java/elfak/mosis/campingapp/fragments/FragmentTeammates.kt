@@ -132,20 +132,20 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
         super.onViewCreated(view, savedInstanceState)
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
         {
-            var uidLength = Firebase.auth.currentUser!!.uid.length;
-            var stringBuilder = StringBuilder()
-            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(0,3))
-            stringBuilder.append("...")
-            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(uidLength-3, uidLength))
-            binding.textViewIDNumber.text = stringBuilder.toString()
+//            var uidLength = Firebase.auth.currentUser!!.uid.length;
+//            var stringBuilder = StringBuilder()
+//            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(0,3))
+//            stringBuilder.append("...")
+//            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(uidLength-3, uidLength))
+            binding.textViewIDNumber.text = Firebase.auth.currentUser!!.email
         }
 
 
         binding.buttonCopyToClipboard.setOnClickListener {
             var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager ?: null
-            var clip = ClipData.newPlainText("Copied ID", Firebase.auth.currentUser!!.uid)
+            var clip = ClipData.newPlainText("Copied email", Firebase.auth.currentUser!!.email)
             clipboard?.setPrimaryClip(clip)
-            Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Email copied to clipboard!", Toast.LENGTH_SHORT).show()
 
         }
 

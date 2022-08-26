@@ -27,7 +27,6 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.google.type.DateTime
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.ActivityAddTrip
 import elfak.mosis.campingapp.activities.ActivityMain
@@ -86,8 +85,8 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
                     sharedViewModel.tripovi.add(trip)
                 }
                 sharedViewModel.tripovi.sortByDescending { x -> x.startDate }
-                val validTrips = sharedViewModel.tripovi.filter { trip-> trip.endDate > Date() }.toCollection(ArrayList())
-                val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),validTrips,this)
+                //val validTrips = sharedViewModel.tripovi.filter { trip-> Date(trip.endDate.time + (1000 * 60 * 60 * 24)) > Date() }.toCollection(ArrayList())
+                val adapter: AdapterAllTrips = AdapterAllTrips(requireContext(),sharedViewModel.tripovi,this)
                 recycler = binding.showTrips
                 recycler.adapter = adapter
                 recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
@@ -135,19 +134,19 @@ class FragmentHome : Fragment(), AdapterAllTrips.Koriscenje
 
         if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
         {
-            var uidLength = Firebase.auth.currentUser!!.uid.length;
-            var stringBuilder = StringBuilder()
-            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(0,3))
-            stringBuilder.append("...")
-            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(uidLength-3, uidLength))
-            binding.textViewHomeIDNumber.text = stringBuilder.toString()
+//            var uidLength = Firebase.auth.currentUser!!.uid.length;
+//            var stringBuilder = StringBuilder()
+//            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(0,3))
+//            stringBuilder.append("...")
+//            stringBuilder.append(Firebase.auth.currentUser!!.uid.subSequence(uidLength-3, uidLength))
+            binding.textViewHomeIDNumber.text = Firebase.auth.currentUser!!.email
         }
 
         binding.buttonHomeCopyToClipboard.setOnClickListener {
             var clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            var clip = ClipData.newPlainText("Copied ID", Firebase.auth.currentUser?.uid)
+            var clip = ClipData.newPlainText("Copied email", Firebase.auth.currentUser?.email)
             clipboard?.setPrimaryClip(clip)
-            Toast.makeText(context, "ID copied to clipboard!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Email copied to clipboard!", Toast.LENGTH_SHORT).show()
         }
 
         ucitajTripove()

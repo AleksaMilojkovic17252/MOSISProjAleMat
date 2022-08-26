@@ -7,6 +7,7 @@ import android.os.Process
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
@@ -79,7 +80,8 @@ class ServiceNotificationSpamFirestore : Service()
         {
             Firebase.firestore
                 .collection(getString(R.string.db_coll_newTrips))
-                .whereEqualTo("userID", Firebase.auth.currentUser!!.uid)
+                .whereArrayContains("userIDs", Firebase.auth.currentUser!!.uid)
+                //.whereEqualTo("userID", Firebase.auth.currentUser!!.uid)
                 .get().addOnSuccessListener {
                     for (doc in it)
                     {
@@ -92,7 +94,7 @@ class ServiceNotificationSpamFirestore : Service()
                         Firebase.firestore
                             .collection(getString(R.string.db_coll_newTrips))
                             .document(doc.id)
-                            .update(mapOf("processed" to true))
+                            .update("userIDs", FieldValue.arrayRemove(Firebase.auth.currentUser!!.uid))
                     }
                 }
         }

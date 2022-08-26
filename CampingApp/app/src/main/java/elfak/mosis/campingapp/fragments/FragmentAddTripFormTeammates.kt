@@ -88,35 +88,45 @@ class FragmentAddTripFormTeammates : Fragment(), AdapterAddTripAllTeammates.Sotk
     {
         var drugovi = ArrayList<User>()
         var listaTaskovaSakupljanjaPodatakaKorsinika = ArrayList<Task<DocumentSnapshot>>()
-        for (drug in sharedViewModel.korisnik.value!!.Drugari)
-        {
-            var tmp = Firebase.firestore
-                .collection("users")
-                .document(drug.ID)
-                .get()
-            tmp.addOnSuccessListener {
-                var tmpUser = User(it.id,
-                    it["name"].toString(),
-                    it["occupation"].toString(),
-                    it["description"].toString(),
-                    it.id,
-                    ArrayList<User>())
-                drugovi.add(tmpUser)
+
+        var tmp2 = Firebase.firestore
+            .collection(getString(R.string.db_coll_users))
+            .document(sharedViewModel.korisnik.value!!.ID)
+            .get()
+        tmp2.addOnSuccessListener {it2 ->
+            var prike = it2["friends"] as ArrayList<String>
+            //Toast.makeText(requireContext(), "${prike.count()}", Toast.LENGTH_SHORT).show()
+            for (p in prike)
+            {
+                var tmp = Firebase.firestore
+                    .collection(getString(R.string.db_coll_users))
+                    .document(p)
+                    .get()
+                tmp.addOnSuccessListener {
+                    var tmpUser = User(it.id,
+                        it["name"].toString(),
+                        it["occupation"].toString(),
+                        it["description"].toString(),
+                        it.id,
+                        ArrayList<User>())
+                    drugovi.add(tmpUser)
+                }
+                listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
             }
-            listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
+            Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
+                sharedViewModel.korisnik.value!!.Drugari = drugovi
+                sharedViewModel.fullUcitavanje.value = true
+
+                val teammatesAdapter: AdapterAddTripAllTeammates? =
+                    context?.let { AdapterAddTripAllTeammates(it, drugovi.minus(sharedViewModel.korisnici).toCollection(ArrayList()), sharedViewModel, this) }
+
+                recycler.adapter = teammatesAdapter
+                recycler.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            }
         }
 
-        Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
-            sharedViewModel.korisnik.value!!.Drugari = drugovi
-            sharedViewModel.fullUcitavanje.value = true
 
-            val teammatesAdapter: AdapterAddTripAllTeammates? =
-                context?.let { AdapterAddTripAllTeammates(it, drugovi.minus(sharedViewModel.korisnici).toCollection(ArrayList()), sharedViewModel, this) }
-
-            recycler.adapter = teammatesAdapter
-            recycler.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-        }
     }
 
     override fun goBack()

@@ -22,8 +22,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import elfak.mosis.campingapp.R
-import java.lang.Exception
 import java.util.concurrent.TimeUnit
+import kotlin.Exception
 
 class ServiceSendLocation : Service()
 {
@@ -44,24 +44,32 @@ class ServiceSendLocation : Service()
 
         override fun handleMessage(msg: Message)
         {
-            // Normally we would do some work here, like download a file.
-            // For our sample, we just sleep for 5 seconds.
-            nit = Thread.currentThread()
-
-
-            if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-            )
-            { }
-            while (true)
+            try
             {
-                Thread.sleep(5000)
+
+
+                // Normally we would do some work here, like download a file.
+                // For our sample, we just sleep for 5 seconds.
+                nit = Thread.currentThread()
+
+
+                if (ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this@ServiceSendLocation, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+                { }
+                while (true)
+                {
+                    Thread.sleep(5000)
+                }
+
+
+                // Stop the service using the startId, so that we don't stop
+                // the service in the middle of handling another job
+                stopSelf(msg.arg1)
             }
-
-
-            // Stop the service using the startId, so that we don't stop
-            // the service in the middle of handling another job
-            stopSelf(msg.arg1)
+            catch (e:Exception)
+            {
+                e.message?.let { Log.d(getString(R.string.app_name), it) }
+            }
         }
     }
 
@@ -151,7 +159,7 @@ class ServiceSendLocation : Service()
     override fun onDestroy()
     {
         Toast.makeText(this, "ServiceSendLoc done", Toast.LENGTH_SHORT).show()
-        nit.interrupt()
+        nit?.interrupt()
         fusedLocationClient.removeLocationUpdates(locationCallback)
         super.onDestroy()
     }

@@ -132,12 +132,21 @@ class FragmentAddTripFormBackpack : Fragment()
             "users" to trip.users,
             "userItems" to trip.UserItems,
             "processed" to false,
-            "memories" to arrayOf<String>(),
-            "activities" to arrayOf<ActivityTrip>(),
+            "memories" to arrayListOf<String>(),
+            "activities" to arrayListOf<ActivityTrip>(),
             "completedActivities" to tmp
         )
 
-        Firebase.firestore.collection("trips").add(zaDodati)
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .add(zaDodati)
+
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_newTrips))
+            .add(hashMapOf(
+                "tripName" to trip.tripName,
+                "userIDs" to userIDs
+            ))
     }
 
 
