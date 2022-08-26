@@ -67,6 +67,7 @@ class FragmentAddTripForm : Fragment()
     {
         super.onViewCreated(view, savedInstanceState)
 
+
         val dateRangeText: TextView = binding.TextDate
         dateRangeText.text = date
         val calendar: ImageView = binding.openCalendar
@@ -74,7 +75,7 @@ class FragmentAddTripForm : Fragment()
             .Builder
             .dateRangePicker()
             .setTitleText("Select dates")
-            .setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds()))
+            .setSelection(Pair.create(MaterialDatePicker.todayInUtcMilliseconds(),(MaterialDatePicker.todayInUtcMilliseconds() + (1000*60*60*24*7))))
             .setTheme(R.style.ThemeOverlay_App_DatePicker)
             .build()
 
