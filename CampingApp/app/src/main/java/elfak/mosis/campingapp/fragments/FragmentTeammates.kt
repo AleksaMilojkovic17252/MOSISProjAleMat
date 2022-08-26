@@ -64,32 +64,67 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
     {
         var drugovi = ArrayList<User>()
         var listaTaskovaSakupljanjaPodatakaKorsinika = ArrayList<Task<DocumentSnapshot>>()
-        for (drug in shareViewModel.korisnik.value!!.Drugari)
-        {
-            var tmp = Firebase.firestore
-                .collection("users")
-                .document(drug.ID)
-                .get()
-            tmp.addOnSuccessListener {
-                var tmpUser = User(it.id,
-                    it["name"].toString(),
-                    it["occupation"].toString(),
-                    it["description"].toString(),
-                    it.id,
-                    ArrayList<User>())
-                drugovi.add(tmpUser)
-            }
-            listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
-        }
 
-        Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
-            shareViewModel.korisnik.value!!.Drugari = drugovi
-            shareViewModel.fullUcitavanje.value = true
-            val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
-            recycler = binding.allTeammatesView
-            recycler.adapter = FriendAdapter
-            recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-        }
+        var tmp2 = Firebase.firestore
+            .collection(getString(R.string.db_coll_users))
+            .document(shareViewModel.korisnik.value!!.ID)
+            .get()
+        tmp2.addOnSuccessListener {it2 ->
+                var prike = it2["friends"] as ArrayList<String>
+                //Toast.makeText(requireContext(), "${prike.count()}", Toast.LENGTH_SHORT).show()
+                for (p in prike)
+                {
+                    var tmp = Firebase.firestore
+                        .collection(getString(R.string.db_coll_users))
+                        .document(p)
+                        .get()
+                    tmp.addOnSuccessListener {
+                        var tmpUser = User(it.id,
+                            it["name"].toString(),
+                            it["occupation"].toString(),
+                            it["description"].toString(),
+                            it.id,
+                            ArrayList<User>())
+                        drugovi.add(tmpUser)
+                    }
+                    listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
+                }
+            Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
+                shareViewModel.korisnik.value!!.Drugari = drugovi
+                shareViewModel.fullUcitavanje.value = true
+                val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
+                recycler = binding.allTeammatesView
+                recycler.adapter = FriendAdapter
+                recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            }
+            }
+
+//        for (drug in shareViewModel.korisnik.value!!.Drugari)
+//        {
+//            var tmp = Firebase.firestore
+//                .collection("users")
+//                .document(drug.ID)
+//                .get()
+//            tmp.addOnSuccessListener {
+//                var tmpUser = User(it.id,
+//                    it["name"].toString(),
+//                    it["occupation"].toString(),
+//                    it["description"].toString(),
+//                    it.id,
+//                    ArrayList<User>())
+//                drugovi.add(tmpUser)
+//            }
+//            listaTaskovaSakupljanjaPodatakaKorsinika.add(tmp)
+//        }
+
+//        Tasks.whenAll(listaTaskovaSakupljanjaPodatakaKorsinika).addOnSuccessListener {
+//            shareViewModel.korisnik.value!!.Drugari = drugovi
+//            shareViewModel.fullUcitavanje.value = true
+//            val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
+//            recycler = binding.allTeammatesView
+//            recycler.adapter = FriendAdapter
+//            recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+//        }
 
 
 

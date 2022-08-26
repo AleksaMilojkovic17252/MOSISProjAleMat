@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
@@ -22,8 +23,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.ktx.auth
@@ -34,6 +37,8 @@ import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.activities.DrawerLocker
 import elfak.mosis.campingapp.databinding.FragmentEditProfileBinding
 import java.io.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class FragmentEditProfile : Fragment()
@@ -59,6 +64,7 @@ class FragmentEditProfile : Fragment()
 
         buttonFriend.visibility = View.GONE
         buttonNotification.visibility = View.GONE
+
 
     }
 
@@ -87,8 +93,8 @@ class FragmentEditProfile : Fragment()
             }
 
         }
-        else
-            loadLocalProfilePicture()
+//        else
+//            loadLocalProfilePicture()
     }
 
     private fun checkInternetConnection() : Boolean
@@ -144,8 +150,14 @@ class FragmentEditProfile : Fragment()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, nizBajtova)
             val pic = nizBajtova.toByteArray()
 
-            changeUserData(name, desc, occup, pic) // TODO: Sad da napravis da se uploaduje cela slika, a ne ovaj kakani thumbnail 
-            fragmentManager?.popBackStack()
+            changeUserData(name, desc, occup, pic)
+            val navigation: NavigationView = requireActivity().findViewById(R.id.nav_view)
+            val headerLayout: View = navigation.getHeaderView(0)
+            val image: ImageView = headerLayout.findViewById(R.id.slika)
+
+            Glide.with(requireContext()).load(Uri.fromFile(File(currentPhotoPath))).into(image)
+
+            findNavController().popBackStack()
 
         }
 
@@ -203,7 +215,7 @@ class FragmentEditProfile : Fragment()
 
             Firebase.storage
                 .getReference("profilePics/$id.jpg")
-                .putBytes(pic)
+                .putFile(Uri.fromFile(File(currentPhotoPath)))
         }
     }
 
@@ -222,15 +234,62 @@ class FragmentEditProfile : Fragment()
     }
     private fun dispatchTakePictureIntent()
     {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try
         {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+
+
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                // Ensure that there's a camera activity to handle the intent
+                takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                    // Create the File where the photo should go
+                    val photoFile: File? = try
+                    {
+                        createImageFile()
+                    }
+                    catch (ex: IOException)
+                    {
+                        Log.d("CampingApp", "Error while trying to launch camera - " + ex.message)
+                        Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
+
+                        null
+                    }
+                    // Continue only if the File was successfully created
+                    photoFile?.also {
+                        val photoURI: Uri = FileProvider.getUriForFile(
+                            requireContext(),
+                            "com.example.android.fileprovider",
+                            it
+                        )
+                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                    }
+                }
+            }
         }
-        catch (e: ActivityNotFoundException)
+        catch (e:Exception)
         {
-            Toast.makeText(context, R.string.error, Toast.LENGTH_SHORT).show()
+            Log.d("CampingApp", "Error while trying to launch camera - " + e.message)
+            Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    lateinit var currentPhotoPath: String
+
+    @Throws(IOException::class)
+    private fun createImageFile(): File
+    {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
@@ -238,35 +297,41 @@ class FragmentEditProfile : Fragment()
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK)
         {
-            val imageBitmap = data?.extras?.get("data") as Bitmap
+            var file = File(currentPhotoPath)
+            Glide.with(requireContext()).load(file).into(binding.profileImage)
+            binding.profileImagePlaceholder.setImageDrawable(null)
             formCheck[0] = true
             enableEdit()
-            binding.profileImagePlaceholder.setImageDrawable(null)
-            binding.profileImage.setImageBitmap(imageBitmap)
 
-            try
-            {
-                verifyStoragePermissions()
-                //Pamcenje slike za kasnije da mozemo da ucitamo kad nema interneta
-                var putanja = Environment.getExternalStorageDirectory().toString()
-                var fajl = File(putanja, "accImage")
-                Log.d("OvoNeRadi","${putanja}     ${fajl}")
-                var outputStream = FileOutputStream(fajl)
-                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-                outputStream.close()
+//            val imageBitmap = data?.extras?.get("data") as Bitmap
+//            formCheck[0] = true
+//            enableEdit()
+//            binding.profileImagePlaceholder.setImageDrawable(null)
+//            binding.profileImage.setImageBitmap(imageBitmap)
 
-                MediaStore.Images.Media.insertImage(
-                    activity?.contentResolver,
-                    fajl.absolutePath,
-                    fajl.name,
-                    fajl.name
-                )
-            }
-            catch (e:Exception)
-            {
-                Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT).show()
-                Log.d("Mica", e.message!!)
-            }
+//            try
+//            {
+//                verifyStoragePermissions()
+//                //Pamcenje slike za kasnije da mozemo da ucitamo kad nema interneta
+//                var putanja = Environment.getExternalStorageDirectory().toString()
+//                var fajl = File(putanja, "accImage")
+//                Log.d("OvoNeRadi","${putanja}     ${fajl}")
+//                var outputStream = FileOutputStream(fajl)
+//                imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+//                outputStream.close()
+//
+//                MediaStore.Images.Media.insertImage(
+//                    activity?.contentResolver,
+//                    fajl.absolutePath,
+//                    fajl.name,
+//                    fajl.name
+//                )
+//            }
+//            catch (e:Exception)
+//            {
+//                Toast.makeText(requireContext(), "${e.message}", Toast.LENGTH_SHORT).show()
+//                Log.d("Mica", e.message!!)
+//            }
         }
     }
 

@@ -107,7 +107,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="@string/password_input"
+        android:text="@string/password_input_register"
         app:layout_constraintBottom_toTopOf="@id/editText_Register_Password"
         app:layout_constraintStart_toStartOf="@id/editText_Register_Password" />
 

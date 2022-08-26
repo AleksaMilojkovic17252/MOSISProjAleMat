@@ -2,6 +2,7 @@
     <string name="app_name">Camping</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email_input">Email</string>
+    <string name="password_input_register">Password (min. 8 characters)</string>
     <string name="password_input">Password</string>
     <string name="pwdForgot">Forgotten Password?</string>
     <string name="log_in">Log in</string>
@@ -22,7 +23,7 @@
     <string name="HurrayTextForgot">You\'ve changed your password successfully</string>
     <string name="GoBack">Go Back</string>
     <string name="registerOtpText">Please confirm the 4 digit code we’ve sent to you on your e-mail. Which has been sent to your email</string>
-    <string name="registerTextHurray">You have registered successfully!\nPlease check your inbox for verification mail</string>
+    <string name="registerTextHurray">You have registered successfully!\nPlease check your inbox for verification mail\n(Check spam as well)</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="edit_profle_title">Edit profile</string>

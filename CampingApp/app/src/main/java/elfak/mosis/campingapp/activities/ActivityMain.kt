@@ -1,19 +1,14 @@
 package elfak.mosis.campingapp.activities
 
-import android.R.id.toggle
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Service
 import android.content.*
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
@@ -23,7 +18,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.bumptech.glide.Glide
@@ -32,9 +26,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.internal.InternalTokenResult
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.storage.ktx.storage
 import elfak.mosis.campingapp.R
 import elfak.mosis.campingapp.classes.Notifications
@@ -42,9 +34,7 @@ import elfak.mosis.campingapp.classes.NotificationsFriend
 import elfak.mosis.campingapp.classes.NotificationsTrip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.databinding.ActivityMainBinding
-import elfak.mosis.campingapp.fragments.*
 import elfak.mosis.campingapp.services.ServiceNotificationSpamFirestore
-import elfak.mosis.campingapp.services.ServiceNotifications
 import elfak.mosis.campingapp.services.ServicePushNotification
 import elfak.mosis.campingapp.services.ServiceSendLocation
 import elfak.mosis.campingapp.sharedViews.SharedViewHome
@@ -209,8 +199,6 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
 
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

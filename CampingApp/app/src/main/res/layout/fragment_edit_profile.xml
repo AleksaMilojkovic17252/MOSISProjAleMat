@@ -30,6 +30,7 @@
             android:id="@+id/profile_image_placeholder"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/outline_person_black_36"
             app:layout_constraintBottom_toBottomOf="@+id/profile_image"
             app:layout_constraintEnd_toEndOf="@+id/profile_image"
@@ -100,7 +101,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editText_edit_profile_name" />
 
-        <Button
+        <android.widget.Button
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="48dp"

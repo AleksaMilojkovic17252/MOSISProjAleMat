@@ -72,7 +72,7 @@ class FragmentRegister : Fragment()
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?)
             {
-                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterConfirmPassword.text.toString() == p0.toString()
+                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterConfirmPassword.text.toString() == p0.toString() && p0.length >= 8
                 enableRegister()
             }
         })
@@ -83,7 +83,7 @@ class FragmentRegister : Fragment()
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
             override fun afterTextChanged(p0: Editable?)
             {
-                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterPassword.text.toString() == p0.toString()
+                passEntered = p0?.isNotEmpty() == true && binding.editTextRegisterPassword.text.toString() == p0.toString() && p0.length >= 8
                 enableRegister()
             }
         })
@@ -99,7 +99,7 @@ class FragmentRegister : Fragment()
                 var korisnik = hashMapOf(
                     "email" to email,
                     "name" to name,
-                    "friends" to emptyArray<String>())
+                    "friends" to arrayListOf<String>())
 
                 if(Firebase.auth.currentUser?.uid?.isNotEmpty() == true)
                     Firebase.firestore
