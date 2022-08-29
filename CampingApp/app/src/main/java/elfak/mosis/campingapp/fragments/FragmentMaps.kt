@@ -61,7 +61,7 @@ class FragmentMaps : Fragment()
         mapa.controller.setZoom(8.5)
         mapa.controller.setCenter(GeoPoint(44.0333, 20.8))
         startMarker = Marker(mapa)
-        startMarker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_marker_for_map)
+        startMarker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_marker_for_map_48)
         startMarker.infoWindow = null
         if(sharedViewModel.longitude.value != null && sharedViewModel.latitude.value != null) {
             startMarker.position =GeoPoint(sharedViewModel.latitude.value!!,

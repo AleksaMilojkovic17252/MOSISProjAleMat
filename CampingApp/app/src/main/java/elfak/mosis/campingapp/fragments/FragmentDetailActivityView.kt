@@ -98,6 +98,7 @@ class FragmentDetailActivityView : Fragment() {
                 startMarker.icon =
                     ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
         }
+        startMarker.infoWindow = null
         startMarker.position = GeoPoint(shareViewModel.selectedActivity.value?.latitude!!, shareViewModel.selectedActivity.value?.longitude!!)
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM)
         mapa.overlays.add(startMarker);
