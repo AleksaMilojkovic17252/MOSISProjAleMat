@@ -27,10 +27,14 @@
         android:roundIcon="@mipmap/ikonica_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CampingApp">
+        <activity
+            android:name=".activities.ActivityNotificationDetailView"
+            android:exported="false" />
+
         <service
             android:name=".services.ServiceNearActivities"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
         <service
             android:name=".services.ServicePushNotification"
             android:enabled="true"

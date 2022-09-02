@@ -244,7 +244,7 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         Tasks.whenAll(task).addOnSuccessListener {
             if(shareViewModel.endDate.value!!.before(Date()))
                 Toast.makeText(this, "You are looking at a finished trip", Toast.LENGTH_SHORT).show()
-            
+
             var korisnickePreference = getSharedPreferences("CampingApp", 0)
             if(korisnickePreference?.getBoolean("lokacija", false) == false)
                 return@addOnSuccessListener

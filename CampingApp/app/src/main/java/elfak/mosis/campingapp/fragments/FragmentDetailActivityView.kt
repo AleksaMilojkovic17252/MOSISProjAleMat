@@ -58,16 +58,7 @@ class FragmentDetailActivityView : Fragment() {
         binding.opis.text = shareViewModel.selectedActivity.value?.description!!
         binding.naslov.text = shareViewModel.selectedActivity.value?.title!!
         binding.from.text = "From " + shareViewModel.korisnici.find{x->x.ID == shareViewModel.selectedActivity.value?.koJeNapravio!!}?.Name
-        if(shareViewModel.selectedActivity.value!!.ID in shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser?.uid]!!)
-        {
-            binding.buttonComplete.visibility = View.GONE
-            binding.completed.visibility = View.VISIBLE
-        }
-        else
-        {
-            binding.buttonComplete.visibility = View.VISIBLE
-            binding.completed.visibility = View.GONE
-        }
+
         binding.buttonComplete.setOnClickListener {
             Firebase.firestore
                 .collection(getString(R.string.db_coll_trips))
@@ -97,6 +88,17 @@ class FragmentDetailActivityView : Fragment() {
             3->
                 startMarker.icon =
                     ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_location_on_poi_48)
+        }
+        if(shareViewModel.selectedActivity.value!!.ID in shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser?.uid]!!)
+        {
+            binding.buttonComplete.visibility = View.GONE
+            binding.completed.visibility = View.VISIBLE
+            startMarker.icon = ContextCompat.getDrawable(requireContext(),R.drawable.ic_baseline_location_on_completed_48)
+        }
+        else
+        {
+            binding.buttonComplete.visibility = View.VISIBLE
+            binding.completed.visibility = View.GONE
         }
         startMarker.infoWindow = null
         startMarker.position = GeoPoint(shareViewModel.selectedActivity.value?.latitude!!, shareViewModel.selectedActivity.value?.longitude!!)
