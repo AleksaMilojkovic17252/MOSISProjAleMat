@@ -19,6 +19,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointBackward
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -71,13 +74,20 @@ class FragmentAddTripForm : Fragment()
         val dateRangeText: TextView = binding.TextDate
         dateRangeText.text = date
         val calendar: ImageView = binding.openCalendar
+
+
+        val constraintsBuilder=CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.now())
+            .build()
         val datepick = MaterialDatePicker
             .Builder
             .dateRangePicker()
             .setTitleText("Select dates")
             .setSelection(Pair.create(MaterialDatePicker.todayInUtcMilliseconds(),(MaterialDatePicker.todayInUtcMilliseconds() + (1000*60*60*24*7))))
             .setTheme(R.style.ThemeOverlay_App_DatePicker)
+            .setCalendarConstraints(constraintsBuilder)
             .build()
+
 
         binding.EditTextTripName.addTextChangedListener(object : TextWatcher
             {
