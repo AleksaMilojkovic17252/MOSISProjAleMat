@@ -60,10 +60,22 @@ class FragmentMemories : Fragment(), AdapterMemories.helper
     {
         binding = FragmentMemoriesBinding.inflate(layoutInflater)
         binding.buttonAddActivity.setOnClickListener {
-            dispatchTakePictureIntent()
+            if(shareViewModel.endDate.value!!.before(Date()))
+            {
+                Toast.makeText(requireContext(), "Cant add items on finished trip", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                dispatchTakePictureIntent()
+            }
         }
         binding.newPicture.setOnClickListener {
-            dispatchTakePictureIntent()
+            if(shareViewModel.endDate.value!!.before(Date()))
+            {
+                Toast.makeText(requireContext(), "Cant add items on finished trip", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                dispatchTakePictureIntent()
+            }
         }
         return binding.root
     }
@@ -94,22 +106,6 @@ class FragmentMemories : Fragment(), AdapterMemories.helper
 
 
 
-    }
-
-    fun refreshFragment(context: Context?)
-    {
-        context?.let{
-            val fragmentManager = (context as? AppCompatActivity)?.supportFragmentManager
-            fragmentManager?.let {
-                val currentFragment = fragmentManager.findFragmentById(R.id.fragment_trip_container)
-                currentFragment?.let{
-                    val fragmentTransaction = fragmentManager.beginTransaction()
-                    fragmentTransaction.detach(it)
-                    fragmentTransaction.attach(it)
-                    fragmentTransaction.commit()
-                }
-            }
-        }
     }
 
     private fun dispatchTakePictureIntent()

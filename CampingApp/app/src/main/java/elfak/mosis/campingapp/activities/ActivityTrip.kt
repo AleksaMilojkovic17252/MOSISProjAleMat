@@ -240,8 +240,11 @@ class ActivityTrip : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onResume()
     {
         super.onResume()
-        Tasks.whenAll(task).addOnSuccessListener {
 
+        Tasks.whenAll(task).addOnSuccessListener {
+            if(shareViewModel.endDate.value!!.before(Date()))
+                Toast.makeText(this, "You are looking at a finished trip", Toast.LENGTH_SHORT).show()
+            
             var korisnickePreference = getSharedPreferences("CampingApp", 0)
             if(korisnickePreference?.getBoolean("lokacija", false) == false)
                 return@addOnSuccessListener

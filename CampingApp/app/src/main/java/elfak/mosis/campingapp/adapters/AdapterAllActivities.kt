@@ -19,8 +19,10 @@ import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.classes.Trip
 import elfak.mosis.campingapp.classes.User
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
+import java.util.*
+import kotlin.collections.ArrayList
 
-class AdapterAllActivities(val ct: Context, val activities: MutableList<ActivityTrip>?,val completed: MutableMap<String,ArrayList<String>> ,val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
+class AdapterAllActivities(val ct: Context, val activities: MutableList<ActivityTrip>?,val completed: MutableMap<String,ArrayList<String>> ,val friends: ArrayList<User>, val current:String, val pomoc: IdiNaDetaljeIJosNesto, val endDate:Date?, val startDate:Date?) : RecyclerView.Adapter<AdapterAllActivities.ViewHolder>() {
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val ceoView:ConstraintLayout = itemView.findViewById(R.id.row_activity)
         val naslov:TextView = itemView.findViewById(R.id.naslov)
@@ -63,7 +65,10 @@ class AdapterAllActivities(val ct: Context, val activities: MutableList<Activity
         }
 
         holder.button.setOnClickListener {
-            pomoc.updateCompletedActivities(activities?.get(position)!!)
+            if(endDate!!.after(Date()) && startDate!!.before(Date()))
+                pomoc.updateCompletedActivities(activities?.get(position)!!)
+            else
+                Toast.makeText(ct, "You can only complete activity during the trip", Toast.LENGTH_SHORT).show()
         }
 
 

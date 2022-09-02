@@ -26,6 +26,8 @@ import elfak.mosis.campingapp.classes.ActivityTrip
 import elfak.mosis.campingapp.databinding.FragmentActivitiesBinding
 import elfak.mosis.campingapp.sharedViews.SharedViewTrip
 import java.lang.reflect.Field
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNesto
@@ -84,7 +86,7 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
             if (it == true)
             {
                 val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.zavrseneAktivnosti,shareViewModel.korisnici.toCollection(ArrayList()),
-                    Firebase.auth.currentUser!!.uid,this)
+                    Firebase.auth.currentUser!!.uid,this,shareViewModel.endDate.value,shareViewModel.startDate.value)
                 recycler = binding.recyclerActivities
                 recycler.adapter = adapter
                 recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
@@ -92,7 +94,7 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
         }
 
         val adapter: AdapterAllActivities = AdapterAllActivities(requireContext(),shareViewModel.allActivities,shareViewModel.zavrseneAktivnosti,shareViewModel.korisnici.toCollection(ArrayList()),
-            Firebase.auth.currentUser!!.uid,this)
+            Firebase.auth.currentUser!!.uid,this,shareViewModel.endDate.value,shareViewModel.startDate.value)
         recycler = binding.recyclerActivities
         recycler.adapter = adapter
         recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
@@ -103,10 +105,22 @@ class FragmentActivities : Fragment(), AdapterAllActivities.IdiNaDetaljeIJosNest
         }
 
         binding.buttonAddActivity.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentActivities_to_fragmentTripWriteActivity)
+            if(shareViewModel.endDate.value!!.before(Date()))
+            {
+                Toast.makeText(requireContext(), "Can't add activites on a finished trip", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                findNavController().navigate(R.id.action_fragmentActivities_to_fragmentTripWriteActivity)
+            }
         }
         binding.addActivityToolbar.setOnClickListener {
-            findNavController().navigate(R.id.action_fragmentActivities_to_fragmentTripWriteActivity)
+            if(shareViewModel.endDate.value!!.before(Date()))
+            {
+                Toast.makeText(requireContext(), "Can't add activites on a finished trip", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                findNavController().navigate(R.id.action_fragmentActivities_to_fragmentTripWriteActivity)
+            }
         }
         binding.returnHomeActivity.setOnClickListener {
             var intent = Intent(context, ActivityMain::class.java)
