@@ -48,7 +48,27 @@ class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
 
-
+        Firebase.firestore
+            .collection(getString(R.string.db_coll_trips))
+            .document(sharedViewModel.tripID.value!!)
+            .get()
+            .addOnSuccessListener {
+                var tmp2 = it["completedActivities"] as java.util.HashMap<*, *>
+                var zavrseneAktivnosti = java.util.HashMap<String, ArrayList<String>>()
+                for (i in tmp2) {
+                    var key = i.key.toString()
+                    var value = i.value
+                    if (value == null)
+                        value = ArrayList<String>()
+                    zavrseneAktivnosti[key] = value as ArrayList<String>
+                }
+                sharedViewModel.zavrseneAktivnosti = zavrseneAktivnosti
+                recycler = binding.allFriends
+                val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
+                    sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,HashMap(sharedViewModel.zavrseneAktivnosti),this)
+                recycler.adapter = adapter
+                recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+            }
 
 
         super.onViewCreated(view, savedInstanceState)
@@ -62,11 +82,11 @@ class FragmentTripTeammates : Fragment(), AdapterTripTeammates.MoveAgain {
             startActivity(intent)
         }
 
-        recycler = binding.allFriends
-        val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
-            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,HashMap(sharedViewModel.zavrseneAktivnosti),this)
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+//        recycler = binding.allFriends
+//        val adapter:AdapterTripTeammates = AdapterTripTeammates(requireContext(),
+//            sharedViewModel.korisnici.filter { x -> x.ID != Firebase.auth.uid } as ArrayList<User>,HashMap(sharedViewModel.zavrseneAktivnosti),this)
+//        recycler.adapter = adapter
+//        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
 
 
     }

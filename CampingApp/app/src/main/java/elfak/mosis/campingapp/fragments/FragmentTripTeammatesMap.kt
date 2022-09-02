@@ -65,6 +65,7 @@ class FragmentTripTeammatesMap : Fragment()
         navigation.menu.findItem(R.id.nav_trip_teammates).setChecked(true)
         navigation.visibility = View.VISIBLE
         mapa.onResume()
+        //mapa = binding.osmMapView
 
 
         for (u in sharedViewModel.korisnici)
@@ -106,7 +107,7 @@ class FragmentTripTeammatesMap : Fragment()
         {
             setMyLocationOverlay()
         }
-        if (sharedViewModel.endDate.value!!.after(Date()) && sharedViewModel.startDate.value!!.before(Date()))
+        if (sharedViewModel.endDate.value!!.after(Date()) && sharedViewModel.startDate.value!!.before(Date()) && mapa.isAttachedToWindow)
         {
             for (par in mapaKoordinata)
             {
@@ -137,6 +138,8 @@ class FragmentTripTeammatesMap : Fragment()
                 continue
             if (sharedViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.contains(aktivnost.ID) == true
                 && sharedViewModel.filterCompletedActivities.value == false)
+                continue
+            if (!mapa.isAttachedToWindow)
                 continue
 
             var tmp = FloatArray(3)
