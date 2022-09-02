@@ -68,7 +68,10 @@ class FragmentDetailActivityView : Fragment() {
                 .addOnSuccessListener {
                     shareViewModel.zavrseneAktivnosti[Firebase.auth.currentUser!!.uid]?.add(shareViewModel.selectedActivity.value!!.ID)
                     Toast.makeText(requireContext(), "You did it!", Toast.LENGTH_SHORT).show()
+                    binding.buttonComplete.visibility = View.GONE
+                    binding.completed.visibility = View.VISIBLE
                 }
+
         }
         var context = activity?.applicationContext;
         Configuration.getInstance().load(context, PreferenceManager.getDefaultSharedPreferences(context!!))
