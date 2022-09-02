@@ -39,6 +39,7 @@ class ServiceNearActivities : Service() {
     private var serviceHandler: ServiceHandler? = null
     private var aktivnosti = ArrayList<ActivityTrip>()
     private lateinit var tripName: String
+    private lateinit var tridID:String
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
@@ -106,6 +107,8 @@ class ServiceNearActivities : Service() {
                         i.putExtra("razdaljina", tmp[0])
                         i.putExtra("aIme", a.title)
                         i.putExtra("aTip", a.type)
+                        i.putExtra("aID", a.ID)
+                        i.putExtra("tripID", tridID)
                         sendBroadcast(i)
                     }
                 }
@@ -125,9 +128,10 @@ class ServiceNearActivities : Service() {
     {
         try
         {
-            Toast.makeText(this, "ServiceNearActivities starting", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(this, "ServiceNearActivities starting", Toast.LENGTH_SHORT).show()
 
             tripName = intent.extras!!.getString("tripN")!!
+            tridID = intent.extras!!.getString("tripID")!!
             var aIDs = intent.extras!!.getStringArray("aID")
             var aNames = intent.extras!!.getStringArray("aName")
             var aCoors = intent.extras!!.getDoubleArray("aCoor")
@@ -171,7 +175,7 @@ class ServiceNearActivities : Service() {
 
     override fun onDestroy()
     {
-        Toast.makeText(this, "ServiceNearActivities done", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "ServiceNearActivities done", Toast.LENGTH_SHORT).show()
         fusedLocationClient.removeLocationUpdates(locationCallback)
         nit?.interrupt()
         super.onDestroy()

@@ -29,7 +29,10 @@
         android:theme="@style/Theme.CampingApp">
         <activity
             android:name=".activities.ActivityNotificationDetailView"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:taskAffinity=""
+            android:excludeFromRecents="true"/>
 
         <service
             android:name=".services.ServiceNearActivities"
@@ -50,7 +53,8 @@
 
         <activity
             android:name=".activities.ActivityTrip"
-            android:exported="true" />
+            android:exported="true"
+            android:parentActivityName=".activities.ActivityMain"/>
         <activity
             android:name=".activities.ActivityAddTrip"
             android:exported="true"
@@ -61,13 +65,13 @@
         <activity
             android:name=".activities.ActivityMain"
             android:exported="true"
-            android:theme="@style/Pls.work" />
+            android:theme="@style/Pls.work"
+            android:parentActivityName=".activities.ActivityLogin"/>
         <activity
             android:name=".activities.ActivityLogin"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

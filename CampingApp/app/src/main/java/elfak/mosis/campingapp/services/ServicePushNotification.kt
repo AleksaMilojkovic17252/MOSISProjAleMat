@@ -1,8 +1,6 @@
 package elfak.mosis.campingapp.services
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -16,6 +14,8 @@ import android.os.*
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import elfak.mosis.campingapp.R
+import elfak.mosis.campingapp.activities.ActivityMain
+import elfak.mosis.campingapp.activities.ActivityNotificationDetailView
 import elfak.mosis.campingapp.classes.*
 import kotlin.random.Random
 
@@ -50,8 +50,10 @@ class ServicePushNotification : Service()
                 var ime = p1.extras?.getString("aIme")
                 var razdaljina = p1.extras?.getFloat("razdaljina")
                 var tip = p1.extras?.getInt("aTip")
+                var tripID = p1.extras?.getString("tripID")
+                var aID = p1.extras?.getString("aID")
 
-                var notif = NotificationsNearActivity(ime!!, razdaljina!!.toDouble(), tip!!)
+                var notif = NotificationsNearActivity(ime!!, razdaljina!!.toDouble(), tip!!, tripID!!, aID!!)
                 pustiPopUp(notif)
             }
         }
@@ -99,11 +101,39 @@ class ServicePushNotification : Service()
 
         createNotificationChannel()
 
+        var resultIntent: Intent = if(notif is NotificationsNearActivity)
+            Intent(this, ActivityNotificationDetailView::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                putExtra("aID", notif.aID)
+                putExtra("staDaUcitas", notif.tripID)
+            }
+        else
+            Intent(this, ActivityMain::class.java).also {
+                it.putExtra("staDaUcitas", R.id.fragmentNotification)
+            }
+
+
+        var resultPendingIntent : PendingIntent? = if(notif is NotificationsNearActivity)
+        {
+            PendingIntent.getActivity(
+                this, 0, resultIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+        }
+        else
+        {
+            TaskStackBuilder.create(this).run {
+                addNextIntentWithParentStack(resultIntent)
+                getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+            }
+        }
+
         var builder = NotificationCompat.Builder(this, "MojeKanalce")
             .setSmallIcon(R.mipmap.ikonica)
             .setContentTitle(fja())
             .setContentText(fja2())
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(resultPendingIntent)
 
 
         with(NotificationManagerCompat.from(this))
@@ -176,7 +206,7 @@ class ServicePushNotification : Service()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int
     {
-        Toast.makeText(this, "ServicePushNotif starting", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "ServicePushNotif starting", Toast.LENGTH_SHORT).show()
 
         registerReceiver(primac, IntentFilter("notifikacije"))
         // For each start request, send a message to start a job and deliver the
@@ -198,7 +228,7 @@ class ServicePushNotification : Service()
 
     override fun onDestroy()
     {
-        Toast.makeText(this, "ServicePushNotif dying", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "ServicePushNotif dying", Toast.LENGTH_SHORT).show()
         unregisterReceiver(primac)
 //        nit.interrupt()
     }

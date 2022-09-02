@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.Tasks
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.internal.IdTokenListener
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -216,6 +217,9 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mDrawer.addDrawerListener(toggle)
 
+        var storage = Firebase.storage
+        var db = Firebase.firestore
+        var dbb = Firebase.database
         var user = Firebase.auth.currentUser
         var userID = Firebase.auth.currentUser!!.uid
         loadData(userID)
@@ -464,7 +468,14 @@ class ActivityMain : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         registerReceiver(primac, IntentFilter(getString(R.string.intent_filter_notif)));
 
 
-
+        var imaLiOVdeNEsto = intent.extras?.getInt("staDaUcitas")
+        if( imaLiOVdeNEsto != null)
+        {
+            if (imaLiOVdeNEsto == R.id.fragmentNotification)
+            {
+                navController.navigate(R.id.frHome_to_frNotification)
+            }
+        }
 
 
     }

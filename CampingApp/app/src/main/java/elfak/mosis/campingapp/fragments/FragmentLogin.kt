@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -41,8 +42,8 @@ class FragmentLogin : Fragment()
         var firestore = Firebase.firestore
         var store = Firebase.storage
         var user = Firebase.auth.currentUser
-        //if(auth.currentUser != null && auth.currentUser!!.isEmailVerified)
-            //gotoMainActivity()
+        var db = Firebase.database
+
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
     {

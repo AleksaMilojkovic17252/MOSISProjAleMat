@@ -120,7 +120,7 @@ class ServiceSendLocation : Service()
     {
         try
         {
-            Toast.makeText(this, "ServiceSendLoc start", Toast.LENGTH_SHORT).show()
+         //   Toast.makeText(this, "ServiceSendLoc start", Toast.LENGTH_SHORT).show()
 
             // For each start request, send a message to start a job and deliver the
             // start ID so we know which request we're stopping when we finish the job
@@ -158,7 +158,7 @@ class ServiceSendLocation : Service()
 
     override fun onDestroy()
     {
-        Toast.makeText(this, "ServiceSendLoc done", Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "ServiceSendLoc done", Toast.LENGTH_SHORT).show()
         nit?.interrupt()
         fusedLocationClient.removeLocationUpdates(locationCallback)
         super.onDestroy()
