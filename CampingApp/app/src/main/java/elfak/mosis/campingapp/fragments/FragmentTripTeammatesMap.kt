@@ -106,7 +106,7 @@ class FragmentTripTeammatesMap : Fragment()
         {
             setMyLocationOverlay()
         }
-        if (sharedViewModel.endDate.value!!.before(Date()))
+        if (sharedViewModel.endDate.value!!.after(Date()))
         {
             for (par in mapaKoordinata)
             {
