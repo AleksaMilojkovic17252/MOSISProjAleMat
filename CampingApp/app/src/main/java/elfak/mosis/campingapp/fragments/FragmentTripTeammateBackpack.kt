@@ -66,7 +66,7 @@ class FragmentTripTeammateBackpack : Fragment() {
         val FriendBackpackItemsAdapter: AdapterTripTeammateBackpack = AdapterTripTeammateBackpack(requireContext(),
             sharedViewModel.backpackItems[sharedViewModel.selectedUser.value?.ID]?.toCollection(ArrayList()))
         recycler.adapter = FriendBackpackItemsAdapter
-        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,true)
+        recycler.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         binding.buttonGoBackBackpack.setOnClickListener {
             findNavController().popBackStack()
         }

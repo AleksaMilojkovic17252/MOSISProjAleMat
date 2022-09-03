@@ -95,7 +95,7 @@ class FragmentTeammates : Fragment(), AdapterAllTeammates.Pomoc
                 val FriendAdapter: AdapterAllTeammates = AdapterAllTeammates(requireContext(),shareViewModel.korisnik.value?.Drugari,this)
                 recycler = binding.allTeammatesView
                 recycler.adapter = FriendAdapter
-                recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+                recycler.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             }
             }
 

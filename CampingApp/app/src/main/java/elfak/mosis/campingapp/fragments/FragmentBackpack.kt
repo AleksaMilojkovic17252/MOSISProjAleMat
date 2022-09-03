@@ -86,6 +86,35 @@ class FragmentBackpack : Fragment()
             }
         }
 
+        binding.buttonAddItem.setOnClickListener {
+            if(sharedViewModel.endDate.value!!.before(Date()))
+            {
+                Toast.makeText(requireContext(), "Cant add items on finished trip", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                val dialog: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+                dialog.setTitle("Item name")
+                var itemInput: EditText = EditText(context)
+                itemInput.inputType = InputType.TYPE_CLASS_TEXT
+                dialog.setView(itemInput)
+                dialog.setPositiveButton(
+                    "Ok",
+                    DialogInterface.OnClickListener { dialogInterface, i ->
+                        val myText = itemInput.text.toString()
+                        sharedViewModel.backpackItems[Firebase.auth.uid]?.add(BackpackItems(myText))
+                        itemsAdapter?.notifyItemInserted(sharedViewModel.backpackItems[Firebase.auth.uid]?.count()!! - 1)
+                    })
+
+                dialog.setNegativeButton(
+                    "Cancel",
+                    DialogInterface.OnClickListener { dialogInterface, i ->
+                        dialogInterface.cancel()
+                    })
+
+                dialog.show()
+            }
+        }
+
         binding.floatingActionButton.setOnClickListener {
             if (sharedViewModel.endDate.value!!.before(Date())) {
                 Firebase.firestore
