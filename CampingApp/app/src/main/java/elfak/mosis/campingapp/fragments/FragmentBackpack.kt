@@ -116,7 +116,7 @@ class FragmentBackpack : Fragment()
         }
 
         binding.floatingActionButton.setOnClickListener {
-            if (sharedViewModel.endDate.value!!.before(Date())) {
+            if (sharedViewModel.endDate.value!!.after(Date())) {
                 Firebase.firestore
                     .collection(getString(R.string.db_coll_trips))
                     .document(sharedViewModel.tripID.value!!)
